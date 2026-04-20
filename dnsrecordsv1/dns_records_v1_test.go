@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package dnsrecordsv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -192,7 +194,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listAllDnsRecordsPath := "/v1/testString/zones/testString/dns_records"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -201,24 +203,16 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listAllDnsRecordsPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["type"]).To(Equal([]string{"testString"}))
-
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"host1.test-example.com"}))
-
 					Expect(req.URL.Query()["content"]).To(Equal([]string{"1.2.3.4"}))
-
-					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-
-					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
-
+					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(20))}))
 					Expect(req.URL.Query()["order"]).To(Equal([]string{"type"}))
-
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"asc"}))
-
 					Expect(req.URL.Query()["match"]).To(Equal([]string{"any"}))
-
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation response processing error`, func() {
@@ -236,8 +230,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Type = core.StringPtr("testString")
 				listAllDnsRecordsOptionsModel.Name = core.StringPtr("host1.test-example.com")
 				listAllDnsRecordsOptionsModel.Content = core.StringPtr("1.2.3.4")
-				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(38))
-				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(5))
+				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(1))
+				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(20))
 				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
 				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
@@ -260,15 +254,12 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 		})
 	})
-
 	Describe(`ListAllDnsRecords(listAllDnsRecordsOptions *ListAllDnsRecordsOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		listAllDnsRecordsPath := "/v1/testString/zones/testString/dns_records"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -277,24 +268,87 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					Expect(req.URL.Query()["type"]).To(Equal([]string{"testString"}))
-
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"host1.test-example.com"}))
-
 					Expect(req.URL.Query()["content"]).To(Equal([]string{"1.2.3.4"}))
-
-					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-
-					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
-
+					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(20))}))
 					Expect(req.URL.Query()["order"]).To(Equal([]string{"type"}))
-
 					Expect(req.URL.Query()["direction"]).To(Equal([]string{"asc"}))
-
 					Expect(req.URL.Query()["match"]).To(Equal([]string{"any"}))
-
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
 
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}`)
+				}))
+			})
+			It(`Invoke ListAllDnsRecords successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListAllDnsRecordsOptions model
+				listAllDnsRecordsOptionsModel := new(dnsrecordsv1.ListAllDnsRecordsOptions)
+				listAllDnsRecordsOptionsModel.Type = core.StringPtr("testString")
+				listAllDnsRecordsOptionsModel.Name = core.StringPtr("host1.test-example.com")
+				listAllDnsRecordsOptionsModel.Content = core.StringPtr("1.2.3.4")
+				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(1))
+				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(20))
+				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
+				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
+				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
+				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listAllDnsRecordsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["type"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"host1.test-example.com"}))
+					Expect(req.URL.Query()["content"]).To(Equal([]string{"1.2.3.4"}))
+					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(20))}))
+					Expect(req.URL.Query()["order"]).To(Equal([]string{"type"}))
+					Expect(req.URL.Query()["direction"]).To(Equal([]string{"asc"}))
+					Expect(req.URL.Query()["match"]).To(Equal([]string{"any"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -310,7 +364,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsRecordsService).ToNot(BeNil())
-				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(nil)
@@ -323,8 +376,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Type = core.StringPtr("testString")
 				listAllDnsRecordsOptionsModel.Name = core.StringPtr("host1.test-example.com")
 				listAllDnsRecordsOptionsModel.Content = core.StringPtr("1.2.3.4")
-				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(38))
-				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(5))
+				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(1))
+				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(20))
 				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
 				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
@@ -336,30 +389,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				dnsRecordsService.DisableRetries()
-				result, response, operationErr = dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.ListAllDnsRecordsWithContext(ctx, listAllDnsRecordsOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke ListAllDnsRecords with error: Operation request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
@@ -376,8 +405,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.Type = core.StringPtr("testString")
 				listAllDnsRecordsOptionsModel.Name = core.StringPtr("host1.test-example.com")
 				listAllDnsRecordsOptionsModel.Content = core.StringPtr("1.2.3.4")
-				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(38))
-				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(5))
+				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(1))
+				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(20))
 				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
 				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
 				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
@@ -395,12 +424,55 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListAllDnsRecords successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the ListAllDnsRecordsOptions model
+				listAllDnsRecordsOptionsModel := new(dnsrecordsv1.ListAllDnsRecordsOptions)
+				listAllDnsRecordsOptionsModel.Type = core.StringPtr("testString")
+				listAllDnsRecordsOptionsModel.Name = core.StringPtr("host1.test-example.com")
+				listAllDnsRecordsOptionsModel.Content = core.StringPtr("1.2.3.4")
+				listAllDnsRecordsOptionsModel.Page = core.Int64Ptr(int64(1))
+				listAllDnsRecordsOptionsModel.PerPage = core.Int64Ptr(int64(20))
+				listAllDnsRecordsOptionsModel.Order = core.StringPtr("type")
+				listAllDnsRecordsOptionsModel.Direction = core.StringPtr("asc")
+				listAllDnsRecordsOptionsModel.Match = core.StringPtr("any")
+				listAllDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.ListAllDnsRecords(listAllDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`CreateDnsRecord(createDnsRecordOptions *CreateDnsRecordOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createDnsRecordPath := "/v1/testString/zones/testString/dns_records"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -410,7 +482,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateDnsRecord with error: Operation response processing error`, func() {
@@ -430,6 +502,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -450,15 +523,12 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 		})
 	})
-
 	Describe(`CreateDnsRecord(createDnsRecordOptions *CreateDnsRecordOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		createDnsRecordPath := "/v1/testString/zones/testString/dns_records"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -483,7 +553,85 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+				}))
+			})
+			It(`Invoke CreateDnsRecord successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the CreateDnsRecordOptions model
+				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
+				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
+				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
+				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
+				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
+				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createDnsRecordPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -500,7 +648,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsRecordsService).ToNot(BeNil())
-				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := dnsRecordsService.CreateDnsRecord(nil)
@@ -515,6 +662,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -524,30 +672,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				dnsRecordsService.DisableRetries()
-				result, response, operationErr = dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.CreateDnsRecordWithContext(ctx, createDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke CreateDnsRecord with error: Operation request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
@@ -566,6 +690,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
 				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
 				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
 				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
 				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -581,12 +706,54 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke CreateDnsRecord successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the CreateDnsRecordOptions model
+				createDnsRecordOptionsModel := new(dnsrecordsv1.CreateDnsRecordOptions)
+				createDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
+				createDnsRecordOptionsModel.Type = core.StringPtr("A")
+				createDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
+				createDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
+				createDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				createDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
+				createDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				createDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.CreateDnsRecord(createDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`DeleteDnsRecord(deleteDnsRecordOptions *DeleteDnsRecordOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -596,7 +763,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation response processing error`, func() {
@@ -631,15 +798,12 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 		})
 	})
-
 	Describe(`DeleteDnsRecord(deleteDnsRecordOptions *DeleteDnsRecordOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		deleteDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -648,7 +812,63 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("DELETE"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}`)
+				}))
+			})
+			It(`Invoke DeleteDnsRecord successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the DeleteDnsRecordOptions model
+				deleteDnsRecordOptionsModel := new(dnsrecordsv1.DeleteDnsRecordOptions)
+				deleteDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(deleteDnsRecordPath))
+					Expect(req.Method).To(Equal("DELETE"))
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -665,7 +885,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsRecordsService).ToNot(BeNil())
-				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(nil)
@@ -684,30 +903,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				dnsRecordsService.DisableRetries()
-				result, response, operationErr = dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.DeleteDnsRecordWithContext(ctx, deleteDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke DeleteDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
@@ -743,12 +938,48 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke DeleteDnsRecord successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the DeleteDnsRecordOptions model
+				deleteDnsRecordOptionsModel := new(dnsrecordsv1.DeleteDnsRecordOptions)
+				deleteDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				deleteDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.DeleteDnsRecord(deleteDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`GetDnsRecord(getDnsRecordOptions *GetDnsRecordOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -758,7 +989,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetDnsRecord with error: Operation response processing error`, func() {
@@ -793,15 +1024,12 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 		})
 	})
-
 	Describe(`GetDnsRecord(getDnsRecordOptions *GetDnsRecordOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		getDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -810,7 +1038,63 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+				}))
+			})
+			It(`Invoke GetDnsRecord successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetDnsRecordOptions model
+				getDnsRecordOptionsModel := new(dnsrecordsv1.GetDnsRecordOptions)
+				getDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getDnsRecordPath))
+					Expect(req.Method).To(Equal("GET"))
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -827,7 +1111,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsRecordsService).ToNot(BeNil())
-				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := dnsRecordsService.GetDnsRecord(nil)
@@ -846,30 +1129,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				dnsRecordsService.DisableRetries()
-				result, response, operationErr = dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.GetDnsRecordWithContext(ctx, getDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke GetDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
@@ -905,12 +1164,48 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke GetDnsRecord successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the GetDnsRecordOptions model
+				getDnsRecordOptionsModel := new(dnsrecordsv1.GetDnsRecordOptions)
+				getDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				getDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.GetDnsRecord(getDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`UpdateDnsRecord(updateDnsRecordOptions *UpdateDnsRecordOptions) - Operation response error`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
@@ -920,7 +1215,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation response processing error`, func() {
@@ -962,15 +1257,12 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			})
 		})
 	})
-
 	Describe(`UpdateDnsRecord(updateDnsRecordOptions *UpdateDnsRecordOptions)`, func() {
 		crn := "testString"
 		zoneIdentifier := "testString"
 		updateDnsRecordPath := "/v1/testString/zones/testString/dns_records/testString"
-		var serverSleepTime time.Duration
-		Context(`Using mock server endpoint`, func() {
+		Context(`Using mock server endpoint with timeout`, func() {
 			BeforeEach(func() {
-				serverSleepTime = 0
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
@@ -995,7 +1287,86 @@ var _ = Describe(`DnsRecordsV1`, func() {
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Sleep a short time to support a timeout test
-					time.Sleep(serverSleepTime)
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}}}`)
+				}))
+			})
+			It(`Invoke UpdateDnsRecord successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the UpdateDnsRecordOptions model
+				updateDnsRecordOptionsModel := new(dnsrecordsv1.UpdateDnsRecordOptions)
+				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
+				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
+				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
+				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
+				updateDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(updateDnsRecordPath))
+					Expect(req.Method).To(Equal("PUT"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
@@ -1012,7 +1383,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(dnsRecordsService).ToNot(BeNil())
-				dnsRecordsService.EnableRetries(0, 0)
 
 				// Invoke operation with nil options model (negative test)
 				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(nil)
@@ -1038,30 +1408,6 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 
-				// Invoke operation with a Context to test a timeout error
-				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
-
-				// Disable retries and test again
-				dnsRecordsService.DisableRetries()
-				result, response, operationErr = dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				// Re-test the timeout error with retries disabled
-				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
-				defer cancelFunc2()
-				serverSleepTime = 100 * time.Millisecond
-				_, _, operationErr = dnsRecordsService.UpdateDnsRecordWithContext(ctx, updateDnsRecordOptionsModel)
-				Expect(operationErr).ToNot(BeNil())
-				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
-				serverSleepTime = time.Duration(0)
 			})
 			It(`Invoke UpdateDnsRecord with error: Operation validation and request error`, func() {
 				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
@@ -1104,6 +1450,495 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				testServer.Close()
 			})
 		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UpdateDnsRecord successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the UpdateDnsRecordOptions model
+				updateDnsRecordOptionsModel := new(dnsrecordsv1.UpdateDnsRecordOptions)
+				updateDnsRecordOptionsModel.DnsrecordIdentifier = core.StringPtr("testString")
+				updateDnsRecordOptionsModel.Name = core.StringPtr("host-1.test-example.com")
+				updateDnsRecordOptionsModel.Type = core.StringPtr("A")
+				updateDnsRecordOptionsModel.TTL = core.Int64Ptr(int64(120))
+				updateDnsRecordOptionsModel.Content = core.StringPtr("1.2.3.4")
+				updateDnsRecordOptionsModel.Priority = core.Int64Ptr(int64(5))
+				updateDnsRecordOptionsModel.Proxied = core.BoolPtr(false)
+				updateDnsRecordOptionsModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				updateDnsRecordOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.UpdateDnsRecord(updateDnsRecordOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`BatchDnsRecords(batchDnsRecordsOptions *BatchDnsRecordsOptions) - Operation response error`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		batchDnsRecordsPath := "/v1/testString/zones/testString/dns_records/batch"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(batchDnsRecordsPath))
+					Expect(req.Method).To(Equal("POST"))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke BatchDnsRecords with error: Operation response processing error`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := new(dnsrecordsv1.BatchDnsRecordsOptions)
+				batchDnsRecordsOptionsModel.Deletes = []dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}
+				batchDnsRecordsOptionsModel.Patches = []dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}
+				batchDnsRecordsOptionsModel.Posts = []dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}
+				batchDnsRecordsOptionsModel.Puts = []dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}
+				batchDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsRecordsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`BatchDnsRecords(batchDnsRecordsOptions *BatchDnsRecordsOptions)`, func() {
+		crn := "testString"
+		zoneIdentifier := "testString"
+		batchDnsRecordsPath := "/v1/testString/zones/testString/dns_records/batch"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(batchDnsRecordsPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"deletes": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "patches": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "posts": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "puts": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}]}}`)
+				}))
+			})
+			It(`Invoke BatchDnsRecords successfully with retries`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+				dnsRecordsService.EnableRetries(0, 0)
+
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := new(dnsrecordsv1.BatchDnsRecordsOptions)
+				batchDnsRecordsOptionsModel.Deletes = []dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}
+				batchDnsRecordsOptionsModel.Patches = []dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}
+				batchDnsRecordsOptionsModel.Posts = []dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}
+				batchDnsRecordsOptionsModel.Puts = []dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}
+				batchDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsRecordsService.BatchDnsRecordsWithContext(ctx, batchDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsRecordsService.DisableRetries()
+				result, response, operationErr := dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsRecordsService.BatchDnsRecordsWithContext(ctx, batchDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(batchDnsRecordsPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"deletes": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "patches": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "posts": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}], "puts": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "1.2.3.4", "proxiable": false, "proxied": false, "ttl": 120, "priority": 5, "data": {"anyKey": "anyValue"}, "settings": {"anyKey": "anyValue"}, "meta": {"anyKey": "anyValue"}, "comment": "Comment", "tags": ["Tags"]}]}}`)
+				}))
+			})
+			It(`Invoke BatchDnsRecords successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsRecordsService.BatchDnsRecords(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := new(dnsrecordsv1.BatchDnsRecordsOptions)
+				batchDnsRecordsOptionsModel.Deletes = []dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}
+				batchDnsRecordsOptionsModel.Patches = []dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}
+				batchDnsRecordsOptionsModel.Posts = []dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}
+				batchDnsRecordsOptionsModel.Puts = []dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}
+				batchDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke BatchDnsRecords with error: Operation request error`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := new(dnsrecordsv1.BatchDnsRecordsOptions)
+				batchDnsRecordsOptionsModel.Deletes = []dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}
+				batchDnsRecordsOptionsModel.Patches = []dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}
+				batchDnsRecordsOptionsModel.Posts = []dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}
+				batchDnsRecordsOptionsModel.Puts = []dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}
+				batchDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := dnsRecordsService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke BatchDnsRecords successfully`, func() {
+				dnsRecordsService, serviceErr := dnsrecordsv1.NewDnsRecordsV1(&dnsrecordsv1.DnsRecordsV1Options{
+					URL:            testServer.URL,
+					Authenticator:  &core.NoAuthAuthenticator{},
+					Crn:            core.StringPtr(crn),
+					ZoneIdentifier: core.StringPtr(zoneIdentifier),
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsRecordsService).ToNot(BeNil())
+
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := new(dnsrecordsv1.BatchDnsRecordsOptions)
+				batchDnsRecordsOptionsModel.Deletes = []dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}
+				batchDnsRecordsOptionsModel.Patches = []dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}
+				batchDnsRecordsOptionsModel.Posts = []dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}
+				batchDnsRecordsOptionsModel.Puts = []dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}
+				batchDnsRecordsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := dnsRecordsService.BatchDnsRecords(batchDnsRecordsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 	})
 	Describe(`Model constructor tests`, func() {
 		Context(`Using a service client instance`, func() {
@@ -1115,6 +1950,107 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
+			It(`Invoke NewBatchDnsRecordsOptions successfully`, func() {
+				// Construct an instance of the BatchDnsRecordsRequestDeletesItem model
+				batchDnsRecordsRequestDeletesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+				Expect(batchDnsRecordsRequestDeletesItemModel).ToNot(BeNil())
+				batchDnsRecordsRequestDeletesItemModel.ID = core.StringPtr("testString")
+				Expect(batchDnsRecordsRequestDeletesItemModel.ID).To(Equal(core.StringPtr("testString")))
+
+				// Construct an instance of the BatchDnsRecordsRequestPatchesItem model
+				batchDnsRecordsRequestPatchesItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+				Expect(batchDnsRecordsRequestPatchesItemModel).ToNot(BeNil())
+				batchDnsRecordsRequestPatchesItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPatchesItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPatchesItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPatchesItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPatchesItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPatchesItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPatchesItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPatchesItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				Expect(batchDnsRecordsRequestPatchesItemModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(batchDnsRecordsRequestPatchesItemModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Proxied).To(Equal(core.BoolPtr(false)))
+				Expect(batchDnsRecordsRequestPatchesItemModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+
+				// Construct an instance of the DnsrecordInput model
+				dnsrecordInputModel := new(dnsrecordsv1.DnsrecordInput)
+				Expect(dnsrecordInputModel).ToNot(BeNil())
+				dnsrecordInputModel.Name = core.StringPtr("host-1.test-example.com")
+				dnsrecordInputModel.Type = core.StringPtr("A")
+				dnsrecordInputModel.TTL = core.Int64Ptr(int64(120))
+				dnsrecordInputModel.Content = core.StringPtr("1.2.3.4")
+				dnsrecordInputModel.Priority = core.Int64Ptr(int64(5))
+				dnsrecordInputModel.Proxied = core.BoolPtr(false)
+				dnsrecordInputModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				Expect(dnsrecordInputModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
+				Expect(dnsrecordInputModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(dnsrecordInputModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
+				Expect(dnsrecordInputModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
+				Expect(dnsrecordInputModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
+				Expect(dnsrecordInputModel.Proxied).To(Equal(core.BoolPtr(false)))
+				Expect(dnsrecordInputModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+
+				// Construct an instance of the BatchDnsRecordsRequestPutsItem model
+				batchDnsRecordsRequestPutsItemModel := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+				Expect(batchDnsRecordsRequestPutsItemModel).ToNot(BeNil())
+				batchDnsRecordsRequestPutsItemModel.ID = core.StringPtr("testString")
+				batchDnsRecordsRequestPutsItemModel.Name = core.StringPtr("host-1.test-example.com")
+				batchDnsRecordsRequestPutsItemModel.Type = core.StringPtr("A")
+				batchDnsRecordsRequestPutsItemModel.TTL = core.Int64Ptr(int64(120))
+				batchDnsRecordsRequestPutsItemModel.Content = core.StringPtr("1.2.3.4")
+				batchDnsRecordsRequestPutsItemModel.Priority = core.Int64Ptr(int64(5))
+				batchDnsRecordsRequestPutsItemModel.Proxied = core.BoolPtr(false)
+				batchDnsRecordsRequestPutsItemModel.Data = map[string]interface{}{"anyKey": "anyValue"}
+				Expect(batchDnsRecordsRequestPutsItemModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(batchDnsRecordsRequestPutsItemModel.Name).To(Equal(core.StringPtr("host-1.test-example.com")))
+				Expect(batchDnsRecordsRequestPutsItemModel.Type).To(Equal(core.StringPtr("A")))
+				Expect(batchDnsRecordsRequestPutsItemModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
+				Expect(batchDnsRecordsRequestPutsItemModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
+				Expect(batchDnsRecordsRequestPutsItemModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
+				Expect(batchDnsRecordsRequestPutsItemModel.Proxied).To(Equal(core.BoolPtr(false)))
+				Expect(batchDnsRecordsRequestPutsItemModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+
+				// Construct an instance of the BatchDnsRecordsOptions model
+				batchDnsRecordsOptionsModel := dnsRecordsService.NewBatchDnsRecordsOptions()
+				batchDnsRecordsOptionsModel.SetDeletes([]dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel})
+				batchDnsRecordsOptionsModel.SetPatches([]dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel})
+				batchDnsRecordsOptionsModel.SetPosts([]dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel})
+				batchDnsRecordsOptionsModel.SetPuts([]dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel})
+				batchDnsRecordsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(batchDnsRecordsOptionsModel).ToNot(BeNil())
+				Expect(batchDnsRecordsOptionsModel.Deletes).To(Equal([]dnsrecordsv1.BatchDnsRecordsRequestDeletesItem{*batchDnsRecordsRequestDeletesItemModel}))
+				Expect(batchDnsRecordsOptionsModel.Patches).To(Equal([]dnsrecordsv1.BatchDnsRecordsRequestPatchesItem{*batchDnsRecordsRequestPatchesItemModel}))
+				Expect(batchDnsRecordsOptionsModel.Posts).To(Equal([]dnsrecordsv1.DnsrecordInput{*dnsrecordInputModel}))
+				Expect(batchDnsRecordsOptionsModel.Puts).To(Equal([]dnsrecordsv1.BatchDnsRecordsRequestPutsItem{*batchDnsRecordsRequestPutsItemModel}))
+				Expect(batchDnsRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewBatchDnsRecordsRequestDeletesItem successfully`, func() {
+				id := "testString"
+				_model, err := dnsRecordsService.NewBatchDnsRecordsRequestDeletesItem(id)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewBatchDnsRecordsRequestPatchesItem successfully`, func() {
+				id := "testString"
+				_model, err := dnsRecordsService.NewBatchDnsRecordsRequestPatchesItem(id)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It(`Invoke NewBatchDnsRecordsRequestPutsItem successfully`, func() {
+				id := "testString"
+				name := "host-1.test-example.com"
+				typeVar := "A"
+				ttl := int64(120)
+				content := "1.2.3.4"
+				_model, err := dnsRecordsService.NewBatchDnsRecordsRequestPutsItem(id, name, typeVar, ttl, content)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewCreateDnsRecordOptions successfully`, func() {
 				// Construct an instance of the CreateDnsRecordOptions model
 				createDnsRecordOptionsModel := dnsRecordsService.NewCreateDnsRecordOptions()
@@ -1123,6 +2059,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				createDnsRecordOptionsModel.SetTTL(int64(120))
 				createDnsRecordOptionsModel.SetContent("1.2.3.4")
 				createDnsRecordOptionsModel.SetPriority(int64(5))
+				createDnsRecordOptionsModel.SetProxied(false)
 				createDnsRecordOptionsModel.SetData(map[string]interface{}{"anyKey": "anyValue"})
 				createDnsRecordOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createDnsRecordOptionsModel).ToNot(BeNil())
@@ -1131,6 +2068,7 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(createDnsRecordOptionsModel.TTL).To(Equal(core.Int64Ptr(int64(120))))
 				Expect(createDnsRecordOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
 				Expect(createDnsRecordOptionsModel.Priority).To(Equal(core.Int64Ptr(int64(5))))
+				Expect(createDnsRecordOptionsModel.Proxied).To(Equal(core.BoolPtr(false)))
 				Expect(createDnsRecordOptionsModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(createDnsRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -1160,8 +2098,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				listAllDnsRecordsOptionsModel.SetType("testString")
 				listAllDnsRecordsOptionsModel.SetName("host1.test-example.com")
 				listAllDnsRecordsOptionsModel.SetContent("1.2.3.4")
-				listAllDnsRecordsOptionsModel.SetPage(int64(38))
-				listAllDnsRecordsOptionsModel.SetPerPage(int64(5))
+				listAllDnsRecordsOptionsModel.SetPage(int64(1))
+				listAllDnsRecordsOptionsModel.SetPerPage(int64(20))
 				listAllDnsRecordsOptionsModel.SetOrder("type")
 				listAllDnsRecordsOptionsModel.SetDirection("asc")
 				listAllDnsRecordsOptionsModel.SetMatch("any")
@@ -1170,8 +2108,8 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(listAllDnsRecordsOptionsModel.Type).To(Equal(core.StringPtr("testString")))
 				Expect(listAllDnsRecordsOptionsModel.Name).To(Equal(core.StringPtr("host1.test-example.com")))
 				Expect(listAllDnsRecordsOptionsModel.Content).To(Equal(core.StringPtr("1.2.3.4")))
-				Expect(listAllDnsRecordsOptionsModel.Page).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listAllDnsRecordsOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(5))))
+				Expect(listAllDnsRecordsOptionsModel.Page).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listAllDnsRecordsOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(20))))
 				Expect(listAllDnsRecordsOptionsModel.Order).To(Equal(core.StringPtr("type")))
 				Expect(listAllDnsRecordsOptionsModel.Direction).To(Equal(core.StringPtr("asc")))
 				Expect(listAllDnsRecordsOptionsModel.Match).To(Equal(core.StringPtr("any")))
@@ -1201,11 +2139,111 @@ var _ = Describe(`DnsRecordsV1`, func() {
 				Expect(updateDnsRecordOptionsModel.Data).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(updateDnsRecordOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewDnsrecordInput successfully`, func() {
+				typeVar := "A"
+				_model, err := dnsRecordsService.NewDnsrecordInput(typeVar)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+		})
+	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalBatchDnsRecordsRequestDeletesItem successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnsrecordsv1.BatchDnsRecordsRequestDeletesItem)
+			model.ID = core.StringPtr("testString")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnsrecordsv1.BatchDnsRecordsRequestDeletesItem
+			err = dnsrecordsv1.UnmarshalBatchDnsRecordsRequestDeletesItem(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalBatchDnsRecordsRequestPatchesItem successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnsrecordsv1.BatchDnsRecordsRequestPatchesItem)
+			model.ID = core.StringPtr("testString")
+			model.Name = core.StringPtr("host-1.test-example.com")
+			model.Type = core.StringPtr("A")
+			model.TTL = core.Int64Ptr(int64(120))
+			model.Content = core.StringPtr("1.2.3.4")
+			model.Priority = core.Int64Ptr(int64(5))
+			model.Proxied = core.BoolPtr(false)
+			model.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnsrecordsv1.BatchDnsRecordsRequestPatchesItem
+			err = dnsrecordsv1.UnmarshalBatchDnsRecordsRequestPatchesItem(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalBatchDnsRecordsRequestPutsItem successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnsrecordsv1.BatchDnsRecordsRequestPutsItem)
+			model.ID = core.StringPtr("testString")
+			model.Name = core.StringPtr("host-1.test-example.com")
+			model.Type = core.StringPtr("A")
+			model.TTL = core.Int64Ptr(int64(120))
+			model.Content = core.StringPtr("1.2.3.4")
+			model.Priority = core.Int64Ptr(int64(5))
+			model.Proxied = core.BoolPtr(false)
+			model.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnsrecordsv1.BatchDnsRecordsRequestPutsItem
+			err = dnsrecordsv1.UnmarshalBatchDnsRecordsRequestPutsItem(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalDnsrecordInput successfully`, func() {
+			// Construct an instance of the model.
+			model := new(dnsrecordsv1.DnsrecordInput)
+			model.Name = core.StringPtr("host-1.test-example.com")
+			model.Type = core.StringPtr("A")
+			model.TTL = core.Int64Ptr(int64(120))
+			model.Content = core.StringPtr("1.2.3.4")
+			model.Priority = core.Int64Ptr(int64(5))
+			model.Proxied = core.BoolPtr(false)
+			model.Data = map[string]interface{}{"anyKey": "anyValue"}
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnsrecordsv1.DnsrecordInput
+			err = dnsrecordsv1.UnmarshalDnsrecordInput(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
 		})
 	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -1217,11 +2255,11 @@ var _ = Describe(`DnsRecordsV1`, func() {
 			Expect(mockReader).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDate() successfully`, func() {
-			mockDate := CreateMockDate()
+			mockDate := CreateMockDate("2019-01-01")
 			Expect(mockDate).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockDateTime() successfully`, func() {
-			mockDateTime := CreateMockDateTime()
+			mockDateTime := CreateMockDateTime("2019-01-01T12:00:00.000Z")
 			Expect(mockDateTime).ToNot(BeNil())
 		})
 	})
@@ -1231,9 +2269,11 @@ var _ = Describe(`DnsRecordsV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 
@@ -1246,13 +2286,19 @@ func CreateMockReader(mockData string) io.ReadCloser {
 	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
-func CreateMockDate() *strfmt.Date {
-	d := strfmt.Date(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDate(mockData string) *strfmt.Date {
+	d, err := core.ParseDate(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
-func CreateMockDateTime() *strfmt.DateTime {
-	d := strfmt.DateTime(time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC))
+func CreateMockDateTime(mockData string) *strfmt.DateTime {
+	d, err := core.ParseDateTime(mockData)
+	if err != nil {
+		return nil
+	}
 	return &d
 }
 
