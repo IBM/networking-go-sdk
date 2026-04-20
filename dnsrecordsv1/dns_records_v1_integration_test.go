@@ -439,6 +439,103 @@ var _ = Describe(`DNSRecordsV1`, func() {
 				Expect(delResult).ToNot(BeNil())
 				Expect(*result.Success).Should(BeTrue())
 			})
+			It(`batch dns records - posts, puts, patches, and deletes`, func() {
+				shouldSkipTest()
+
+				// Pre-create two records to use for puts/patches/deletes in the batch
+				createOptA := testService.NewCreateDnsRecordOptions()
+				createOptA.SetName("batch-put.recordtest.com")
+				createOptA.SetType(CreateDnsRecordOptions_Type_A)
+				createOptA.SetContent("1.2.3.4")
+				createOptA.SetTTL(900)
+				putRecord, response, err := testService.CreateDnsRecord(createOptA)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(putRecord).ToNot(BeNil())
+
+				createOptB := testService.NewCreateDnsRecordOptions()
+				createOptB.SetName("batch-patch.recordtest.com")
+				createOptB.SetType(CreateDnsRecordOptions_Type_A)
+				createOptB.SetContent("5.6.7.8")
+				createOptB.SetTTL(900)
+				patchRecord, response, err := testService.CreateDnsRecord(createOptB)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(patchRecord).ToNot(BeNil())
+
+				createOptC := testService.NewCreateDnsRecordOptions()
+				createOptC.SetName("batch-delete.recordtest.com")
+				createOptC.SetType(CreateDnsRecordOptions_Type_A)
+				createOptC.SetContent("9.10.11.12")
+				createOptC.SetTTL(900)
+				deleteRecord, response, err := testService.CreateDnsRecord(createOptC)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(deleteRecord).ToNot(BeNil())
+
+				// Build batch request
+				postInput, postErr := testService.NewDnsrecordInput(DnsrecordInput_Type_Txt)
+				Expect(postErr).To(BeNil())
+				postInput.Name = core.StringPtr("batch-post.recordtest.com")
+				postInput.Content = core.StringPtr("batch post content")
+				postInput.TTL = core.Int64Ptr(int64(900))
+
+				putItem, putErr := testService.NewBatchDnsRecordsRequestPutsItem(
+					*putRecord.Result.ID,
+					"batch-put.recordtest.com",
+					BatchDnsRecordsRequestPutsItem_Type_A,
+					int64(300),
+					"1.2.3.5",
+				)
+				Expect(putErr).To(BeNil())
+
+				patchItem, patchErr := testService.NewBatchDnsRecordsRequestPatchesItem(*patchRecord.Result.ID)
+				Expect(patchErr).To(BeNil())
+				patchItem.Content = core.StringPtr("5.6.7.9")
+
+				deleteItem, deleteErr := testService.NewBatchDnsRecordsRequestDeletesItem(*deleteRecord.Result.ID)
+				Expect(deleteErr).To(BeNil())
+
+				batchOptions := testService.NewBatchDnsRecordsOptions()
+				batchOptions.SetPosts([]DnsrecordInput{*postInput})
+				batchOptions.SetPuts([]BatchDnsRecordsRequestPutsItem{*putItem})
+				batchOptions.SetPatches([]BatchDnsRecordsRequestPatchesItem{*patchItem})
+				batchOptions.SetDeletes([]BatchDnsRecordsRequestDeletesItem{*deleteItem})
+
+				batchResult, response, err := testService.BatchDnsRecords(batchOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(batchResult).ToNot(BeNil())
+				Expect(*batchResult.Success).Should(BeTrue())
+				Expect(batchResult.Result).ToNot(BeNil())
+				Expect(len(batchResult.Result.Posts)).To(Equal(1))
+				Expect(len(batchResult.Result.Puts)).To(Equal(1))
+				Expect(len(batchResult.Result.Patches)).To(Equal(1))
+				Expect(len(batchResult.Result.Deletes)).To(Equal(1))
+
+				// Clean up records created by the batch post and put
+				for _, record := range batchResult.Result.Posts {
+					if record.ID != nil {
+						cleanOpt := testService.NewDeleteDnsRecordOptions(*record.ID)
+						_, _, err = testService.DeleteDnsRecord(cleanOpt)
+						Expect(err).To(BeNil())
+					}
+				}
+				for _, record := range batchResult.Result.Puts {
+					if record.ID != nil {
+						cleanOpt := testService.NewDeleteDnsRecordOptions(*record.ID)
+						_, _, err = testService.DeleteDnsRecord(cleanOpt)
+						Expect(err).To(BeNil())
+					}
+				}
+				for _, record := range batchResult.Result.Patches {
+					if record.ID != nil {
+						cleanOpt := testService.NewDeleteDnsRecordOptions(*record.ID)
+						_, _, err = testService.DeleteDnsRecord(cleanOpt)
+						Expect(err).To(BeNil())
+					}
+				}
+			})
 		})
 	})
 })
