@@ -1,3 +1,10 @@
+# [0.53.0](https://github.com/IBM/networking-go-sdk/compare/v0.52.0...v0.53.0) (2026-04-20)
+
+
+### Features
+
+* add batch dns records ([#290](https://github.com/IBM/networking-go-sdk/issues/290)) ([e040e24](https://github.com/IBM/networking-go-sdk/commit/e040e246e30b5857dfba105e01b6d89b02488c24))
+
 # [0.52.0](https://github.com/IBM/networking-go-sdk/compare/v0.51.16...v0.52.0) (2026-03-17)
 
 
