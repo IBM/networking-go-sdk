@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  */
 
 package listsapiv1_test
@@ -184,7 +184,32 @@ var _ = Describe(`ListsApiV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(200))
 			Expect(listItemsResp).ToNot(BeNil())
+			Expect(listItemsResp.Result).ToNot(BeEmpty())
 			listsService.ItemID = listItemsResp.Result[0].ID
+		})
+
+		It(`Get List Items with pagination params`, func() {
+			getListItemsOptions := &listsapiv1.GetListItemsOptions{}
+			getListItemsOptions.SetPerPage(int64(1))
+			getListItemsOptions.SetSearch("172")
+
+			listItemsResp, response, err := listsService.GetListItems(getListItemsOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(listItemsResp).ToNot(BeNil())
+			if listItemsResp.ResultInfo != nil && listItemsResp.ResultInfo.Cursors != nil {
+				// If there is a next page, fetch it using the cursor
+				if listItemsResp.ResultInfo.Cursors.After != nil {
+					getListItemsOptionsWithCursor := &listsapiv1.GetListItemsOptions{}
+					getListItemsOptionsWithCursor.SetCursor(*listItemsResp.ResultInfo.Cursors.After)
+					getListItemsOptionsWithCursor.SetPerPage(int64(1))
+
+					listItemsRespPage2, response2, err2 := listsService.GetListItems(getListItemsOptionsWithCursor)
+					Expect(err2).To(BeNil())
+					Expect(response2.StatusCode).To(Equal(200))
+					Expect(listItemsRespPage2).ToNot(BeNil())
+				}
+			}
 		})
 
 		It(`Get List Item`, func() {

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1676,6 +1676,9 @@ var _ = Describe(`ListsApiV1`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getListItemsPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["cursor"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["search"]).To(Equal([]string{"testString"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -1695,6 +1698,9 @@ var _ = Describe(`ListsApiV1`, func() {
 
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := new(listsapiv1.GetListItemsOptions)
+				getListItemsOptionsModel.Cursor = core.StringPtr("testString")
+				getListItemsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				getListItemsOptionsModel.Search = core.StringPtr("testString")
 				getListItemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := listsApiService.GetListItems(getListItemsOptionsModel)
@@ -1729,13 +1735,16 @@ var _ = Describe(`ListsApiV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getListItemsPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.URL.Query()["cursor"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["search"]).To(Equal([]string{"testString"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "70c2009751b24ffc9ed1ab462ba957b4", "asn": 19604, "comment": "My list of developer IPs.", "hostname": "cloud.ibm.com", "ip": "172.64.0.0/13", "created_on": "2025-03-21T16:19:21Z", "modified_on": "2025-03-21T16:19:37Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "70c2009751b24ffc9ed1ab462ba957b4", "asn": 19604, "comment": "My list of developer IPs.", "hostname": "cloud.ibm.com", "ip": "172.64.0.0/13", "created_on": "2025-03-21T16:19:21Z", "modified_on": "2025-03-21T16:19:37Z"}], "result_info": {"cursors": {"after": "yyy", "before": "xxx"}}}`)
 				}))
 			})
 			It(`Invoke GetListItems successfully with retries`, func() {
@@ -1753,6 +1762,9 @@ var _ = Describe(`ListsApiV1`, func() {
 
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := new(listsapiv1.GetListItemsOptions)
+				getListItemsOptionsModel.Cursor = core.StringPtr("testString")
+				getListItemsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				getListItemsOptionsModel.Search = core.StringPtr("testString")
 				getListItemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1789,10 +1801,13 @@ var _ = Describe(`ListsApiV1`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getListItemsPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.URL.Query()["cursor"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["search"]).To(Equal([]string{"testString"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "70c2009751b24ffc9ed1ab462ba957b4", "asn": 19604, "comment": "My list of developer IPs.", "hostname": "cloud.ibm.com", "ip": "172.64.0.0/13", "created_on": "2025-03-21T16:19:21Z", "modified_on": "2025-03-21T16:19:37Z"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": "70c2009751b24ffc9ed1ab462ba957b4", "asn": 19604, "comment": "My list of developer IPs.", "hostname": "cloud.ibm.com", "ip": "172.64.0.0/13", "created_on": "2025-03-21T16:19:21Z", "modified_on": "2025-03-21T16:19:37Z"}], "result_info": {"cursors": {"after": "yyy", "before": "xxx"}}}`)
 				}))
 			})
 			It(`Invoke GetListItems successfully`, func() {
@@ -1815,6 +1830,9 @@ var _ = Describe(`ListsApiV1`, func() {
 
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := new(listsapiv1.GetListItemsOptions)
+				getListItemsOptionsModel.Cursor = core.StringPtr("testString")
+				getListItemsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				getListItemsOptionsModel.Search = core.StringPtr("testString")
 				getListItemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1838,6 +1856,9 @@ var _ = Describe(`ListsApiV1`, func() {
 
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := new(listsapiv1.GetListItemsOptions)
+				getListItemsOptionsModel.Cursor = core.StringPtr("testString")
+				getListItemsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				getListItemsOptionsModel.Search = core.StringPtr("testString")
 				getListItemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := listsApiService.SetServiceURL("")
@@ -1875,6 +1896,9 @@ var _ = Describe(`ListsApiV1`, func() {
 
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := new(listsapiv1.GetListItemsOptions)
+				getListItemsOptionsModel.Cursor = core.StringPtr("testString")
+				getListItemsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				getListItemsOptionsModel.Search = core.StringPtr("testString")
 				getListItemsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3325,8 +3349,14 @@ var _ = Describe(`ListsApiV1`, func() {
 			It(`Invoke NewGetListItemsOptions successfully`, func() {
 				// Construct an instance of the GetListItemsOptions model
 				getListItemsOptionsModel := listsApiService.NewGetListItemsOptions()
+				getListItemsOptionsModel.SetCursor("testString")
+				getListItemsOptionsModel.SetPerPage(int64(1))
+				getListItemsOptionsModel.SetSearch("testString")
 				getListItemsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getListItemsOptionsModel).ToNot(BeNil())
+				Expect(getListItemsOptionsModel.Cursor).To(Equal(core.StringPtr("testString")))
+				Expect(getListItemsOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(getListItemsOptionsModel.Search).To(Equal(core.StringPtr("testString")))
 				Expect(getListItemsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetManagedListsOptions successfully`, func() {

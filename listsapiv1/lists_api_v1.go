@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.104.0-b4a47c49-20250418-184351
+ * IBM OpenAPI SDK Code Generator Version: 3.106.0-09823488-20250707-071701
  */
 
 // Package listsapiv1 : Operations and models for the ListsApiV1 service
@@ -24,6 +24,7 @@ package listsapiv1
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"reflect"
 	"time"
@@ -231,12 +232,12 @@ func (listsApi *ListsApiV1) GetManagedListsWithContext(ctx context.Context, getM
 		return
 	}
 
-	for headerName, headerValue := range getManagedListsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetManagedLists")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetManagedLists")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getManagedListsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -295,12 +296,12 @@ func (listsApi *ListsApiV1) GetCustomListsWithContext(ctx context.Context, getCu
 		return
 	}
 
-	for headerName, headerValue := range getCustomListsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetCustomLists")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetCustomLists")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getCustomListsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -359,12 +360,12 @@ func (listsApi *ListsApiV1) CreateCustomListsWithContext(ctx context.Context, cr
 		return
 	}
 
-	for headerName, headerValue := range createCustomListsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "CreateCustomLists")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "CreateCustomLists")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createCustomListsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -441,12 +442,12 @@ func (listsApi *ListsApiV1) GetCustomListWithContext(ctx context.Context, getCus
 		return
 	}
 
-	for headerName, headerValue := range getCustomListOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetCustomList")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetCustomList")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getCustomListOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -506,12 +507,12 @@ func (listsApi *ListsApiV1) UpdateCustomListWithContext(ctx context.Context, upd
 		return
 	}
 
-	for headerName, headerValue := range updateCustomListOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "UpdateCustomList")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "UpdateCustomList")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateCustomListOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -582,12 +583,12 @@ func (listsApi *ListsApiV1) DeleteCustomListWithContext(ctx context.Context, del
 		return
 	}
 
-	for headerName, headerValue := range deleteCustomListOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "DeleteCustomList")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "DeleteCustomList")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteCustomListOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -647,15 +648,25 @@ func (listsApi *ListsApiV1) GetListItemsWithContext(ctx context.Context, getList
 		return
 	}
 
-	for headerName, headerValue := range getListItemsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
-	}
-
 	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetListItems")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
+
+	for headerName, headerValue := range getListItemsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
 	builder.AddHeader("Accept", "application/json")
+
+	if getListItemsOptions.Cursor != nil {
+		builder.AddQuery("cursor", fmt.Sprint(*getListItemsOptions.Cursor))
+	}
+	if getListItemsOptions.PerPage != nil {
+		builder.AddQuery("per_page", fmt.Sprint(*getListItemsOptions.PerPage))
+	}
+	if getListItemsOptions.Search != nil {
+		builder.AddQuery("search", fmt.Sprint(*getListItemsOptions.Search))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -713,12 +724,12 @@ func (listsApi *ListsApiV1) CreateListItemsWithContext(ctx context.Context, crea
 		return
 	}
 
-	for headerName, headerValue := range createListItemsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "CreateListItems")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "CreateListItems")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createListItemsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -788,12 +799,12 @@ func (listsApi *ListsApiV1) DeleteListItemsWithContext(ctx context.Context, dele
 		return
 	}
 
-	for headerName, headerValue := range deleteListItemsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "DeleteListItems")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "DeleteListItems")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteListItemsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -865,12 +876,12 @@ func (listsApi *ListsApiV1) UpdateListItemsWithContext(ctx context.Context, upda
 		return
 	}
 
-	for headerName, headerValue := range updateListItemsOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "UpdateListItems")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "UpdateListItems")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateListItemsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -940,12 +951,12 @@ func (listsApi *ListsApiV1) GetListItemWithContext(ctx context.Context, getListI
 		return
 	}
 
-	for headerName, headerValue := range getListItemOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetListItem")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetListItem")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getListItemOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1005,12 +1016,12 @@ func (listsApi *ListsApiV1) GetOperationStatusWithContext(ctx context.Context, g
 		return
 	}
 
-	for headerName, headerValue := range getOperationStatusOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetOperationStatus")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("lists_api", "V1", "GetOperationStatus")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getOperationStatusOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1297,6 +1308,16 @@ func (options *GetListItemOptions) SetHeaders(param map[string]string) *GetListI
 
 // GetListItemsOptions : The GetListItems options.
 type GetListItemsOptions struct {
+	// The pagination cursor. An opaque string token indicating the position from which to continue when requesting the
+	// next/previous set of records. Cursor values are provided under result_info.cursors in the response.
+	Cursor *string `json:"cursor,omitempty"`
+
+	// Amount of results to include in each paginated response. A non-negative 32 bit integer. Minimum 1, maximum 500.
+	PerPage *int64 `json:"per_page,omitempty"`
+
+	// A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the
+	// provided string, hostnames and bulk redirects must contain the string, and ASNs must match the string exactly.
+	Search *string `json:"search,omitempty"`
 
 	// Allows users to set headers on API requests.
 	Headers map[string]string
@@ -1305,6 +1326,24 @@ type GetListItemsOptions struct {
 // NewGetListItemsOptions : Instantiate GetListItemsOptions
 func (*ListsApiV1) NewGetListItemsOptions() *GetListItemsOptions {
 	return &GetListItemsOptions{}
+}
+
+// SetCursor : Allow user to set Cursor
+func (_options *GetListItemsOptions) SetCursor(cursor string) *GetListItemsOptions {
+	_options.Cursor = core.StringPtr(cursor)
+	return _options
+}
+
+// SetPerPage : Allow user to set PerPage
+func (_options *GetListItemsOptions) SetPerPage(perPage int64) *GetListItemsOptions {
+	_options.PerPage = core.Int64Ptr(perPage)
+	return _options
+}
+
+// SetSearch : Allow user to set Search
+func (_options *GetListItemsOptions) SetSearch(search string) *GetListItemsOptions {
+	_options.Search = core.StringPtr(search)
+	return _options
 }
 
 // SetHeaders : Allow user to set Headers
@@ -1679,6 +1718,32 @@ func UnmarshalDeleteResourceResp(m map[string]json.RawMessage, result interface{
 	return
 }
 
+// ListCursor : ListCursor struct
+type ListCursor struct {
+	// The cursor token to fetch the next page of results.
+	After *string `json:"after,omitempty"`
+
+	// The cursor token to fetch the previous page of results.
+	Before *string `json:"before,omitempty"`
+}
+
+// UnmarshalListCursor unmarshals an instance of ListCursor from the specified map of raw messages.
+func UnmarshalListCursor(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListCursor)
+	err = core.UnmarshalPrimitive(m, "after", &obj.After)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "after-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ListItem : ListItem struct
 type ListItem struct {
 	ID *string `json:"id,omitempty"`
@@ -1796,6 +1861,8 @@ type ListItemsResp struct {
 	Messages [][]string `json:"messages" validate:"required"`
 
 	Result []ListItem `json:"result" validate:"required"`
+
+	ResultInfo *ListItemsResultInfo `json:"result_info,omitempty"`
 }
 
 // UnmarshalListItemsResp unmarshals an instance of ListItemsResp from the specified map of raw messages.
@@ -1819,6 +1886,28 @@ func UnmarshalListItemsResp(m map[string]json.RawMessage, result interface{}) (e
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalListItem)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result_info", &obj.ResultInfo, UnmarshalListItemsResultInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result_info-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ListItemsResultInfo : ListItemsResultInfo struct
+type ListItemsResultInfo struct {
+	Cursors *ListCursor `json:"cursors,omitempty"`
+}
+
+// UnmarshalListItemsResultInfo unmarshals an instance of ListItemsResultInfo from the specified map of raw messages.
+func UnmarshalListItemsResultInfo(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ListItemsResultInfo)
+	err = core.UnmarshalModel(m, "cursors", &obj.Cursors, UnmarshalListCursor)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "cursors-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
