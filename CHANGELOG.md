@@ -1,3 +1,12 @@
+## [0.53.1](https://github.com/IBM/networking-go-sdk/compare/v0.53.0...v0.53.1) (2026-04-25)
+
+
+### Bug Fixes
+
+* add query params for GET Custom List Items ([#291](https://github.com/IBM/networking-go-sdk/issues/291)) ([cbfc459](https://github.com/IBM/networking-go-sdk/commit/cbfc459151ec1f4fd3219ff5db70600d6f6e1baa))
+* build release npm ci ([#292](https://github.com/IBM/networking-go-sdk/issues/292)) ([28a620e](https://github.com/IBM/networking-go-sdk/commit/28a620e3e1f8f9533d454db2b663fa8680f583a5))
+* updated private registry to public registry ([45cc5a7](https://github.com/IBM/networking-go-sdk/commit/45cc5a74eaf3933841bf6ff9322f48afd36bed0f))
+
 # [0.53.0](https://github.com/IBM/networking-go-sdk/compare/v0.52.0...v0.53.0) (2026-04-20)
 
 
