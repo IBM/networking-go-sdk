@@ -86,7 +86,7 @@ jobs:
       - name: Install publishing tools
         run: |
           pip install bump2version
-          npm ci --prefer-offline --no-audit --registry https://registry.npmjs.org
+          npm ci
 
       - name: Validate version consistency
         run: |
