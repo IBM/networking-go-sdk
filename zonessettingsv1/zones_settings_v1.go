@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.108.0-56772134-20251111-102802
+ * IBM OpenAPI SDK Code Generator Version: 3.113.1-d76630af-20260320-135953
  */
 
 // Package zonessettingsv1 : Operations and models for the ZonesSettingsV1 service
@@ -5707,6 +5707,147 @@ func (zonesSettings *ZonesSettingsV1) UpdateEmailObfuscationWithContext(ctx cont
 
 	return
 }
+
+// GetSecurityLevel : Get security level setting
+// Get security level for a zone.
+func (zonesSettings *ZonesSettingsV1) GetSecurityLevel(getSecurityLevelOptions *GetSecurityLevelOptions) (result *SecurityLevelResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.GetSecurityLevelWithContext(context.Background(), getSecurityLevelOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetSecurityLevelWithContext is an alternate form of the GetSecurityLevel method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) GetSecurityLevelWithContext(ctx context.Context, getSecurityLevelOptions *GetSecurityLevelOptions) (result *SecurityLevelResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(getSecurityLevelOptions, "getSecurityLevelOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/security_level`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "GetSecurityLevel")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getSecurityLevelOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_security_level", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecurityLevelResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateSecurityLevel : Update security level setting
+// Update security level setting for a zone.
+func (zonesSettings *ZonesSettingsV1) UpdateSecurityLevel(updateSecurityLevelOptions *UpdateSecurityLevelOptions) (result *SecurityLevelResp, response *core.DetailedResponse, err error) {
+	result, response, err = zonesSettings.UpdateSecurityLevelWithContext(context.Background(), updateSecurityLevelOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateSecurityLevelWithContext is an alternate form of the UpdateSecurityLevel method which supports a Context parameter
+func (zonesSettings *ZonesSettingsV1) UpdateSecurityLevelWithContext(ctx context.Context, updateSecurityLevelOptions *UpdateSecurityLevelOptions) (result *SecurityLevelResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(updateSecurityLevelOptions, "updateSecurityLevelOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn":             *zonesSettings.Crn,
+		"zone_identifier": *zonesSettings.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = zonesSettings.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(zonesSettings.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/settings/security_level`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("zones_settings", "V1", "UpdateSecurityLevel")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateSecurityLevelOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if updateSecurityLevelOptions.Value != nil {
+		body["value"] = updateSecurityLevelOptions.Value
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = zonesSettings.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_security_level", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSecurityLevelResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
 func getServiceComponentInfo() *core.ProblemComponent {
 	return core.NewProblemComponent(DefaultServiceName, "1.0.1")
 }
@@ -5975,7 +6116,7 @@ type EmailObfuscationRespResult struct {
 	Editable *bool `json:"editable" validate:"required"`
 
 	// Modified date.
-	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
 }
 
 // UnmarshalEmailObfuscationRespResult unmarshals an instance of EmailObfuscationRespResult from the specified map of raw messages.
@@ -6597,6 +6738,24 @@ func (*ZonesSettingsV1) NewGetSecurityHeaderOptions() *GetSecurityHeaderOptions 
 
 // SetHeaders : Allow user to set Headers
 func (options *GetSecurityHeaderOptions) SetHeaders(param map[string]string) *GetSecurityHeaderOptions {
+	options.Headers = param
+	return options
+}
+
+// GetSecurityLevelOptions : The GetSecurityLevel options.
+type GetSecurityLevelOptions struct {
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetSecurityLevelOptions : Instantiate GetSecurityLevelOptions
+func (*ZonesSettingsV1) NewGetSecurityLevelOptions() *GetSecurityLevelOptions {
+	return &GetSecurityLevelOptions{}
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetSecurityLevelOptions) SetHeaders(param map[string]string) *GetSecurityLevelOptions {
 	options.Headers = param
 	return options
 }
@@ -7757,7 +7916,7 @@ type ReplaceInsecureJsRespResult struct {
 	Editable *bool `json:"editable" validate:"required"`
 
 	// Modified date.
-	ModifiedOn *strfmt.DateTime `json:"modified_on" validate:"required"`
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
 }
 
 // UnmarshalReplaceInsecureJsRespResult unmarshals an instance of ReplaceInsecureJsRespResult from the specified map of raw messages.
@@ -8071,6 +8230,48 @@ func UnmarshalSecurityHeaderSettingValueStrictTransportSecurity(m map[string]jso
 	err = core.UnmarshalPrimitive(m, "nosniff", &obj.Nosniff)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "nosniff-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityLevelRespResult : Container for response information.
+type SecurityLevelRespResult struct {
+	// ID.
+	ID *string `json:"id" validate:"required"`
+
+	// Value.
+	Value *string `json:"value" validate:"required"`
+
+	// Editable.
+	Editable *bool `json:"editable" validate:"required"`
+
+	// Modified date.
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
+}
+
+// UnmarshalSecurityLevelRespResult unmarshals an instance of SecurityLevelRespResult from the specified map of raw messages.
+func UnmarshalSecurityLevelRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityLevelRespResult)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "editable", &obj.Editable)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "editable-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "modified_on-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -9277,6 +9478,42 @@ func (options *UpdateSecurityHeaderOptions) SetHeaders(param map[string]string) 
 	return options
 }
 
+// UpdateSecurityLevelOptions : The UpdateSecurityLevel options.
+type UpdateSecurityLevelOptions struct {
+	// Value.
+	Value *string `json:"value,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// Constants associated with the UpdateSecurityLevelOptions.Value property.
+// Value.
+const (
+	UpdateSecurityLevelOptions_Value_EssentiallyOff = "essentially_off"
+	UpdateSecurityLevelOptions_Value_High           = "high"
+	UpdateSecurityLevelOptions_Value_Low            = "low"
+	UpdateSecurityLevelOptions_Value_Medium         = "medium"
+	UpdateSecurityLevelOptions_Value_UnderAttack    = "under_attack"
+)
+
+// NewUpdateSecurityLevelOptions : Instantiate UpdateSecurityLevelOptions
+func (*ZonesSettingsV1) NewUpdateSecurityLevelOptions() *UpdateSecurityLevelOptions {
+	return &UpdateSecurityLevelOptions{}
+}
+
+// SetValue : Allow user to set Value
+func (_options *UpdateSecurityLevelOptions) SetValue(value string) *UpdateSecurityLevelOptions {
+	_options.Value = core.StringPtr(value)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateSecurityLevelOptions) SetHeaders(param map[string]string) *UpdateSecurityLevelOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateServerSideExcludeOptions : The UpdateServerSideExclude options.
 type UpdateServerSideExcludeOptions struct {
 	// Value.
@@ -10091,6 +10328,9 @@ type EmailObfuscationResp struct {
 	// Container for response information.
 	Result *EmailObfuscationRespResult `json:"result" validate:"required"`
 
+	// Result information.
+	ResultInfo map[string]interface{} `json:"result_info,omitempty"`
+
 	// Was the get successful.
 	Success *bool `json:"success" validate:"required"`
 
@@ -10107,6 +10347,11 @@ func UnmarshalEmailObfuscationResp(m map[string]json.RawMessage, result interfac
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalEmailObfuscationRespResult)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "result_info", &obj.ResultInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result_info-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
@@ -10972,6 +11217,9 @@ type ReplaceInsecureJsResp struct {
 	// Container for response information.
 	Result *ReplaceInsecureJsRespResult `json:"result" validate:"required"`
 
+	// Result information.
+	ResultInfo map[string]interface{} `json:"result_info,omitempty"`
+
 	// Was the get successful.
 	Success *bool `json:"success" validate:"required"`
 
@@ -10988,6 +11236,11 @@ func UnmarshalReplaceInsecureJsResp(m map[string]json.RawMessage, result interfa
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalReplaceInsecureJsRespResult)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "result_info", &obj.ResultInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result_info-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
@@ -11112,6 +11365,48 @@ type SecurityHeaderResp struct {
 func UnmarshalSecurityHeaderResp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SecurityHeaderResp)
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalSecurityHeaderRespResult)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SecurityLevelResp : Security level response.
+type SecurityLevelResp struct {
+	// Container for response information.
+	Result *SecurityLevelRespResult `json:"result" validate:"required"`
+
+	// Was the get successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+}
+
+// UnmarshalSecurityLevelResp unmarshals an instance of SecurityLevelResp from the specified map of raw messages.
+func UnmarshalSecurityLevelResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SecurityLevelResp)
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalSecurityLevelRespResult)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return

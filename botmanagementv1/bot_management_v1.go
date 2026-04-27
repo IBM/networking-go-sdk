@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.64.1-cee95189-20230124-211647
+ * IBM OpenAPI SDK Code Generator Version: 3.113.1-d76630af-20260320-135953
  */
 
 // Package botmanagementv1 : Operations and models for the BotManagementV1 service
@@ -24,7 +24,6 @@ package botmanagementv1
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"reflect"
 	"time"
@@ -42,7 +41,7 @@ type BotManagementV1 struct {
 	// Full url-encoded CRN of the service instance.
 	Crn *string
 
-	// Identifier of zone.
+	// Zone identifier to identifiy the zone.
 	ZoneIdentifier *string
 }
 
@@ -61,7 +60,7 @@ type BotManagementV1Options struct {
 	// Full url-encoded CRN of the service instance.
 	Crn *string `validate:"required"`
 
-	// Identifier of zone.
+	// Zone identifier to identifiy the zone.
 	ZoneIdentifier *string `validate:"required"`
 }
 
@@ -74,22 +73,26 @@ func NewBotManagementV1UsingExternalConfig(options *BotManagementV1Options) (bot
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	botManagement, err = NewBotManagementV1(options)
+	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = botManagement.Service.ConfigureService(options.ServiceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = botManagement.Service.SetServiceURL(options.URL)
+		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -103,17 +106,20 @@ func NewBotManagementV1(options *BotManagementV1Options) (service *BotManagement
 
 	err = core.ValidateStruct(options, "options")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "invalid-global-options", common.GetComponentInfo())
 		return
 	}
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -129,7 +135,7 @@ func NewBotManagementV1(options *BotManagementV1Options) (service *BotManagement
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", fmt.Errorf("service does not support regional URLs")
+	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
 }
 
 // Clone makes a copy of "botManagement" suitable for processing requests.
@@ -144,7 +150,11 @@ func (botManagement *BotManagementV1) Clone() *BotManagementV1 {
 
 // SetServiceURL sets the service URL
 func (botManagement *BotManagementV1) SetServiceURL(url string) error {
-	return botManagement.Service.SetServiceURL(url)
+	err := botManagement.Service.SetServiceURL(url)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
+	}
+	return err
 }
 
 // GetServiceURL returns the service URL
@@ -181,13 +191,16 @@ func (botManagement *BotManagementV1) DisableRetries() {
 // GetBotManagement : Get Bot management setting
 // Get Bot management setting for a given zone.
 func (botManagement *BotManagementV1) GetBotManagement(getBotManagementOptions *GetBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
-	return botManagement.GetBotManagementWithContext(context.Background(), getBotManagementOptions)
+	result, response, err = botManagement.GetBotManagementWithContext(context.Background(), getBotManagementOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetBotManagementWithContext is an alternate form of the GetBotManagement method which supports a Context parameter
 func (botManagement *BotManagementV1) GetBotManagementWithContext(ctx context.Context, getBotManagementOptions *GetBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getBotManagementOptions, "getBotManagementOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -201,32 +214,37 @@ func (botManagement *BotManagementV1) GetBotManagementWithContext(ctx context.Co
 	builder.EnableGzipCompression = botManagement.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(botManagement.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/bot_management`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getBotManagementOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("bot_management", "V1", "GetBotManagement")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
+
+	for headerName, headerValue := range getBotManagementOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
 	builder.AddHeader("Accept", "application/json")
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = botManagement.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_bot_management", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBotMgtResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -238,13 +256,16 @@ func (botManagement *BotManagementV1) GetBotManagementWithContext(ctx context.Co
 // UpdateBotManagement : Update Bot management setting
 // Update Bot management setting for given zone.
 func (botManagement *BotManagementV1) UpdateBotManagement(updateBotManagementOptions *UpdateBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
-	return botManagement.UpdateBotManagementWithContext(context.Background(), updateBotManagementOptions)
+	result, response, err = botManagement.UpdateBotManagementWithContext(context.Background(), updateBotManagementOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateBotManagementWithContext is an alternate form of the UpdateBotManagement method which supports a Context parameter
 func (botManagement *BotManagementV1) UpdateBotManagementWithContext(ctx context.Context, updateBotManagementOptions *UpdateBotManagementOptions) (result *BotMgtResp, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(updateBotManagementOptions, "updateBotManagementOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -258,15 +279,16 @@ func (botManagement *BotManagementV1) UpdateBotManagementWithContext(ctx context
 	builder.EnableGzipCompression = botManagement.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(botManagement.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/bot_management`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateBotManagementOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("bot_management", "V1", "UpdateBotManagement")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateBotManagementOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -290,28 +312,36 @@ func (botManagement *BotManagementV1) UpdateBotManagementWithContext(ctx context
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = botManagement.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_bot_management", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalBotMgtResp)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
 	}
 
 	return
+}
+func getServiceComponentInfo() *core.ProblemComponent {
+	return core.NewProblemComponent(DefaultServiceName, "1.0.1")
 }
 
 // BotMgtRespResult : Container for response information.
@@ -332,22 +362,27 @@ func UnmarshalBotMgtRespResult(m map[string]json.RawMessage, result interface{})
 	obj := new(BotMgtRespResult)
 	err = core.UnmarshalPrimitive(m, "fight_mode", &obj.FightMode)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "fight_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "session_score", &obj.SessionScore)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "session_score-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "enable_js", &obj.EnableJs)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "enable_js-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "auth_id_logging", &obj.AuthIdLogging)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "auth_id_logging-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "use_latest_model", &obj.UseLatestModel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "use_latest_model-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -357,7 +392,7 @@ func UnmarshalBotMgtRespResult(m map[string]json.RawMessage, result interface{})
 // GetBotManagementOptions : The GetBotManagement options.
 type GetBotManagementOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -384,7 +419,7 @@ type UpdateBotManagementOptions struct {
 
 	UseLatestModel *bool `json:"use_latest_model,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -449,18 +484,22 @@ func UnmarshalBotMgtResp(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(BotMgtResp)
 	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalBotMgtRespResult)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
