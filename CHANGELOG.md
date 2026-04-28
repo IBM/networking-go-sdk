@@ -1,3 +1,10 @@
+## [0.53.3](https://github.com/IBM/networking-go-sdk/compare/v0.53.2...v0.53.3) (2026-04-28)
+
+
+### Bug Fixes
+
+* add missing CIS domain settings ([#295](https://github.com/IBM/networking-go-sdk/issues/295)) ([1f65497](https://github.com/IBM/networking-go-sdk/commit/1f654972b9b1ed73a925237f146cb7baf9e6ee20))
+
 ## [0.53.2](https://github.com/IBM/networking-go-sdk/compare/v0.53.1...v0.53.2) (2026-04-28)
 
 
