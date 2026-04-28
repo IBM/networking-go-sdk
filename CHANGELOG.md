@@ -1,3 +1,10 @@
+## [0.53.2](https://github.com/IBM/networking-go-sdk/compare/v0.53.1...v0.53.2) (2026-04-28)
+
+
+### Bug Fixes
+
+* naming inconsistencies in integration test files ([#296](https://github.com/IBM/networking-go-sdk/issues/296)) ([026da08](https://github.com/IBM/networking-go-sdk/commit/026da08845851510ecc75d7b9755a41f8b072719))
+
 ## [0.53.1](https://github.com/IBM/networking-go-sdk/compare/v0.53.0...v0.53.1) (2026-04-25)
 
 
