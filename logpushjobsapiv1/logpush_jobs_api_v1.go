@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.98.0-8be2046a-20241205-162752
+ * IBM OpenAPI SDK Code Generator Version: 3.114.0-a902401e-20260427-192904
  */
 
 // Package logpushjobsapiv1 : Operations and models for the LogpushJobsApiV1 service
@@ -225,12 +225,12 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushJobsV2WithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range getLogpushJobsV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushJobsV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushJobsV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getLogpushJobsV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -290,12 +290,12 @@ func (logpushJobsApi *LogpushJobsApiV1) CreateLogpushJobV2WithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range createLogpushJobV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "CreateLogpushJobV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "CreateLogpushJobV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createLogpushJobV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -370,12 +370,12 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushJobV2WithContext(ctx context.C
 		return
 	}
 
-	for headerName, headerValue := range getLogpushJobV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushJobV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushJobV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getLogpushJobV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -441,12 +441,12 @@ func (logpushJobsApi *LogpushJobsApiV1) UpdateLogpushJobV2WithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range updateLogpushJobV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "UpdateLogpushJobV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "UpdateLogpushJobV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range updateLogpushJobV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -521,12 +521,12 @@ func (logpushJobsApi *LogpushJobsApiV1) DeleteLogpushJobV2WithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range deleteLogpushJobV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "DeleteLogpushJobV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "DeleteLogpushJobV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range deleteLogpushJobV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -586,12 +586,12 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushOwnershipV2WithContext(ctx con
 		return
 	}
 
-	for headerName, headerValue := range getLogpushOwnershipV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushOwnershipV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogpushOwnershipV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getLogpushOwnershipV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -662,12 +662,12 @@ func (logpushJobsApi *LogpushJobsApiV1) ValidateLogpushOwnershipChallengeV2WithC
 		return
 	}
 
-	for headerName, headerValue := range validateLogpushOwnershipChallengeV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ValidateLogpushOwnershipChallengeV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ValidateLogpushOwnershipChallengeV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range validateLogpushOwnershipChallengeV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -742,12 +742,12 @@ func (logpushJobsApi *LogpushJobsApiV1) ListFieldsForDatasetV2WithContext(ctx co
 		return
 	}
 
-	for headerName, headerValue := range listFieldsForDatasetV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ListFieldsForDatasetV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ListFieldsForDatasetV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listFieldsForDatasetV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -808,12 +808,12 @@ func (logpushJobsApi *LogpushJobsApiV1) ListLogpushJobsForDatasetV2WithContext(c
 		return
 	}
 
-	for headerName, headerValue := range listLogpushJobsForDatasetV2Options.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ListLogpushJobsForDatasetV2")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "ListLogpushJobsForDatasetV2")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range listLogpushJobsForDatasetV2Options.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -873,12 +873,12 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogsRetentionWithContext(ctx context.
 		return
 	}
 
-	for headerName, headerValue := range getLogsRetentionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogsRetention")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "GetLogsRetention")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range getLogsRetentionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -938,12 +938,12 @@ func (logpushJobsApi *LogpushJobsApiV1) CreateLogRetentionWithContext(ctx contex
 		return
 	}
 
-	for headerName, headerValue := range createLogRetentionOptions.Headers {
+	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "CreateLogRetention")
+	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("logpush_jobs_api", "V1", "CreateLogRetention")
-	for headerName, headerValue := range sdkHeaders {
+	for headerName, headerValue := range createLogRetentionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1792,13 +1792,13 @@ type LogpushJobPack struct {
 	DestinationConf *string `json:"destination_conf" validate:"required"`
 
 	// Records the last time for which logs have been successfully pushed.
-	LastComplete *string `json:"last_complete" validate:"required"`
+	LastComplete *string `json:"last_complete,omitempty"`
 
 	// Records the last time the job failed.
-	LastError *string `json:"last_error" validate:"required"`
+	LastError *string `json:"last_error,omitempty"`
 
 	// The last failure.
-	ErrorMessage *string `json:"error_message" validate:"required"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 }
 
 // UnmarshalLogpushJobPack unmarshals an instance of LogpushJobPack from the specified map of raw messages.
