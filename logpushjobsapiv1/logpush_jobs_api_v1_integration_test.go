@@ -254,6 +254,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			It(`create/update/delete/get logpush jobs with custom HTTP destination`, func() {
 				shouldSkipTest()
 
+				// Create logpush job with custom HTTP destination
 				options := testService.NewCreateLogpushJobV2Options()
 				createLogpushJobV2RequestGenericModel := &logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobGenericReq{
 					Name:            core.StringPtr("Test123"),
