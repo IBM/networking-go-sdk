@@ -1,3 +1,10 @@
+## [0.53.4](https://github.com/IBM/networking-go-sdk/compare/v0.53.3...v0.53.4) (2026-04-30)
+
+
+### Bug Fixes
+
+* **logpush:** remove incorrect required validation from optional fields ([1937336](https://github.com/IBM/networking-go-sdk/commit/193733696b970d8520b8a5ce62ecee1224954b64))
+
 ## [0.53.3](https://github.com/IBM/networking-go-sdk/compare/v0.53.2...v0.53.3) (2026-04-28)
 
 
