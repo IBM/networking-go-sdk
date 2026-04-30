@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2026.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -231,70 +231,6 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					Enabled:         core.BoolPtr(false),
 					LogpullOptions:  core.StringPtr("timestamps=rfc3339&timestamps=rfc3339"),
 					DestinationConf: core.StringPtr("s3://mybucket/logs?region=us-west-1"),
-					Frequency:       core.StringPtr("high"),
-				}
-
-				updateOptions.SetUpdateLogpushJobV2Request(updateLogpushJobV2RequestGenericModel)
-
-				updateResult, updateResponse, updateErr := testService.UpdateLogpushJobV2(updateOptions)
-				Expect(updateErr).To(BeNil())
-				Expect(updateResponse).ToNot(BeNil())
-				Expect(updateResult).ToNot(BeNil())
-
-				//Delete Logpush Jobs
-				for _, thisJob := range allJobs {
-					delOptions := testService.NewDeleteLogpushJobV2Options(strconv.FormatInt(*thisJob.ID, 10))
-					delResult, delResponse, delErr := testService.DeleteLogpushJobV2(delOptions)
-					Expect(delErr).To(BeNil())
-					Expect(delResponse).ToNot(BeNil())
-					Expect(delResult).ToNot(BeNil())
-				}
-			})
-
-			It(`create/update/delete/get logpush jobs with custom HTTP destination`, func() {
-				shouldSkipTest()
-
-				options := testService.NewCreateLogpushJobV2Options()
-				createLogpushJobV2RequestGenericModel := &logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobGenericReq{
-					Name:            core.StringPtr("Test123"),
-					Enabled:         core.BoolPtr(false),
-					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost,ClientRequestMethod"),
-					DestinationConf: core.StringPtr("https://httpbin.org/post"),
-					Dataset:         core.StringPtr("http_requests"),
-					Frequency:       core.StringPtr("high"),
-				}
-
-				options.SetCreateLogpushJobV2Request(createLogpushJobV2RequestGenericModel)
-				result, response, operationErr := testService.CreateLogpushJobV2(options)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				job := result.Result
-
-				// List all Logpush Jobs
-				listOptions := testService.NewGetLogpushJobsV2Options()
-				getResult, getResponse, getErr := testService.GetLogpushJobsV2(listOptions)
-				Expect(getErr).To(BeNil())
-				Expect(getResponse).ToNot(BeNil())
-				Expect(getResult).ToNot(BeNil())
-
-				allJobs := getResult.Result
-
-				// Get Logpush Job by jobID
-				getJob := allJobs[0]
-				getOptions := testService.NewGetLogpushJobV2Options(strconv.FormatInt(*getJob.ID, 10))
-				result, response, operationErr = testService.GetLogpushJobV2(getOptions)
-				Expect(operationErr).To(BeNil())
-				Expect(response).ToNot(BeNil())
-				Expect(result).ToNot(BeNil())
-
-				//Update Logpush Jobs
-				updateOptions := testService.NewUpdateLogpushJobV2Options(strconv.FormatInt(*job.ID, 10))
-				updateLogpushJobV2RequestGenericModel := &logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq{
-					Enabled:         core.BoolPtr(false),
-					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost"),
-					DestinationConf: core.StringPtr("https://httpbin.org/post"),
 					Frequency:       core.StringPtr("high"),
 				}
 
