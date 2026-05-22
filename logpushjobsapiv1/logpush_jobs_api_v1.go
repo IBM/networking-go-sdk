@@ -132,9 +132,9 @@ func NewLogpushJobsApiV1(options *LogpushJobsApiV1Options) (service *LogpushJobs
 
 	service = &LogpushJobsApiV1{
 		Service: baseService,
-		Crn:     options.Crn,
+		Crn: options.Crn,
 		Dataset: options.Dataset,
-		ZoneID:  options.ZoneID,
+		ZoneID: options.ZoneID,
 	}
 
 	return
@@ -212,7 +212,7 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushJobsV2WithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -277,7 +277,7 @@ func (logpushJobsApi *LogpushJobsApiV1) CreateLogpushJobV2WithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -356,9 +356,9 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushJobV2WithContext(ctx context.C
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
-		"job_id":  *getLogpushJobV2Options.JobID,
+		"job_id": *getLogpushJobV2Options.JobID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -427,9 +427,9 @@ func (logpushJobsApi *LogpushJobsApiV1) UpdateLogpushJobV2WithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
-		"job_id":  *updateLogpushJobV2Options.JobID,
+		"job_id": *updateLogpushJobV2Options.JobID,
 	}
 
 	builder := core.NewRequestBuilder(core.PUT)
@@ -507,9 +507,9 @@ func (logpushJobsApi *LogpushJobsApiV1) DeleteLogpushJobV2WithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
-		"job_id":  *deleteLogpushJobV2Options.JobID,
+		"job_id": *deleteLogpushJobV2Options.JobID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -573,7 +573,7 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogpushOwnershipV2WithContext(ctx con
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -649,7 +649,7 @@ func (logpushJobsApi *LogpushJobsApiV1) ValidateLogpushOwnershipChallengeV2WithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -728,7 +728,7 @@ func (logpushJobsApi *LogpushJobsApiV1) ListFieldsForDatasetV2WithContext(ctx co
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 		"dataset": *logpushJobsApi.Dataset,
 	}
@@ -794,7 +794,7 @@ func (logpushJobsApi *LogpushJobsApiV1) ListLogpushJobsForDatasetV2WithContext(c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 		"dataset": *logpushJobsApi.Dataset,
 	}
@@ -860,7 +860,7 @@ func (logpushJobsApi *LogpushJobsApiV1) GetLogsRetentionWithContext(ctx context.
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -925,7 +925,7 @@ func (logpushJobsApi *LogpushJobsApiV1) CreateLogRetentionWithContext(ctx contex
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":     *logpushJobsApi.Crn,
+		"crn": *logpushJobsApi.Crn,
 		"zone_id": *logpushJobsApi.ZoneID,
 	}
 
@@ -1081,17 +1081,16 @@ type CreateLogpushJobV2Request struct {
 // Dataset to be pulled.
 const (
 	CreateLogpushJobV2Request_Dataset_FirewallEvents = "firewall_events"
-	CreateLogpushJobV2Request_Dataset_HttpRequests   = "http_requests"
-	CreateLogpushJobV2Request_Dataset_RangeEvents    = "range_events"
+	CreateLogpushJobV2Request_Dataset_HttpRequests = "http_requests"
+	CreateLogpushJobV2Request_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the CreateLogpushJobV2Request.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	CreateLogpushJobV2Request_Frequency_High = "high"
-	CreateLogpushJobV2Request_Frequency_Low  = "low"
+	CreateLogpushJobV2Request_Frequency_Low = "low"
 )
-
 func (*CreateLogpushJobV2Request) isaCreateLogpushJobV2Request() bool {
 	return true
 }
@@ -1344,8 +1343,8 @@ type LogpushJobIbmclReqIbmcl struct {
 func (*LogpushJobsApiV1) NewLogpushJobIbmclReqIbmcl(instanceID string, region string, apiKey string) (_model *LogpushJobIbmclReqIbmcl, err error) {
 	_model = &LogpushJobIbmclReqIbmcl{
 		InstanceID: core.StringPtr(instanceID),
-		Region:     core.StringPtr(region),
-		ApiKey:     core.StringPtr(apiKey),
+		Region: core.StringPtr(region),
+		ApiKey: core.StringPtr(apiKey),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -1490,17 +1489,16 @@ type UpdateLogpushJobV2Request struct {
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	UpdateLogpushJobV2Request_Frequency_High = "high"
-	UpdateLogpushJobV2Request_Frequency_Low  = "low"
+	UpdateLogpushJobV2Request_Frequency_Low = "low"
 )
 
 // Constants associated with the UpdateLogpushJobV2Request.Dataset property.
 // Dataset to be pulled.
 const (
 	UpdateLogpushJobV2Request_Dataset_FirewallEvents = "firewall_events"
-	UpdateLogpushJobV2Request_Dataset_HttpRequests   = "http_requests"
-	UpdateLogpushJobV2Request_Dataset_RangeEvents    = "range_events"
+	UpdateLogpushJobV2Request_Dataset_HttpRequests = "http_requests"
+	UpdateLogpushJobV2Request_Dataset_RangeEvents = "range_events"
 )
-
 func (*UpdateLogpushJobV2Request) isaUpdateLogpushJobV2Request() bool {
 	return true
 }
@@ -2023,21 +2021,21 @@ type CreateLogpushJobV2RequestLogpushJobCosReq struct {
 // Dataset to be pulled.
 const (
 	CreateLogpushJobV2RequestLogpushJobCosReq_Dataset_FirewallEvents = "firewall_events"
-	CreateLogpushJobV2RequestLogpushJobCosReq_Dataset_HttpRequests   = "http_requests"
-	CreateLogpushJobV2RequestLogpushJobCosReq_Dataset_RangeEvents    = "range_events"
+	CreateLogpushJobV2RequestLogpushJobCosReq_Dataset_HttpRequests = "http_requests"
+	CreateLogpushJobV2RequestLogpushJobCosReq_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the CreateLogpushJobV2RequestLogpushJobCosReq.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	CreateLogpushJobV2RequestLogpushJobCosReq_Frequency_High = "high"
-	CreateLogpushJobV2RequestLogpushJobCosReq_Frequency_Low  = "low"
+	CreateLogpushJobV2RequestLogpushJobCosReq_Frequency_Low = "low"
 )
 
 // NewCreateLogpushJobV2RequestLogpushJobCosReq : Instantiate CreateLogpushJobV2RequestLogpushJobCosReq (Generic Model Constructor)
 func (*LogpushJobsApiV1) NewCreateLogpushJobV2RequestLogpushJobCosReq(cos map[string]interface{}, ownershipChallenge string) (_model *CreateLogpushJobV2RequestLogpushJobCosReq, err error) {
 	_model = &CreateLogpushJobV2RequestLogpushJobCosReq{
-		Cos:                cos,
+		Cos: cos,
 		OwnershipChallenge: core.StringPtr(ownershipChallenge),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -2120,15 +2118,15 @@ type CreateLogpushJobV2RequestLogpushJobGenericReq struct {
 // Dataset to be pulled.
 const (
 	CreateLogpushJobV2RequestLogpushJobGenericReq_Dataset_FirewallEvents = "firewall_events"
-	CreateLogpushJobV2RequestLogpushJobGenericReq_Dataset_HttpRequests   = "http_requests"
-	CreateLogpushJobV2RequestLogpushJobGenericReq_Dataset_RangeEvents    = "range_events"
+	CreateLogpushJobV2RequestLogpushJobGenericReq_Dataset_HttpRequests = "http_requests"
+	CreateLogpushJobV2RequestLogpushJobGenericReq_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the CreateLogpushJobV2RequestLogpushJobGenericReq.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	CreateLogpushJobV2RequestLogpushJobGenericReq_Frequency_High = "high"
-	CreateLogpushJobV2RequestLogpushJobGenericReq_Frequency_Low  = "low"
+	CreateLogpushJobV2RequestLogpushJobGenericReq_Frequency_Low = "low"
 )
 
 // NewCreateLogpushJobV2RequestLogpushJobGenericReq : Instantiate CreateLogpushJobV2RequestLogpushJobGenericReq (Generic Model Constructor)
@@ -2210,15 +2208,15 @@ type CreateLogpushJobV2RequestLogpushJobIbmclReq struct {
 // Dataset to be pulled.
 const (
 	CreateLogpushJobV2RequestLogpushJobIbmclReq_Dataset_FirewallEvents = "firewall_events"
-	CreateLogpushJobV2RequestLogpushJobIbmclReq_Dataset_HttpRequests   = "http_requests"
-	CreateLogpushJobV2RequestLogpushJobIbmclReq_Dataset_RangeEvents    = "range_events"
+	CreateLogpushJobV2RequestLogpushJobIbmclReq_Dataset_HttpRequests = "http_requests"
+	CreateLogpushJobV2RequestLogpushJobIbmclReq_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the CreateLogpushJobV2RequestLogpushJobIbmclReq.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	CreateLogpushJobV2RequestLogpushJobIbmclReq_Frequency_High = "high"
-	CreateLogpushJobV2RequestLogpushJobIbmclReq_Frequency_Low  = "low"
+	CreateLogpushJobV2RequestLogpushJobIbmclReq_Frequency_Low = "low"
 )
 
 // NewCreateLogpushJobV2RequestLogpushJobIbmclReq : Instantiate CreateLogpushJobV2RequestLogpushJobIbmclReq (Generic Model Constructor)
@@ -2300,15 +2298,15 @@ type CreateLogpushJobV2RequestLogpushJobLogdnaReq struct {
 // Dataset to be pulled.
 const (
 	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Dataset_FirewallEvents = "firewall_events"
-	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Dataset_HttpRequests   = "http_requests"
-	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Dataset_RangeEvents    = "range_events"
+	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Dataset_HttpRequests = "http_requests"
+	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the CreateLogpushJobV2RequestLogpushJobLogdnaReq.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Frequency_High = "high"
-	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Frequency_Low  = "low"
+	CreateLogpushJobV2RequestLogpushJobLogdnaReq_Frequency_Low = "low"
 )
 
 // NewCreateLogpushJobV2RequestLogpushJobLogdnaReq : Instantiate CreateLogpushJobV2RequestLogpushJobLogdnaReq (Generic Model Constructor)
@@ -2387,7 +2385,7 @@ type UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq struct {
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq_Frequency_High = "high"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq_Frequency_Low  = "low"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq_Frequency_Low = "low"
 )
 
 func (*UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq) isaUpdateLogpushJobV2Request() bool {
@@ -2453,15 +2451,15 @@ type UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq struct {
 // Dataset to be pulled.
 const (
 	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Dataset_FirewallEvents = "firewall_events"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Dataset_HttpRequests   = "http_requests"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Dataset_RangeEvents    = "range_events"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Dataset_HttpRequests = "http_requests"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Dataset_RangeEvents = "range_events"
 )
 
 // Constants associated with the UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq.Frequency property.
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Frequency_High = "high"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Frequency_Low  = "low"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq_Frequency_Low = "low"
 )
 
 func (*UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq) isaUpdateLogpushJobV2Request() bool {
@@ -2525,7 +2523,7 @@ type UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq struct {
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq_Frequency_High = "high"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq_Frequency_Low  = "low"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq_Frequency_Low = "low"
 )
 
 func (*UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq) isaUpdateLogpushJobV2Request() bool {
@@ -2579,7 +2577,7 @@ type UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq struct {
 // The frequency at which CIS sends batches of logs to your destination.
 const (
 	UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq_Frequency_High = "high"
-	UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq_Frequency_Low  = "low"
+	UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq_Frequency_Low = "low"
 )
 
 func (*UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq) isaUpdateLogpushJobV2Request() bool {
