@@ -44,29 +44,29 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		It(`Instantiate service client`, func() {
 			logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				Dataset:       core.StringPtr(dataset),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			Expect(logpushJobsApiService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:     "{BAD_URL_STRING",
+				Crn:     core.StringPtr(crn),
 				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				ZoneID:  core.StringPtr(zoneID),
 			})
 			Expect(logpushJobsApiService).To(BeNil())
 			Expect(serviceErr).ToNot(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
-				URL: "https://logpushjobsapiv1/api",
-				Crn: core.StringPtr(crn),
+				URL:     "https://logpushjobsapiv1/api",
+				Crn:     core.StringPtr(crn),
 				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				ZoneID:  core.StringPtr(zoneID),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
 					Password: "",
@@ -88,16 +88,16 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"LOGPUSH_JOBS_API_URL": "https://logpushjobsapiv1/api",
+				"LOGPUSH_JOBS_API_URL":       "https://logpushjobsapiv1/api",
 				"LOGPUSH_JOBS_API_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1UsingExternalConfig(&logpushjobsapiv1.LogpushJobsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:     core.StringPtr(crn),
 					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					ZoneID:  core.StringPtr(zoneID),
 				})
 				Expect(logpushJobsApiService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
@@ -112,10 +112,10 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1UsingExternalConfig(&logpushjobsapiv1.LogpushJobsApiV1Options{
-					URL: "https://testService/api",
-					Crn: core.StringPtr(crn),
+					URL:     "https://testService/api",
+					Crn:     core.StringPtr(crn),
 					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					ZoneID:  core.StringPtr(zoneID),
 				})
 				Expect(logpushJobsApiService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
@@ -131,9 +131,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1UsingExternalConfig(&logpushjobsapiv1.LogpushJobsApiV1Options{
-					Crn: core.StringPtr(crn),
+					Crn:     core.StringPtr(crn),
 					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					ZoneID:  core.StringPtr(zoneID),
 				})
 				err := logpushJobsApiService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
@@ -152,15 +152,15 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"LOGPUSH_JOBS_API_URL": "https://logpushjobsapiv1/api",
+				"LOGPUSH_JOBS_API_URL":       "https://logpushjobsapiv1/api",
 				"LOGPUSH_JOBS_API_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1UsingExternalConfig(&logpushjobsapiv1.LogpushJobsApiV1Options{
-				Crn: core.StringPtr(crn),
+				Crn:     core.StringPtr(crn),
 				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				ZoneID:  core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -172,15 +172,15 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"LOGPUSH_JOBS_API_AUTH_TYPE":   "NOAuth",
+				"LOGPUSH_JOBS_API_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1UsingExternalConfig(&logpushjobsapiv1.LogpushJobsApiV1Options{
-				URL: "{BAD_URL_STRING",
-				Crn: core.StringPtr(crn),
+				URL:     "{BAD_URL_STRING",
+				Crn:     core.StringPtr(crn),
 				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				ZoneID:  core.StringPtr(zoneID),
 			})
 
 			It(`Instantiate service client with error`, func() {
@@ -222,9 +222,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -277,9 +277,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -333,9 +333,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -361,9 +361,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -397,9 +397,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -443,9 +443,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -525,9 +525,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -608,9 +608,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -647,9 +647,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -694,9 +694,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -751,9 +751,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -807,9 +807,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -864,9 +864,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -893,9 +893,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -937,9 +937,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -984,9 +984,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1065,9 +1065,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1147,9 +1147,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1185,9 +1185,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1238,9 +1238,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1294,9 +1294,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1350,9 +1350,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1407,9 +1407,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1436,9 +1436,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1480,9 +1480,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1527,9 +1527,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1599,9 +1599,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1672,9 +1672,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1701,9 +1701,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1738,9 +1738,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1785,9 +1785,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1858,9 +1858,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1932,9 +1932,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -1962,9 +1962,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2000,9 +2000,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2048,9 +2048,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2103,9 +2103,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2159,9 +2159,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2187,9 +2187,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2223,9 +2223,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2269,9 +2269,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2324,9 +2324,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2380,9 +2380,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2408,9 +2408,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2444,9 +2444,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2490,9 +2490,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2545,9 +2545,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2601,9 +2601,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2629,9 +2629,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2665,9 +2665,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2711,9 +2711,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2783,9 +2783,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2856,9 +2856,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2885,9 +2885,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2922,9 +2922,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				logpushJobsApiService, serviceErr := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Crn: core.StringPtr(crn),
-					Dataset: core.StringPtr(dataset),
-					ZoneID: core.StringPtr(zoneID),
+					Crn:           core.StringPtr(crn),
+					Dataset:       core.StringPtr(dataset),
+					ZoneID:        core.StringPtr(zoneID),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(logpushJobsApiService).ToNot(BeNil())
@@ -2955,9 +2955,9 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			logpushJobsApiService, _ := logpushjobsapiv1.NewLogpushJobsApiV1(&logpushjobsapiv1.LogpushJobsApiV1Options{
 				URL:           "http://logpushjobsapiv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Crn: core.StringPtr(crn),
-				Dataset: core.StringPtr(dataset),
-				ZoneID: core.StringPtr(zoneID),
+				Crn:           core.StringPtr(crn),
+				Dataset:       core.StringPtr(dataset),
+				ZoneID:        core.StringPtr(zoneID),
 			})
 			It(`Invoke NewCreateLogRetentionOptions successfully`, func() {
 				// Construct an instance of the CreateLogRetentionOptions model
