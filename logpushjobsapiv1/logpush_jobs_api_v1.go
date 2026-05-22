@@ -28,8 +28,8 @@ import (
 	"reflect"
 	"time"
 
+	common "github.com/IBM/cloud-go-sdk/common"
 	"github.com/IBM/go-sdk-core/v5/core"
-	common "github.com/IBM/networking-go-sdk/common"
 )
 
 // LogpushJobsApiV1 : CIS Logpush Jobs
