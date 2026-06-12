@@ -1,3 +1,16 @@
+## [0.53.5](https://github.com/IBM/networking-go-sdk/compare/v0.53.4...v0.53.5) (2026-06-12)
+
+
+### Bug Fixes
+
+* gh workflow using lint team managed linter config ([7d4279f](https://github.com/IBM/networking-go-sdk/commit/7d4279fc2db2c1219e4e1a30e8f36a81f3e92360))
+* go lint with config ([acbfb2d](https://github.com/IBM/networking-go-sdk/commit/acbfb2d2e782519a62e08009fbe14bcfda8a84aa))
+* go-lint build run failures ([c578512](https://github.com/IBM/networking-go-sdk/commit/c578512494dc26fb2d40ed3017299cfc934ef3a4))
+* lint action version change ([076e55d](https://github.com/IBM/networking-go-sdk/commit/076e55dd9e47d7451cbb7e2b086131c5c57ad37a))
+* modified lint config ([b5e0f36](https://github.com/IBM/networking-go-sdk/commit/b5e0f36b55050b8f3c06d6d1eb64c9af6848fb95))
+* upgrade go-sdk-core/v5 to latest ([a2a063f](https://github.com/IBM/networking-go-sdk/commit/a2a063fc64a304dae77257156fa661c5fab278c7))
+* upgrade golang.org/x/crypto and golang.org/x/net to resolve critical vulnerabilities ([4b8551b](https://github.com/IBM/networking-go-sdk/commit/4b8551b1d3181db8e0b50dc6676cd3e312834324))
+
 ## [0.53.4](https://github.com/IBM/networking-go-sdk/compare/v0.53.3...v0.53.4) (2026-04-30)
 
 
