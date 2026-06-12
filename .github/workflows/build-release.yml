@@ -40,7 +40,7 @@ jobs:
         uses: golangci/golangci-lint-action@v7
         with:
           version: v2.12.2
-          args: --enable gofmt -e S1034 --timeout 15m
+          args: --timeout 15m
 
       - name: Run go mod tidy
         run: make tidy

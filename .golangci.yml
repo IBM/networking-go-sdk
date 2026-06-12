@@ -1,0 +1,11 @@
+version: "2"
+
+formatters:
+  enable:
+    - gofmt
+
+issues:
+  exclude-rules:
+    - linters:
+        - staticcheck
+      text: "S1034"

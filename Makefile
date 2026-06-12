@@ -13,7 +13,7 @@ alltest:
 
 lint:
 	golangci-lint --version
-	golangci-lint run --enable gofmt -e S1034 --timeout 15m
+	golangci-lint run --timeout 15m
 
 tidy:
 	go mod tidy
