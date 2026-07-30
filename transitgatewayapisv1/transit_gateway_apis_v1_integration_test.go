@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020, 2022, 2025.
+ * (C) Copyright IBM Corp. 2020, 2022, 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import (
 	"github.com/IBM/networking-go-sdk/transitgatewayapisv1"
 	"github.com/joho/godotenv"
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 )
 
@@ -589,6 +590,101 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 
+		Context(`Success: POST Transit Gateway DRS Connection`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+
+			It(`Successfully creates a Dynamic Route Server connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				crn := os.Getenv("DRS_CRN")
+				Expect(crn).NotTo(BeEmpty(), "DRS_CRN must identify the Dynamic Route Server used by this test")
+
+				createTransitGatewayConnectionOptions := service.NewCreateTransitGatewayConnectionOptions(
+					gatewayID,
+					transitgatewayapisv1.CreateTransitGatewayConnectionOptions_NetworkType_DynamicRouteServer).
+					SetHeaders(header).
+					SetName("DRS-" + connectionName).
+					SetNetworkID(crn)
+
+				if cidr := os.Getenv("DRS_CIDR"); cidr != "" {
+					createTransitGatewayConnectionOptions.SetCidr(cidr)
+				}
+
+				result, detailedResponse, err := service.CreateTransitGatewayConnection(createTransitGatewayConnectionOptions)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(201))
+				Expect(*result.ID).NotTo(BeEmpty())
+				Expect(*result.NetworkID).To(Equal(crn))
+				Expect(*result.NetworkType).To(Equal("dynamic_route_server"))
+				Expect(*result.Name).To(Equal("DRS-" + connectionName))
+				Expect(*result.Status).To(Equal("pending"))
+
+				os.Setenv("DRS_CONN_INSTANCE_ID", *result.ID)
+				os.Setenv("DRS_CONN_INSTANCE_NAME", *result.Name)
+			})
+
+			It(`Successfully waits for the DRS connection to report as attached`, func() {
+				shouldSkipTest()
+				isResourceAvailable(
+					service,
+					os.Getenv("GATEWAY_INSTANCE_ID"),
+					os.Getenv("DRS_CONN_INSTANCE_ID"),
+					"",
+				)
+			})
+		})
+
+		Context(`Failure: POST Transit Gateway DRS Connection validation`, func() {
+			header := map[string]string{
+				"Content-type": "application/json",
+			}
+
+			DescribeTable(`Rejects an invalid DRS connection request`,
+				func(configure func(*transitgatewayapisv1.CreateTransitGatewayConnectionOptions)) {
+					shouldSkipTest()
+
+					options := &transitgatewayapisv1.CreateTransitGatewayConnectionOptions{}
+					options.SetTransitGatewayID(os.Getenv("GATEWAY_INSTANCE_ID"))
+					options.SetName("DRS-validation-" + strconv.FormatInt(timestamp, 10))
+					options.SetNetworkType("dynamic_route_server")
+					options.SetNetworkID(os.Getenv("DRS_CRN"))
+					options.SetHeaders(header)
+					configure(options)
+
+					result, detailedResponse, err := service.CreateTransitGatewayConnection(options)
+					Expect(result).To(BeNil())
+					Expect(err).To(HaveOccurred())
+					if detailedResponse != nil {
+						Expect(detailedResponse.StatusCode).To(Or(
+							BeNumerically("<", 200),
+							BeNumerically(">=", 300),
+						))
+					}
+				},
+				Entry(`with an unsupported network type`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.SetNetworkType("dynamic_route_service")
+				}),
+				Entry(`without a name`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.Name = nil
+				}),
+				Entry(`without a network type`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.NetworkType = nil
+				}),
+				Entry(`with an invalid CIDR`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.SetCidr("not-a-cidr")
+				}),
+				Entry(`with an invalid name`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.SetName("invalid DRS name")
+				}),
+				Entry(`with a base network type`, func(options *transitgatewayapisv1.CreateTransitGatewayConnectionOptions) {
+					options.SetBaseNetworkType("vpc")
+				}),
+			)
+		})
+
 		Context(`Success: POST Transit Gateway GRE Connection`, func() {
 			header := map[string]string{
 				"Content-type": "application/json",
@@ -794,6 +890,35 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(*result.NetworkType).To(Equal("vpn_gateway"))
 				Expect(*result.NetworkID).To(Equal(os.Getenv("VPN_CRN")))
 				Expect(*result.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
+			})
+		})
+
+		Context(`Success: GET Transit Gateway DRS Connection`, func() {
+			It(`Successfully gets a Dynamic Route Server connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DRS_CONN_INSTANCE_ID")
+				options := service.NewGetTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				result, detailedResponse, err := service.GetTransitGatewayConnection(options)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(200))
+				Expect(*result.ID).To(Equal(instanceID))
+				Expect(*result.NetworkType).To(Equal("dynamic_route_server"))
+				Expect(*result.NetworkID).To(Equal(os.Getenv("DRS_CRN")))
+				Expect(*result.Name).To(Equal(os.Getenv("DRS_CONN_INSTANCE_NAME")))
+				Expect(*result.Status).To(Equal("attached"))
+				Expect(*result.CreatedAt).NotTo(Equal(""))
+				Expect(*result.UpdatedAt).NotTo(Equal(""))
+
+				if os.Getenv("DRS_CIDR") != "" {
+					Expect(*result.Cidr).To(Equal(os.Getenv("DRS_CIDR")))
+				} else {
+					Expect(*result.Cidr).To(Equal("198.19.174.0/23"))
+				}
+				Expect(result.Tunnels).NotTo(BeEmpty())
+				os.Setenv("DRS_TUNNEL_ID", *result.Tunnels[0].ID)
 			})
 		})
 
@@ -1018,6 +1143,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
 
 				dl_found := false
+				drs_found := false
 				vpn_found := false
 				vpc_found := false
 				gre_found := false
@@ -1050,6 +1176,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*conn.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
 						vpn_found = true
 
+					} else if *conn.ID == os.Getenv("DRS_CONN_INSTANCE_ID") {
+						Expect(*conn.CreatedAt).NotTo(Equal(""))
+						Expect(*conn.UpdatedAt).NotTo(Equal(""))
+						Expect(*conn.Status).To(Equal("attached"))
+						Expect(*conn.NetworkType).To(Equal("dynamic_route_server"))
+						Expect(*conn.NetworkID).To(Equal(os.Getenv("DRS_CRN")))
+						Expect(*conn.Name).To(Equal(os.Getenv("DRS_CONN_INSTANCE_NAME")))
+						drs_found = true
+
 					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
 						Expect(*conn.CreatedAt).NotTo(Equal(""))
 						Expect(*conn.UpdatedAt).NotTo(Equal(""))
@@ -1069,11 +1204,52 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 					}
 				}
 				Expect(dl_found).To(Equal(true))
+				Expect(drs_found).To(Equal(true))
 				Expect(vpn_found).To(Equal(true))
 				Expect(vpc_found).To(Equal(true))
 				Expect(gre_found).To(Equal(true))
 				Expect(classic_found).To(Equal(true))
 			})
+		})
+	})
+
+	Describe(`ListConnections(listConnectionsOptions *ListConnectionsOptions)`, func() {
+		It(`Successfully filters connections by DRS network type`, func() {
+			shouldSkipTest()
+
+			options := service.NewListConnectionsOptions().
+				SetNetworkType("dynamic_route_server")
+			result, detailedResponse, err := service.ListConnections(options)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			found := false
+			for _, conn := range result.Connections {
+				Expect(*conn.NetworkType).To(Equal("dynamic_route_server"))
+				if *conn.ID == os.Getenv("DRS_CONN_INSTANCE_ID") {
+					found = true
+				}
+			}
+			Expect(found).To(BeTrue())
+		})
+
+		It(`Successfully filters connections by DRS network ID`, func() {
+			shouldSkipTest()
+
+			options := service.NewListConnectionsOptions().
+				SetNetworkID(os.Getenv("DRS_CRN"))
+			result, detailedResponse, err := service.ListConnections(options)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+
+			found := false
+			for _, conn := range result.Connections {
+				Expect(*conn.NetworkID).To(Equal(os.Getenv("DRS_CRN")))
+				if *conn.ID == os.Getenv("DRS_CONN_INSTANCE_ID") {
+					found = true
+				}
+			}
+			Expect(found).To(BeTrue())
 		})
 	})
 
@@ -1156,6 +1332,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(len(result.Connections)).Should(BeNumerically(">", 0))
 
 				dl_found := false
+				drs_found := false
 				vpn_found := false
 				vpc_found := false
 				gre_found := false
@@ -1177,6 +1354,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 						Expect(*conn.Name).To(Equal(os.Getenv("VPN_CONN_INSTANCE_NAME")))
 						vpn_found = true
 
+					} else if *conn.ID == os.Getenv("DRS_CONN_INSTANCE_ID") {
+						Expect(*conn.Type).To(Equal("dynamic_route_server"))
+						Expect(*conn.Name).To(Equal(os.Getenv("DRS_CONN_INSTANCE_NAME")))
+						drs_found = true
+
 					} else if *conn.ID == os.Getenv("GRE_CONN_INSTANCE_ID") {
 						Expect(*conn.Type).To(Equal("gre_tunnel"))
 						Expect(*conn.Name).To(Equal(os.Getenv("GRE_CONN_INSTANCE_NAME")))
@@ -1190,6 +1372,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				}
 
 				Expect(dl_found).To(Equal(true))
+				Expect(drs_found).To(Equal(true))
 				Expect(vpn_found).To(Equal(true))
 				Expect(vpc_found).To(Equal(true))
 				Expect(gre_found).To(Equal(true))
@@ -1303,6 +1486,92 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 	///////////////////////////////////////////////////////////////////////////////
 	//              Transit Gateway Connection Prefix Filter Tests               //
 	///////////////////////////////////////////////////////////////////////////////
+
+	Describe(`Dynamic Route Server connection validation`, func() {
+		It(`Rejects PATCH on a DRS-managed tunnel`, func() {
+			shouldSkipTest()
+
+			options := service.NewUpdateTransitGatewayConnectionTunnelsOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+				os.Getenv("DRS_TUNNEL_ID"),
+				map[string]interface{}{"name": "DRS-tunnel-update"},
+			)
+			result, detailedResponse, err := service.UpdateTransitGatewayConnectionTunnels(options)
+			Expect(result).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+		})
+
+		It(`Rejects DELETE on a DRS-managed tunnel`, func() {
+			shouldSkipTest()
+
+			options := service.NewDeleteTransitGatewayConnectionTunnelsOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+				os.Getenv("DRS_TUNNEL_ID"),
+			)
+			detailedResponse, err := service.DeleteTransitGatewayConnectionTunnels(options)
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+		})
+
+		It(`Returns no prefix filters for a DRS connection`, func() {
+			shouldSkipTest()
+
+			options := service.NewListTransitGatewayConnectionPrefixFiltersOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+			)
+			result, detailedResponse, err := service.ListTransitGatewayConnectionPrefixFilters(options)
+			Expect(err).To(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(200))
+			Expect(result.PrefixFilters).To(BeEmpty())
+		})
+
+		It(`Rejects creating a prefix filter on a DRS connection`, func() {
+			shouldSkipTest()
+
+			options := service.NewCreateTransitGatewayConnectionPrefixFilterOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+				"permit",
+				"192.168.100.0/24",
+			)
+			result, detailedResponse, err := service.CreateTransitGatewayConnectionPrefixFilter(options)
+			Expect(result).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+		})
+
+		It(`Rejects patching a prefix filter on a DRS connection`, func() {
+			shouldSkipTest()
+
+			options := service.NewUpdateTransitGatewayConnectionPrefixFilterOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+				"00000000-0000-0000-0000-000000000000",
+			).SetAction("deny")
+			result, detailedResponse, err := service.UpdateTransitGatewayConnectionPrefixFilter(options)
+			Expect(result).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(404), Equal(409)))
+		})
+
+		It(`Cannot get a prefix filter from a DRS connection`, func() {
+			shouldSkipTest()
+
+			options := service.NewGetTransitGatewayConnectionPrefixFilterOptions(
+				os.Getenv("GATEWAY_INSTANCE_ID"),
+				os.Getenv("DRS_CONN_INSTANCE_ID"),
+				"00000000-0000-0000-0000-000000000000",
+			)
+			result, detailedResponse, err := service.GetTransitGatewayConnectionPrefixFilter(options)
+			Expect(result).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(404)))
+		})
+	})
 
 	Describe(`CreateTransitGatewayConnectionPrefixFilter(reateTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions)`, func() {
 		Context(`Success: POST Gateway Connection Prefix Filter`, func() {
@@ -1599,6 +1868,31 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
 				instanceID := os.Getenv("VPN_CONN_INSTANCE_ID")
 				deleteCheckTest(service, gatewayID, instanceID, "", "")
+			})
+		})
+
+		Context(`Success: DELETE Transit DRS connection by instanceID`, func() {
+			It(`Successfully deletes a Dynamic Route Server connection`, func() {
+				shouldSkipTest()
+
+				gatewayID := os.Getenv("GATEWAY_INSTANCE_ID")
+				instanceID := os.Getenv("DRS_CONN_INSTANCE_ID")
+				options := service.NewDeleteTransitGatewayConnectionOptions(gatewayID, instanceID)
+
+				detailedResponse, err := service.DeleteTransitGatewayConnection(options)
+				Expect(err).To(BeNil())
+				Expect(detailedResponse.StatusCode).To(Equal(204))
+			})
+
+			It(`Successfully waits for the DRS connection to report as deleted`, func() {
+				shouldSkipTest()
+				deleteCheckTest(
+					service,
+					os.Getenv("GATEWAY_INSTANCE_ID"),
+					os.Getenv("DRS_CONN_INSTANCE_ID"),
+					"",
+					"",
+				)
 			})
 		})
 
