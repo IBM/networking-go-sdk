@@ -1,3 +1,10 @@
+## [0.53.6](https://github.com/IBM/networking-go-sdk/compare/v0.53.5...v0.53.6) (2026-08-04)
+
+
+### Bug Fixes
+
+* go-sdk-core and strfmt vulns ([ce6bde2](https://github.com/IBM/networking-go-sdk/commit/ce6bde2d7b85d723d03a5d5e4d1cc12f74713281))
+
 ## [0.53.5](https://github.com/IBM/networking-go-sdk/compare/v0.53.4...v0.53.5) (2026-06-12)
 
 
