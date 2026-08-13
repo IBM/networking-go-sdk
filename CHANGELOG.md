@@ -1,3 +1,10 @@
+## [0.53.10](https://github.com/IBM/networking-go-sdk/compare/v0.53.9...v0.53.10) (2026-08-13)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/onsi/ginkgo to v2 ([#321](https://github.com/IBM/networking-go-sdk/issues/321)) ([fc0a9fd](https://github.com/IBM/networking-go-sdk/commit/fc0a9fd366e20cc46ebf069117431dfec4867a07))
+
 ## [0.53.9](https://github.com/IBM/networking-go-sdk/compare/v0.53.8...v0.53.9) (2026-08-13)
 
 
