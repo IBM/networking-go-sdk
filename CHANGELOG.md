@@ -1,3 +1,10 @@
+## [0.53.7](https://github.com/IBM/networking-go-sdk/compare/v0.53.6...v0.53.7) (2026-08-13)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/stretchr/testify to v1.11.1 ([#304](https://github.com/IBM/networking-go-sdk/issues/304)) ([ce67778](https://github.com/IBM/networking-go-sdk/commit/ce67778ef9754fc456ebc61ef8856ce8b26d0307))
+
 ## [0.53.6](https://github.com/IBM/networking-go-sdk/compare/v0.53.5...v0.53.6) (2026-08-04)
 
 
