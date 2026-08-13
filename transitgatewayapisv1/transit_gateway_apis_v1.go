@@ -2664,8 +2664,7 @@ type CreateTransitGatewayConnectionOptions struct {
 	// `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway / Dynamic route
-	// server GRE tunnels.
+	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE tunnels.
 	//
 	// This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
 	// 198.19.174.0/23.
@@ -2704,11 +2703,10 @@ type CreateTransitGatewayConnectionOptions struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct
-	// Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-	// `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
-	// VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
-	// connections.
+	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+	// respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
+	// connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
+	// field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
@@ -4806,8 +4804,8 @@ type TransitConnection struct {
 
 	// The ID of the network being connected via this connection. This field is required for some types, such as `vpc`,
 	// `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct
-	// Link gateway respectively.
+	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+	// respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
@@ -4824,8 +4822,7 @@ type TransitConnection struct {
 	// Deprecated: this field is deprecated and may be removed in a future release.
 	BaseConnectionID *string `json:"base_connection_id,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway / Dynamic route
-	// server` GRE tunnels.
+	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE tunnels.
 	Cidr *string `json:"cidr,omitempty"`
 
 	// The date and time that this connection was created.
@@ -5389,8 +5386,7 @@ type TransitGatewayConnectionCust struct {
 	// `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway / Dynamic route
-	// server` GRE tunnels.
+	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE tunnels.
 	Cidr *string `json:"cidr,omitempty"`
 
 	// The date and time that this connection was created.
@@ -5426,11 +5422,10 @@ type TransitGatewayConnectionCust struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct
-	// Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-	// `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
-	// VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
-	// connections.
+	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+	// respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
+	// connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
+	// field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection.
