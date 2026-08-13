@@ -19,6 +19,8 @@ package transitgatewayapisv1_test
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -40,14 +42,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		It(`Instantiate service client`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			Expect(transitGatewayApisService).ToNot(BeNil())
 			Expect(serviceErr).To(BeNil())
 		})
 		It(`Instantiate service client with error: Invalid URL`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 			Expect(transitGatewayApisService).To(BeNil())
@@ -55,7 +57,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		})
 		It(`Instantiate service client with error: Invalid Auth`, func() {
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "https://transitgatewayapisv1/api",
+				URL: "https://transitgatewayapisv1/api",
 				Version: core.StringPtr(version),
 				Authenticator: &core.BasicAuthenticator{
 					Username: "",
@@ -76,7 +78,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_URL":       "https://transitgatewayapisv1/api",
+				"TRANSIT_GATEWAY_APIS_URL": "https://transitgatewayapisv1/api",
 				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "noauth",
 			}
 
@@ -98,7 +100,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			It(`Create service client using external config and set url from constructor successfully`, func() {
 				SetTestEnvironment(testEnvironment)
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1UsingExternalConfig(&transitgatewayapisv1.TransitGatewayApisV1Options{
-					URL:     "https://testService/api",
+					URL: "https://testService/api",
 					Version: core.StringPtr(version),
 				})
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -134,7 +136,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_URL":       "https://transitgatewayapisv1/api",
+				"TRANSIT_GATEWAY_APIS_URL": "https://transitgatewayapisv1/api",
 				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "someOtherAuth",
 			}
 
@@ -152,12 +154,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"TRANSIT_GATEWAY_APIS_AUTH_TYPE": "NOAuth",
+				"TRANSIT_GATEWAY_APIS_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
 			transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1UsingExternalConfig(&transitgatewayapisv1.TransitGatewayApisV1Options{
-				URL:     "{BAD_URL_STRING",
+				URL: "{BAD_URL_STRING",
 				Version: core.StringPtr(version),
 			})
 
@@ -202,7 +204,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -260,7 +262,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -321,7 +323,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -350,7 +352,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -387,7 +389,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -457,13 +459,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listTransitGatewaysOptionsModel := &transitgatewayapisv1.ListTransitGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					RedundancyGroup: core.StringPtr("testString"),
 				}
 
@@ -484,13 +486,13 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listTransitGatewaysOptionsModel := &transitgatewayapisv1.ListTransitGatewaysOptions{
-					Limit:           core.Int64Ptr(int64(10)),
+					Limit: core.Int64Ptr(int64(10)),
 					RedundancyGroup: core.StringPtr("testString"),
 				}
 
@@ -526,7 +528,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -604,7 +606,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -685,7 +687,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -721,7 +723,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -772,7 +774,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -824,7 +826,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -848,7 +850,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -897,7 +899,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -950,7 +952,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1006,7 +1008,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1033,7 +1035,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1075,7 +1077,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1119,7 +1121,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1192,7 +1194,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1268,7 +1270,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1299,7 +1301,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1345,7 +1347,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1397,7 +1399,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1457,7 +1459,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1520,7 +1522,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1550,7 +1552,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1588,7 +1590,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1659,14 +1661,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
-					Limit:       core.Int64Ptr(int64(10)),
-					NetworkID:   core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					NetworkID: core.StringPtr("testString"),
 					NetworkType: core.StringPtr("testString"),
 				}
 
@@ -1687,14 +1689,14 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listConnectionsOptionsModel := &transitgatewayapisv1.ListConnectionsOptions{
-					Limit:       core.Int64Ptr(int64(10)),
-					NetworkID:   core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					NetworkID: core.StringPtr("testString"),
 					NetworkType: core.StringPtr("testString"),
 				}
 
@@ -1733,7 +1735,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1792,7 +1794,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1854,7 +1856,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1884,7 +1886,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -1929,7 +1931,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2000,15 +2002,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listTransitGatewayConnectionsOptionsModel := &transitgatewayapisv1.ListTransitGatewayConnectionsOptions{
 					TransitGatewayID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("testString"),
 				}
 
 				pager, err := transitGatewayApisService.NewTransitGatewayConnectionsPager(listTransitGatewayConnectionsOptionsModel)
@@ -2028,15 +2030,15 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
 
 				listTransitGatewayConnectionsOptionsModel := &transitgatewayapisv1.ListTransitGatewayConnectionsOptions{
 					TransitGatewayID: core.StringPtr("testString"),
-					Limit:            core.Int64Ptr(int64(10)),
-					Name:             core.StringPtr("testString"),
+					Limit: core.Int64Ptr(int64(10)),
+					Name: core.StringPtr("testString"),
 				}
 
 				pager, err := transitGatewayApisService.NewTransitGatewayConnectionsPager(listTransitGatewayConnectionsOptionsModel)
@@ -2071,7 +2073,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2177,7 +2179,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2286,7 +2288,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2350,7 +2352,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2429,7 +2431,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2509,7 +2511,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2534,7 +2536,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2584,7 +2586,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2638,7 +2640,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2695,7 +2697,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2723,7 +2725,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2766,7 +2768,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2811,7 +2813,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2883,7 +2885,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2958,7 +2960,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -2988,7 +2990,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3033,7 +3035,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3095,7 +3097,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3121,7 +3123,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3172,7 +3174,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3226,7 +3228,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3283,7 +3285,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3311,7 +3313,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3354,7 +3356,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3399,7 +3401,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3480,7 +3482,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3564,7 +3566,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3603,7 +3605,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3657,7 +3659,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3712,7 +3714,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3738,7 +3740,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3789,7 +3791,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3844,7 +3846,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3902,7 +3904,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3931,7 +3933,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -3975,7 +3977,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4021,7 +4023,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4099,7 +4101,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4180,7 +4182,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4216,7 +4218,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4267,7 +4269,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4320,7 +4322,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4372,7 +4374,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4427,7 +4429,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4453,7 +4455,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4487,7 +4489,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4530,7 +4532,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4583,7 +4585,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4639,7 +4641,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4666,7 +4668,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4708,7 +4710,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4752,7 +4754,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4806,7 +4808,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4863,7 +4865,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4891,7 +4893,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4934,7 +4936,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -4979,7 +4981,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5054,7 +5056,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5132,7 +5134,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5165,7 +5167,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5213,7 +5215,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5262,7 +5264,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5288,7 +5290,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5339,7 +5341,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5394,7 +5396,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5452,7 +5454,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5481,7 +5483,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5525,7 +5527,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5571,7 +5573,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5647,7 +5649,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5726,7 +5728,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5760,7 +5762,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5809,7 +5811,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5860,7 +5862,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5913,7 +5915,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5969,7 +5971,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -5996,7 +5998,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6038,7 +6040,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6082,7 +6084,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6135,7 +6137,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6191,7 +6193,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6218,7 +6220,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6260,7 +6262,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6303,7 +6305,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6328,7 +6330,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6378,7 +6380,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6432,7 +6434,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6489,7 +6491,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6517,7 +6519,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6560,7 +6562,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6606,7 +6608,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6660,7 +6662,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6717,7 +6719,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6744,7 +6746,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6779,7 +6781,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6823,7 +6825,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6876,7 +6878,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6932,7 +6934,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -6959,7 +6961,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7001,7 +7003,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7045,7 +7047,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7121,7 +7123,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7200,7 +7202,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7234,7 +7236,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7283,7 +7285,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				transitGatewayApisService, serviceErr := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
-					Version:       core.StringPtr(version),
+					Version: core.StringPtr(version),
 				})
 				Expect(serviceErr).To(BeNil())
 				Expect(transitGatewayApisService).ToNot(BeNil())
@@ -7319,7 +7321,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			transitGatewayApisService, _ := transitgatewayapisv1.NewTransitGatewayApisV1(&transitgatewayapisv1.TransitGatewayApisV1Options{
 				URL:           "http://transitgatewayapisv1modelgenerator.com",
 				Authenticator: &core.NoAuthAuthenticator{},
-				Version:       core.StringPtr(version),
+				Version: core.StringPtr(version),
 			})
 			It(`Invoke NewCreateTransitGatewayConnectionActionsOptions successfully`, func() {
 				// Construct an instance of the CreateTransitGatewayConnectionActionsOptions model
@@ -7887,9 +7889,146 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			})
 		})
 	})
+	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalRedundancyGroupPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.RedundancyGroupPatch)
+			model.Name = core.StringPtr("new-rg-name")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.RedundancyGroupPatch
+			err = transitgatewayapisv1.UnmarshalRedundancyGroupPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalResourceGroupIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ResourceGroupIdentity)
+			model.ID = core.StringPtr("56969d6043e9465c883cb9f7363e78e8")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ResourceGroupIdentity
+			err = transitgatewayapisv1.UnmarshalResourceGroupIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayConnectionPrefixFilter successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayConnectionPrefixFilter)
+			model.Action = core.StringPtr("permit")
+			model.Ge = core.Int64Ptr(int64(0))
+			model.Le = core.Int64Ptr(int64(32))
+			model.Prefix = core.StringPtr("192.168.100.0/24")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayConnectionPrefixFilter
+			err = transitgatewayapisv1.UnmarshalTransitGatewayConnectionPrefixFilter(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelPatch successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelPatch)
+			model.Name = core.StringPtr("gre2")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelPatch
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelPatch(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalTransitGatewayTunnelTemplate successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.TransitGatewayTunnelTemplate)
+			model.LocalGatewayIp = core.StringPtr("10.242.63.12")
+			model.LocalTunnelIp = core.StringPtr("192.168.100.20")
+			model.Name = core.StringPtr("gre1")
+			model.RemoteBgpAsn = core.Int64Ptr(int64(65010))
+			model.RemoteGatewayIp = core.StringPtr("10.242.33.22")
+			model.RemoteTunnelIp = core.StringPtr("192.168.129.1")
+			model.Zone = nil
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.TransitGatewayTunnelTemplate
+			err = transitgatewayapisv1.UnmarshalTransitGatewayTunnelTemplate(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentity successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentity)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentity
+			err = transitgatewayapisv1.UnmarshalZoneIdentity(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalZoneIdentityByName successfully`, func() {
+			// Construct an instance of the model.
+			model := new(transitgatewayapisv1.ZoneIdentityByName)
+			model.Name = core.StringPtr("us-south-1")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *transitgatewayapisv1.ZoneIdentityByName
+			err = transitgatewayapisv1.UnmarshalZoneIdentityByName(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+	})
 	Describe(`Utility function tests`, func() {
 		It(`Invoke CreateMockByteArray() successfully`, func() {
-			mockByteArray := CreateMockByteArray("This is a test")
+			mockByteArray := CreateMockByteArray("VGhpcyBpcyBhIHRlc3Qgb2YgdGhlIGVtZXJnZW5jeSBicm9hZGNhc3Qgc3lzdGVt")
 			Expect(mockByteArray).ToNot(BeNil())
 		})
 		It(`Invoke CreateMockUUID() successfully`, func() {
@@ -7915,9 +8054,11 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 // Utility functions used by the generated test code
 //
 
-func CreateMockByteArray(mockData string) *[]byte {
-	ba := make([]byte, 0)
-	ba = append(ba, mockData...)
+func CreateMockByteArray(encodedString string) *[]byte {
+	ba, err := base64.StdEncoding.DecodeString(encodedString)
+	if err != nil {
+		panic(err)
+	}
 	return &ba
 }
 

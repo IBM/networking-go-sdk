@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 // Package transitgatewayapisv1 : Operations and models for the TransitGatewayApisV1 service
@@ -72,22 +72,26 @@ func NewTransitGatewayApisV1UsingExternalConfig(options *TransitGatewayApisV1Opt
 	if options.Authenticator == nil {
 		options.Authenticator, err = core.GetAuthenticatorFromEnvironment(options.ServiceName)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "env-auth-error", common.GetComponentInfo())
 			return
 		}
 	}
 
 	transitGatewayApis, err = NewTransitGatewayApisV1(options)
+	err = core.RepurposeSDKProblem(err, "new-client-error")
 	if err != nil {
 		return
 	}
 
 	err = transitGatewayApis.Service.ConfigureService(options.ServiceName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "client-config-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = transitGatewayApis.Service.SetServiceURL(options.URL)
+		err = core.RepurposeSDKProblem(err, "url-set-error")
 	}
 	return
 }
@@ -101,17 +105,20 @@ func NewTransitGatewayApisV1(options *TransitGatewayApisV1Options) (service *Tra
 
 	err = core.ValidateStruct(options, "options")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "invalid-global-options", common.GetComponentInfo())
 		return
 	}
 
 	baseService, err := core.NewBaseService(serviceOptions)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "new-base-error", common.GetComponentInfo())
 		return
 	}
 
 	if options.URL != "" {
 		err = baseService.SetServiceURL(options.URL)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "set-url-error", common.GetComponentInfo())
 			return
 		}
 	}
@@ -126,7 +133,7 @@ func NewTransitGatewayApisV1(options *TransitGatewayApisV1Options) (service *Tra
 
 // GetServiceURLForRegion returns the service URL to be used for the specified region
 func GetServiceURLForRegion(region string) (string, error) {
-	return "", fmt.Errorf("service does not support regional URLs")
+	return "", core.SDKErrorf(nil, "service does not support regional URLs", "no-regional-support", common.GetComponentInfo())
 }
 
 // Clone makes a copy of "transitGatewayApis" suitable for processing requests.
@@ -141,7 +148,11 @@ func (transitGatewayApis *TransitGatewayApisV1) Clone() *TransitGatewayApisV1 {
 
 // SetServiceURL sets the service URL
 func (transitGatewayApis *TransitGatewayApisV1) SetServiceURL(url string) error {
-	return transitGatewayApis.Service.SetServiceURL(url)
+	err := transitGatewayApis.Service.SetServiceURL(url)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-set-error", common.GetComponentInfo())
+	}
+	return err
 }
 
 // GetServiceURL returns the service URL
@@ -183,13 +194,16 @@ func (transitGatewayApis *TransitGatewayApisV1) DisableRetries() {
 // `created_at`, `updated_at`, `resource_group`, and optionally `redundancy_group`,
 // `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGateways(listTransitGatewaysOptions *ListTransitGatewaysOptions) (result *TransitGatewayCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListTransitGatewaysWithContext(context.Background(), listTransitGatewaysOptions)
+	result, response, err = transitGatewayApis.ListTransitGatewaysWithContext(context.Background(), listTransitGatewaysOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListTransitGatewaysWithContext is an alternate form of the ListTransitGateways method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewaysWithContext(ctx context.Context, listTransitGatewaysOptions *ListTransitGatewaysOptions) (result *TransitGatewayCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listTransitGatewaysOptions, "listTransitGatewaysOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -198,15 +212,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewaysWithContext(c
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listTransitGatewaysOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListTransitGateways")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listTransitGatewaysOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -224,17 +239,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewaysWithContext(c
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_transit_gateways", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -250,17 +269,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewaysWithContext(c
 // `gre_enhanced_route_propagation` (boolean). Returns a `TransitGateway` object. Initial `status` will be `pending`
 // while provisioning.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayWithContext(context.Background(), createTransitGatewayOptions)
+	result, response, err = transitGatewayApis.CreateTransitGatewayWithContext(context.Background(), createTransitGatewayOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayWithContext is an alternate form of the CreateTransitGateway method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayWithContext(ctx context.Context, createTransitGatewayOptions *CreateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayOptions, "createTransitGatewayOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayOptions, "createTransitGatewayOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -269,15 +292,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayWithContext(
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGateway")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -306,22 +330,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayWithContext(
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -334,17 +363,21 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayWithContext(
 // Delete a Transit Gateway specified by its `id` path parameter. This operation cannot be reversed. The gateway must
 // have no attached connections before it can be deleted; remove all connections first.
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGateway(deleteTransitGatewayOptions *DeleteTransitGatewayOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.DeleteTransitGatewayWithContext(context.Background(), deleteTransitGatewayOptions)
+	response, err = transitGatewayApis.DeleteTransitGatewayWithContext(context.Background(), deleteTransitGatewayOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteTransitGatewayWithContext is an alternate form of the DeleteTransitGateway method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayWithContext(ctx context.Context, deleteTransitGatewayOptions *DeleteTransitGatewayOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayOptions, "deleteTransitGatewayOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayOptions, "deleteTransitGatewayOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -357,11 +390,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayWithContext(
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range deleteTransitGatewayOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "DeleteTransitGateway")
@@ -369,14 +399,24 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayWithContext(
 		builder.AddHeader(headerName, headerValue)
 	}
 
+	for headerName, headerValue := range deleteTransitGatewayOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_transit_gateway", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -387,17 +427,21 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayWithContext(
 // `status`, `global`, `created_at`, `updated_at`, `resource_group`, and optionally
 // `redundancy_group`, `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGateway(getTransitGatewayOptions *GetTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetTransitGatewayWithContext(context.Background(), getTransitGatewayOptions)
+	result, response, err = transitGatewayApis.GetTransitGatewayWithContext(context.Background(), getTransitGatewayOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTransitGatewayWithContext is an alternate form of the GetTransitGateway method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayWithContext(ctx context.Context, getTransitGatewayOptions *GetTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayOptions, "getTransitGatewayOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayOptions, "getTransitGatewayOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -410,15 +454,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayWithContext(ctx
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getTransitGatewayOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetTransitGateway")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getTransitGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -427,17 +472,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayWithContext(ctx
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_transit_gateway", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -451,17 +500,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayWithContext(ctx
 // `redundancy_group` (string, assigns the gateway to a redundancy group), `gre_enhanced_route_propagation` (boolean).
 // Returns the updated `TransitGateway` object.
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGateway(updateTransitGatewayOptions *UpdateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.UpdateTransitGatewayWithContext(context.Background(), updateTransitGatewayOptions)
+	result, response, err = transitGatewayApis.UpdateTransitGatewayWithContext(context.Background(), updateTransitGatewayOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateTransitGatewayWithContext is an alternate form of the UpdateTransitGateway method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayWithContext(ctx context.Context, updateTransitGatewayOptions *UpdateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayOptions, "updateTransitGatewayOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayOptions, "updateTransitGatewayOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -474,15 +527,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayWithContext(
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateTransitGatewayOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "UpdateTransitGateway")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateTransitGatewayOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -505,22 +559,27 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayWithContext(
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_transit_gateway", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGateway)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -536,13 +595,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayWithContext(
 // `status`, `created_at`, `updated_at`, and optionally `prefix_filters`, `request_status`, and `transit_gateway`
 // reference.
 func (transitGatewayApis *TransitGatewayApisV1) ListConnections(listConnectionsOptions *ListConnectionsOptions) (result *TransitConnectionCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListConnectionsWithContext(context.Background(), listConnectionsOptions)
+	result, response, err = transitGatewayApis.ListConnectionsWithContext(context.Background(), listConnectionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListConnectionsWithContext is an alternate form of the ListConnections method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListConnectionsWithContext(ctx context.Context, listConnectionsOptions *ListConnectionsOptions) (result *TransitConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listConnectionsOptions, "listConnectionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -551,15 +613,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListConnectionsWithContext(ctx c
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/connections`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listConnectionsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListConnections")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listConnectionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -580,17 +643,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListConnectionsWithContext(ctx c
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_connections", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitConnectionCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -602,17 +669,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListConnectionsWithContext(ctx c
 // ListTransitGatewayConnections : Retrieves all connections in a Transit Gateway
 // This request retrieves all connections in a Transit Gateway.
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnections(listTransitGatewayConnectionsOptions *ListTransitGatewayConnectionsOptions) (result *TransitGatewayConnectionCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListTransitGatewayConnectionsWithContext(context.Background(), listTransitGatewayConnectionsOptions)
+	result, response, err = transitGatewayApis.ListTransitGatewayConnectionsWithContext(context.Background(), listTransitGatewayConnectionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListTransitGatewayConnectionsWithContext is an alternate form of the ListTransitGatewayConnections method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionsWithContext(ctx context.Context, listTransitGatewayConnectionsOptions *ListTransitGatewayConnectionsOptions) (result *TransitGatewayConnectionCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayConnectionsOptions, "listTransitGatewayConnectionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayConnectionsOptions, "listTransitGatewayConnectionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -625,15 +696,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionsWit
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listTransitGatewayConnectionsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListTransitGatewayConnections")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listTransitGatewayConnectionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -651,17 +723,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionsWit
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_transit_gateway_connections", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -673,17 +749,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionsWit
 // CreateTransitGatewayConnection : Adds a connection to a Transit Gateway
 // Add a connection to Transit Gateway.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnection(createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayConnectionWithContext(context.Background(), createTransitGatewayConnectionOptions)
+	result, response, err = transitGatewayApis.CreateTransitGatewayConnectionWithContext(context.Background(), createTransitGatewayConnectionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayConnectionWithContext is an alternate form of the CreateTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWithContext(ctx context.Context, createTransitGatewayConnectionOptions *CreateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionOptions, "createTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionOptions, "createTransitGatewayConnectionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -696,15 +776,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWi
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayConnectionOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGatewayConnection")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -763,22 +844,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWi
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway_connection", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -791,23 +877,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionWi
 // After the specified connection is detached, entities still within the Transit Gateway will no longer be able to
 // communicate directly to it through the IBM Cloud private backbone.
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnection(deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.DeleteTransitGatewayConnectionWithContext(context.Background(), deleteTransitGatewayConnectionOptions)
+	response, err = transitGatewayApis.DeleteTransitGatewayConnectionWithContext(context.Background(), deleteTransitGatewayConnectionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteTransitGatewayConnectionWithContext is an alternate form of the DeleteTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWithContext(ctx context.Context, deleteTransitGatewayConnectionOptions *DeleteTransitGatewayConnectionOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionOptions, "deleteTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionOptions, "deleteTransitGatewayConnectionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionOptions.ID,
+		"id": *deleteTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -815,11 +905,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range deleteTransitGatewayConnectionOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "DeleteTransitGatewayConnection")
@@ -827,14 +914,24 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 		builder.AddHeader(headerName, headerValue)
 	}
 
+	for headerName, headerValue := range deleteTransitGatewayConnectionOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -842,23 +939,27 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionWi
 // GetTransitGatewayConnection : Retrieves specified Transit Gateway connection
 // This request retrieves a connection from the Transit Gateway.
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnection(getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetTransitGatewayConnectionWithContext(context.Background(), getTransitGatewayConnectionOptions)
+	result, response, err = transitGatewayApis.GetTransitGatewayConnectionWithContext(context.Background(), getTransitGatewayConnectionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTransitGatewayConnectionWithContext is an alternate form of the GetTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithContext(ctx context.Context, getTransitGatewayConnectionOptions *GetTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionOptions, "getTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionOptions, "getTransitGatewayConnectionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionOptions.ID,
+		"id": *getTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -866,15 +967,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getTransitGatewayConnectionOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetTransitGatewayConnection")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getTransitGatewayConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -883,17 +985,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_transit_gateway_connection", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -905,23 +1011,27 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionWithC
 // UpdateTransitGatewayConnection : Updates specified Transit Gateway connection
 // Update the name of a connection to a Transit Gateway.
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnection(updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.UpdateTransitGatewayConnectionWithContext(context.Background(), updateTransitGatewayConnectionOptions)
+	result, response, err = transitGatewayApis.UpdateTransitGatewayConnectionWithContext(context.Background(), updateTransitGatewayConnectionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateTransitGatewayConnectionWithContext is an alternate form of the UpdateTransitGatewayConnection method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWithContext(ctx context.Context, updateTransitGatewayConnectionOptions *UpdateTransitGatewayConnectionOptions) (result *TransitGatewayConnectionCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionOptions, "updateTransitGatewayConnectionOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionOptions, "updateTransitGatewayConnectionOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionOptions.ID,
+		"id": *updateTransitGatewayConnectionOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -929,15 +1039,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWi
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateTransitGatewayConnectionOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "UpdateTransitGatewayConnection")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateTransitGatewayConnectionOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -954,22 +1065,27 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWi
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_transit_gateway_connection", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayConnectionCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -981,23 +1097,27 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionWi
 // CreateTransitGatewayConnectionActions : Performs actions on a connection for a Transit Gateway
 // Allow a network owner to approve or reject a cross-account connection request.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionActions(createTransitGatewayConnectionActionsOptions *CreateTransitGatewayConnectionActionsOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayConnectionActionsWithContext(context.Background(), createTransitGatewayConnectionActionsOptions)
+	response, err = transitGatewayApis.CreateTransitGatewayConnectionActionsWithContext(context.Background(), createTransitGatewayConnectionActionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayConnectionActionsWithContext is an alternate form of the CreateTransitGatewayConnectionActions method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionActionsWithContext(ctx context.Context, createTransitGatewayConnectionActionsOptions *CreateTransitGatewayConnectionActionsOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionActionsOptions, "createTransitGatewayConnectionActionsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionActionsOptions, "createTransitGatewayConnectionActionsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayConnectionActionsOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayConnectionActionsOptions.ID,
+		"id": *createTransitGatewayConnectionActionsOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1005,15 +1125,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionAc
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/actions`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayConnectionActionsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGatewayConnectionActions")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayConnectionActionsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Content-Type", "application/json")
@@ -1026,15 +1147,22 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionAc
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway_connection_actions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1042,23 +1170,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionAc
 // ListTransitGatewayGreTunnel : Retrieves specified Transit Gateway redundant gre connection tunnels
 // This request retrieves a list of all the tunnels for connection.
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnelCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListTransitGatewayGreTunnelWithContext(context.Background(), listTransitGatewayGreTunnelOptions)
+	result, response, err = transitGatewayApis.ListTransitGatewayGreTunnelWithContext(context.Background(), listTransitGatewayGreTunnelOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListTransitGatewayGreTunnelWithContext is an alternate form of the ListTransitGatewayGreTunnel method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnelWithContext(ctx context.Context, listTransitGatewayGreTunnelOptions *ListTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnelCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayGreTunnelOptions, "listTransitGatewayGreTunnelOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayGreTunnelOptions, "listTransitGatewayGreTunnelOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *listTransitGatewayGreTunnelOptions.TransitGatewayID,
-		"id":                 *listTransitGatewayGreTunnelOptions.ID,
+		"id": *listTransitGatewayGreTunnelOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1066,15 +1198,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnelWithC
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listTransitGatewayGreTunnelOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListTransitGatewayGreTunnel")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listTransitGatewayGreTunnelOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1083,17 +1216,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnelWithC
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_transit_gateway_gre_tunnel", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnelCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1105,23 +1242,27 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayGreTunnelWithC
 // CreateTransitGatewayGreTunnel : Creates a Transit Gateway redundant GRE tunnel
 // Add a tunnel to an existing Redundant GRE connection.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnel(createTransitGatewayGreTunnelOptions *CreateTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayGreTunnelWithContext(context.Background(), createTransitGatewayGreTunnelOptions)
+	result, response, err = transitGatewayApis.CreateTransitGatewayGreTunnelWithContext(context.Background(), createTransitGatewayGreTunnelOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayGreTunnelWithContext is an alternate form of the CreateTransitGatewayGreTunnel method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnelWithContext(ctx context.Context, createTransitGatewayGreTunnelOptions *CreateTransitGatewayGreTunnelOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayGreTunnelOptions, "createTransitGatewayGreTunnelOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayGreTunnelOptions, "createTransitGatewayGreTunnelOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayGreTunnelOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayGreTunnelOptions.ID,
+		"id": *createTransitGatewayGreTunnelOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1129,15 +1270,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnelWit
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayGreTunnelOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGatewayGreTunnel")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayGreTunnelOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1169,22 +1311,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnelWit
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway_gre_tunnel", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1196,24 +1343,28 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayGreTunnelWit
 // DeleteTransitGatewayConnectionTunnels : Deletes a specified Transit Gateway redundant GRE tunnel
 // Remove a tunnel from a redundant GRE connection.
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTunnels(deleteTransitGatewayConnectionTunnelsOptions *DeleteTransitGatewayConnectionTunnelsOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.DeleteTransitGatewayConnectionTunnelsWithContext(context.Background(), deleteTransitGatewayConnectionTunnelsOptions)
+	response, err = transitGatewayApis.DeleteTransitGatewayConnectionTunnelsWithContext(context.Background(), deleteTransitGatewayConnectionTunnelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteTransitGatewayConnectionTunnelsWithContext is an alternate form of the DeleteTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTunnelsWithContext(ctx context.Context, deleteTransitGatewayConnectionTunnelsOptions *DeleteTransitGatewayConnectionTunnelsOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionTunnelsOptions, "deleteTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionTunnelsOptions, "deleteTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *deleteTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *deleteTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *deleteTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1221,11 +1372,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTu
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range deleteTransitGatewayConnectionTunnelsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "DeleteTransitGatewayConnectionTunnels")
@@ -1233,14 +1381,24 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTu
 		builder.AddHeader(headerName, headerValue)
 	}
 
+	for headerName, headerValue := range deleteTransitGatewayConnectionTunnelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection_tunnels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1248,24 +1406,28 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionTu
 // GetTransitGatewayConnectionTunnels : Retrieves specified Transit Gateway connection tunnel
 // This request retrieves a connection tunnel from the Transit Gateway connection.
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsOptions *GetTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetTransitGatewayConnectionTunnelsWithContext(context.Background(), getTransitGatewayConnectionTunnelsOptions)
+	result, response, err = transitGatewayApis.GetTransitGatewayConnectionTunnelsWithContext(context.Background(), getTransitGatewayConnectionTunnelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTransitGatewayConnectionTunnelsWithContext is an alternate form of the GetTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunnelsWithContext(ctx context.Context, getTransitGatewayConnectionTunnelsOptions *GetTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionTunnelsOptions, "getTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionTunnelsOptions, "getTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *getTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *getTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *getTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1273,15 +1435,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunne
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getTransitGatewayConnectionTunnelsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetTransitGatewayConnectionTunnels")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getTransitGatewayConnectionTunnelsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1290,17 +1453,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunne
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_transit_gateway_connection_tunnels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1312,24 +1479,28 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionTunne
 // UpdateTransitGatewayConnectionTunnels : Updates specified Transit Gateway redundant GRE tunnel
 // Update the name of a connection tunnel.
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsOptions *UpdateTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.UpdateTransitGatewayConnectionTunnelsWithContext(context.Background(), updateTransitGatewayConnectionTunnelsOptions)
+	result, response, err = transitGatewayApis.UpdateTransitGatewayConnectionTunnelsWithContext(context.Background(), updateTransitGatewayConnectionTunnelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateTransitGatewayConnectionTunnelsWithContext is an alternate form of the UpdateTransitGatewayConnectionTunnels method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTunnelsWithContext(ctx context.Context, updateTransitGatewayConnectionTunnelsOptions *UpdateTransitGatewayConnectionTunnelsOptions) (result *TransitGatewayTunnel, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionTunnelsOptions, "updateTransitGatewayConnectionTunnelsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionTunnelsOptions, "updateTransitGatewayConnectionTunnelsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionTunnelsOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionTunnelsOptions.ID,
-		"gre_tunnel_id":      *updateTransitGatewayConnectionTunnelsOptions.GreTunnelID,
+		"id": *updateTransitGatewayConnectionTunnelsOptions.ID,
+		"gre_tunnel_id": *updateTransitGatewayConnectionTunnelsOptions.GreTunnelID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1337,15 +1508,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTu
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateTransitGatewayConnectionTunnelsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "UpdateTransitGatewayConnectionTunnels")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateTransitGatewayConnectionTunnelsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1355,22 +1527,27 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTu
 
 	_, err = builder.SetBodyContentJSON(updateTransitGatewayConnectionTunnelsOptions.TransitGatewayTunnelPatch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_transit_gateway_connection_tunnels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTransitGatewayTunnel)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1382,13 +1559,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionTu
 // ListGatewayLocations : Lists all locations that support Transit Gateways
 // List all locations that support Transit Gateways.
 func (transitGatewayApis *TransitGatewayApisV1) ListGatewayLocations(listGatewayLocationsOptions *ListGatewayLocationsOptions) (result *TSCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListGatewayLocationsWithContext(context.Background(), listGatewayLocationsOptions)
+	result, response, err = transitGatewayApis.ListGatewayLocationsWithContext(context.Background(), listGatewayLocationsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListGatewayLocationsWithContext is an alternate form of the ListGatewayLocations method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListGatewayLocationsWithContext(ctx context.Context, listGatewayLocationsOptions *ListGatewayLocationsOptions) (result *TSCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listGatewayLocationsOptions, "listGatewayLocationsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1397,15 +1577,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListGatewayLocationsWithContext(
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/locations`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listGatewayLocationsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListGatewayLocations")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listGatewayLocationsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1414,17 +1595,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListGatewayLocationsWithContext(
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_gateway_locations", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTSCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1436,17 +1621,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListGatewayLocationsWithContext(
 // GetGatewayLocation : Shows the details of a given Transit Gateway location
 // Get the details of a Transit Gateway Location.
 func (transitGatewayApis *TransitGatewayApisV1) GetGatewayLocation(getGatewayLocationOptions *GetGatewayLocationOptions) (result *TSLocation, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetGatewayLocationWithContext(context.Background(), getGatewayLocationOptions)
+	result, response, err = transitGatewayApis.GetGatewayLocationWithContext(context.Background(), getGatewayLocationOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetGatewayLocationWithContext is an alternate form of the GetGatewayLocation method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetGatewayLocationWithContext(ctx context.Context, getGatewayLocationOptions *GetGatewayLocationOptions) (result *TSLocation, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getGatewayLocationOptions, "getGatewayLocationOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getGatewayLocationOptions, "getGatewayLocationOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1459,15 +1648,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetGatewayLocationWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/locations/{name}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getGatewayLocationOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetGatewayLocation")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getGatewayLocationOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1476,17 +1666,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetGatewayLocationWithContext(ct
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_gateway_location", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTSLocation)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1498,23 +1692,27 @@ func (transitGatewayApis *TransitGatewayApisV1) GetGatewayLocationWithContext(ct
 // ListTransitGatewayConnectionPrefixFilters : Retrieves all prefix filters in a Transit Gateway connection
 // This request retrieves all prefix filters in a Transit Gateway connection.
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListTransitGatewayConnectionPrefixFiltersWithContext(context.Background(), listTransitGatewayConnectionPrefixFiltersOptions)
+	result, response, err = transitGatewayApis.ListTransitGatewayConnectionPrefixFiltersWithContext(context.Background(), listTransitGatewayConnectionPrefixFiltersOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListTransitGatewayConnectionPrefixFiltersWithContext is an alternate form of the ListTransitGatewayConnectionPrefixFilters method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPrefixFiltersWithContext(ctx context.Context, listTransitGatewayConnectionPrefixFiltersOptions *ListTransitGatewayConnectionPrefixFiltersOptions) (result *PrefixFilterCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayConnectionPrefixFiltersOptions, "listTransitGatewayConnectionPrefixFiltersOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayConnectionPrefixFiltersOptions, "listTransitGatewayConnectionPrefixFiltersOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *listTransitGatewayConnectionPrefixFiltersOptions.TransitGatewayID,
-		"id":                 *listTransitGatewayConnectionPrefixFiltersOptions.ID,
+		"id": *listTransitGatewayConnectionPrefixFiltersOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1522,15 +1720,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listTransitGatewayConnectionPrefixFiltersOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListTransitGatewayConnectionPrefixFilters")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listTransitGatewayConnectionPrefixFiltersOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1539,17 +1738,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_transit_gateway_connection_prefix_filters", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1563,23 +1766,27 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayConnectionPref
 // and `power_virtual_server` Connection types. Prefix Filters cannot be added to `gre_tunnel`, `unbound_gre_tunnel`,
 // `redundant_gre` or `vpn_gateway` Connection types.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
+	result, response, err = transitGatewayApis.CreateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), createTransitGatewayConnectionPrefixFilterOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the CreateTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, createTransitGatewayConnectionPrefixFilterOptions *CreateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayConnectionPrefixFilterOptions, "createTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayConnectionPrefixFilterOptions, "createTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *createTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *createTransitGatewayConnectionPrefixFilterOptions.ID,
+		"id": *createTransitGatewayConnectionPrefixFilterOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.POST)
@@ -1587,15 +1794,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPr
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayConnectionPrefixFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGatewayConnectionPrefixFilter")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayConnectionPrefixFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1621,22 +1829,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPr
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1648,24 +1861,28 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayConnectionPr
 // DeleteTransitGatewayConnectionPrefixFilter : Remove prefix filter from Transit Gateway connection
 // Delete a prefix filter.
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.DeleteTransitGatewayConnectionPrefixFilterWithContext(context.Background(), deleteTransitGatewayConnectionPrefixFilterOptions)
+	response, err = transitGatewayApis.DeleteTransitGatewayConnectionPrefixFilterWithContext(context.Background(), deleteTransitGatewayConnectionPrefixFilterOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the DeleteTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, deleteTransitGatewayConnectionPrefixFilterOptions *DeleteTransitGatewayConnectionPrefixFilterOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayConnectionPrefixFilterOptions, "deleteTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayConnectionPrefixFilterOptions, "deleteTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *deleteTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *deleteTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *deleteTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -1673,11 +1890,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPr
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range deleteTransitGatewayConnectionPrefixFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "DeleteTransitGatewayConnectionPrefixFilter")
@@ -1685,14 +1899,24 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPr
 		builder.AddHeader(headerName, headerValue)
 	}
 
+	for headerName, headerValue := range deleteTransitGatewayConnectionPrefixFilterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -1700,24 +1924,28 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayConnectionPr
 // GetTransitGatewayConnectionPrefixFilter : Retrieves specified Transit Gateway connection prefix filter
 // This request retrieves a prefix filter from the Transit Gateway connection.
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetTransitGatewayConnectionPrefixFilterWithContext(context.Background(), getTransitGatewayConnectionPrefixFilterOptions)
+	result, response, err = transitGatewayApis.GetTransitGatewayConnectionPrefixFilterWithContext(context.Background(), getTransitGatewayConnectionPrefixFilterOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the GetTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, getTransitGatewayConnectionPrefixFilterOptions *GetTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayConnectionPrefixFilterOptions, "getTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayConnectionPrefixFilterOptions, "getTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *getTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *getTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *getTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -1725,15 +1953,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefi
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getTransitGatewayConnectionPrefixFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetTransitGatewayConnectionPrefixFilter")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getTransitGatewayConnectionPrefixFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1742,17 +1971,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefi
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1764,24 +1997,28 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayConnectionPrefi
 // UpdateTransitGatewayConnectionPrefixFilter : Updates specified Transit Gateway connection prefix filter
 // Update prefix filter for a Transit Gateway Connection.
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.UpdateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), updateTransitGatewayConnectionPrefixFilterOptions)
+	result, response, err = transitGatewayApis.UpdateTransitGatewayConnectionPrefixFilterWithContext(context.Background(), updateTransitGatewayConnectionPrefixFilterOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateTransitGatewayConnectionPrefixFilterWithContext is an alternate form of the UpdateTransitGatewayConnectionPrefixFilter method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPrefixFilterWithContext(ctx context.Context, updateTransitGatewayConnectionPrefixFilterOptions *UpdateTransitGatewayConnectionPrefixFilterOptions) (result *PrefixFilterCust, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateTransitGatewayConnectionPrefixFilterOptions, "updateTransitGatewayConnectionPrefixFilterOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateTransitGatewayConnectionPrefixFilterOptions, "updateTransitGatewayConnectionPrefixFilterOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *updateTransitGatewayConnectionPrefixFilterOptions.TransitGatewayID,
-		"id":                 *updateTransitGatewayConnectionPrefixFilterOptions.ID,
-		"filter_id":          *updateTransitGatewayConnectionPrefixFilterOptions.FilterID,
+		"id": *updateTransitGatewayConnectionPrefixFilterOptions.ID,
+		"filter_id": *updateTransitGatewayConnectionPrefixFilterOptions.FilterID,
 	}
 
 	builder := core.NewRequestBuilder(core.PATCH)
@@ -1789,15 +2026,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPr
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateTransitGatewayConnectionPrefixFilterOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "UpdateTransitGatewayConnectionPrefixFilter")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateTransitGatewayConnectionPrefixFilterOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1823,22 +2061,27 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPr
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_transit_gateway_connection_prefix_filter", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalPrefixFilterCust)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1851,17 +2094,21 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateTransitGatewayConnectionPr
 // Retrieve all route reports for the specified Transit Gateway.  There will normally be at most one completed report
 // and one pending report.  Additionally, completed route reports are written to IBM Cloud Activity Tracker.
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayRouteReports(listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListTransitGatewayRouteReportsWithContext(context.Background(), listTransitGatewayRouteReportsOptions)
+	result, response, err = transitGatewayApis.ListTransitGatewayRouteReportsWithContext(context.Background(), listTransitGatewayRouteReportsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListTransitGatewayRouteReportsWithContext is an alternate form of the ListTransitGatewayRouteReports method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayRouteReportsWithContext(ctx context.Context, listTransitGatewayRouteReportsOptions *ListTransitGatewayRouteReportsOptions) (result *RouteReportCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(listTransitGatewayRouteReportsOptions, "listTransitGatewayRouteReportsOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(listTransitGatewayRouteReportsOptions, "listTransitGatewayRouteReportsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1874,15 +2121,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayRouteReportsWi
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listTransitGatewayRouteReportsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListTransitGatewayRouteReports")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listTransitGatewayRouteReportsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1891,17 +2139,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayRouteReportsWi
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_transit_gateway_route_reports", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReportCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1914,17 +2166,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewayRouteReportsWi
 // Request route report generation.  While report generation is in progress, additional requests to generate a report
 // are ignored and return the current pending report.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayRouteReport(createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.CreateTransitGatewayRouteReportWithContext(context.Background(), createTransitGatewayRouteReportOptions)
+	result, response, err = transitGatewayApis.CreateTransitGatewayRouteReportWithContext(context.Background(), createTransitGatewayRouteReportOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // CreateTransitGatewayRouteReportWithContext is an alternate form of the CreateTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayRouteReportWithContext(ctx context.Context, createTransitGatewayRouteReportOptions *CreateTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createTransitGatewayRouteReportOptions, "createTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(createTransitGatewayRouteReportOptions, "createTransitGatewayRouteReportOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -1937,15 +2193,16 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayRouteReportW
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range createTransitGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "CreateTransitGatewayRouteReport")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createTransitGatewayRouteReportOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -1954,17 +2211,21 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayRouteReportW
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "create_transit_gateway_route_report", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -1976,23 +2237,27 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayRouteReportW
 // DeleteTransitGatewayRouteReport : Deletes a route report
 // Delete a route report.
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
-	return transitGatewayApis.DeleteTransitGatewayRouteReportWithContext(context.Background(), deleteTransitGatewayRouteReportOptions)
+	response, err = transitGatewayApis.DeleteTransitGatewayRouteReportWithContext(context.Background(), deleteTransitGatewayRouteReportOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // DeleteTransitGatewayRouteReportWithContext is an alternate form of the DeleteTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportWithContext(ctx context.Context, deleteTransitGatewayRouteReportOptions *DeleteTransitGatewayRouteReportOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteTransitGatewayRouteReportOptions, "deleteTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(deleteTransitGatewayRouteReportOptions, "deleteTransitGatewayRouteReportOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *deleteTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id":                 *deleteTransitGatewayRouteReportOptions.ID,
+		"id": *deleteTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -2000,11 +2265,8 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportW
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range deleteTransitGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "DeleteTransitGatewayRouteReport")
@@ -2012,14 +2274,24 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportW
 		builder.AddHeader(headerName, headerValue)
 	}
 
+	for headerName, headerValue := range deleteTransitGatewayRouteReportOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
 	builder.AddQuery("version", fmt.Sprint(*transitGatewayApis.Version))
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	response, err = transitGatewayApis.Service.Request(request, nil)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_transit_gateway_route_report", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
 
 	return
 }
@@ -2027,23 +2299,27 @@ func (transitGatewayApis *TransitGatewayApisV1) DeleteTransitGatewayRouteReportW
 // GetTransitGatewayRouteReport : Retrieves a route report
 // Retrieve a route report.
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReport(getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetTransitGatewayRouteReportWithContext(context.Background(), getTransitGatewayRouteReportOptions)
+	result, response, err = transitGatewayApis.GetTransitGatewayRouteReportWithContext(context.Background(), getTransitGatewayRouteReportOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetTransitGatewayRouteReportWithContext is an alternate form of the GetTransitGatewayRouteReport method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWithContext(ctx context.Context, getTransitGatewayRouteReportOptions *GetTransitGatewayRouteReportOptions) (result *RouteReport, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getTransitGatewayRouteReportOptions, "getTransitGatewayRouteReportOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getTransitGatewayRouteReportOptions, "getTransitGatewayRouteReportOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
 	pathParamsMap := map[string]string{
 		"transit_gateway_id": *getTransitGatewayRouteReportOptions.TransitGatewayID,
-		"id":                 *getTransitGatewayRouteReportOptions.ID,
+		"id": *getTransitGatewayRouteReportOptions.ID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -2051,15 +2327,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWith
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/transit_gateways/{transit_gateway_id}/route_reports/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getTransitGatewayRouteReportOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetTransitGatewayRouteReport")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getTransitGatewayRouteReportOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2068,17 +2345,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWith
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_transit_gateway_route_report", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRouteReport)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2090,13 +2371,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetTransitGatewayRouteReportWith
 // ListRedundancyGroups : Lists all redundancy groups in the account
 // List all redundancy groups for the account.
 func (transitGatewayApis *TransitGatewayApisV1) ListRedundancyGroups(listRedundancyGroupsOptions *ListRedundancyGroupsOptions) (result *RedundancyGroupCollection, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.ListRedundancyGroupsWithContext(context.Background(), listRedundancyGroupsOptions)
+	result, response, err = transitGatewayApis.ListRedundancyGroupsWithContext(context.Background(), listRedundancyGroupsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // ListRedundancyGroupsWithContext is an alternate form of the ListRedundancyGroups method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) ListRedundancyGroupsWithContext(ctx context.Context, listRedundancyGroupsOptions *ListRedundancyGroupsOptions) (result *RedundancyGroupCollection, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listRedundancyGroupsOptions, "listRedundancyGroupsOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2105,15 +2389,16 @@ func (transitGatewayApis *TransitGatewayApisV1) ListRedundancyGroupsWithContext(
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/redundancy_groups`, nil)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range listRedundancyGroupsOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "ListRedundancyGroups")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listRedundancyGroupsOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2125,17 +2410,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListRedundancyGroupsWithContext(
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "list_redundancy_groups", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRedundancyGroupCollection)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2147,17 +2436,21 @@ func (transitGatewayApis *TransitGatewayApisV1) ListRedundancyGroupsWithContext(
 // GetRedundancyGroup : Retrieves specified redundancy group
 // Retrieves a single redundancy group specified by the identifier in the URL.
 func (transitGatewayApis *TransitGatewayApisV1) GetRedundancyGroup(getRedundancyGroupOptions *GetRedundancyGroupOptions) (result *RedundancyGroup, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.GetRedundancyGroupWithContext(context.Background(), getRedundancyGroupOptions)
+	result, response, err = transitGatewayApis.GetRedundancyGroupWithContext(context.Background(), getRedundancyGroupOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetRedundancyGroupWithContext is an alternate form of the GetRedundancyGroup method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) GetRedundancyGroupWithContext(ctx context.Context, getRedundancyGroupOptions *GetRedundancyGroupOptions) (result *RedundancyGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getRedundancyGroupOptions, "getRedundancyGroupOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(getRedundancyGroupOptions, "getRedundancyGroupOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2170,15 +2463,16 @@ func (transitGatewayApis *TransitGatewayApisV1) GetRedundancyGroupWithContext(ct
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/redundancy_groups/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range getRedundancyGroupOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "GetRedundancyGroup")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getRedundancyGroupOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2187,17 +2481,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetRedundancyGroupWithContext(ct
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "get_redundancy_group", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRedundancyGroup)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
@@ -2209,17 +2507,21 @@ func (transitGatewayApis *TransitGatewayApisV1) GetRedundancyGroupWithContext(ct
 // UpdateRedundancyGroup : Updates a redundancy group
 // Update a redundancy group.
 func (transitGatewayApis *TransitGatewayApisV1) UpdateRedundancyGroup(updateRedundancyGroupOptions *UpdateRedundancyGroupOptions) (result *RedundancyGroup, response *core.DetailedResponse, err error) {
-	return transitGatewayApis.UpdateRedundancyGroupWithContext(context.Background(), updateRedundancyGroupOptions)
+	result, response, err = transitGatewayApis.UpdateRedundancyGroupWithContext(context.Background(), updateRedundancyGroupOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // UpdateRedundancyGroupWithContext is an alternate form of the UpdateRedundancyGroup method which supports a Context parameter
 func (transitGatewayApis *TransitGatewayApisV1) UpdateRedundancyGroupWithContext(ctx context.Context, updateRedundancyGroupOptions *UpdateRedundancyGroupOptions) (result *RedundancyGroup, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateRedundancyGroupOptions, "updateRedundancyGroupOptions cannot be nil")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
 		return
 	}
 	err = core.ValidateStruct(updateRedundancyGroupOptions, "updateRedundancyGroupOptions")
 	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
 		return
 	}
 
@@ -2232,15 +2534,16 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateRedundancyGroupWithContext
 	builder.EnableGzipCompression = transitGatewayApis.GetEnableGzipCompression()
 	_, err = builder.ResolveRequestURL(transitGatewayApis.Service.Options.URL, `/redundancy_groups/{id}`, pathParamsMap)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
 		return
-	}
-
-	for headerName, headerValue := range updateRedundancyGroupOptions.Headers {
-		builder.AddHeader(headerName, headerValue)
 	}
 
 	sdkHeaders := common.GetSdkHeaders("transit_gateway_apis", "V1", "UpdateRedundancyGroup")
 	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateRedundancyGroupOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
@@ -2250,28 +2553,36 @@ func (transitGatewayApis *TransitGatewayApisV1) UpdateRedundancyGroupWithContext
 
 	_, err = builder.SetBodyContentJSON(updateRedundancyGroupOptions.RedundancyGroupPatch)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
 	}
 
 	request, err := builder.Build()
 	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
 		return
 	}
 
 	var rawResponse map[string]json.RawMessage
 	response, err = transitGatewayApis.Service.Request(request, &rawResponse)
 	if err != nil {
+		core.EnrichHTTPProblem(err, "update_redundancy_group", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
 		return
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalRedundancyGroup)
 		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
 		}
 		response.Result = result
 	}
 
 	return
+}
+func getServiceComponentInfo() *core.ProblemComponent {
+	return core.NewProblemComponent(DefaultServiceName, "__VERSION__")
 }
 
 // CreateTransitGatewayConnectionActionsOptions : The CreateTransitGatewayConnectionActions options.
@@ -2285,7 +2596,7 @@ type CreateTransitGatewayConnectionActionsOptions struct {
 	// The action that is to be performed against the connection request.
 	Action *string `json:"action" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2293,15 +2604,15 @@ type CreateTransitGatewayConnectionActionsOptions struct {
 // The action that is to be performed against the connection request.
 const (
 	CreateTransitGatewayConnectionActionsOptions_Action_Approve = "approve"
-	CreateTransitGatewayConnectionActionsOptions_Action_Reject  = "reject"
+	CreateTransitGatewayConnectionActionsOptions_Action_Reject = "reject"
 )
 
 // NewCreateTransitGatewayConnectionActionsOptions : Instantiate CreateTransitGatewayConnectionActionsOptions
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionActionsOptions(transitGatewayID string, id string, action string) *CreateTransitGatewayConnectionActionsOptions {
 	return &CreateTransitGatewayConnectionActionsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		Action:           core.StringPtr(action),
+		ID: core.StringPtr(id),
+		Action: core.StringPtr(action),
 	}
 }
 
@@ -2453,22 +2764,22 @@ type CreateTransitGatewayConnectionOptions struct {
 	// `redundant_gre` and `dynamic_route_server` connections.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // Constants associated with the CreateTransitGatewayConnectionOptions.NetworkType property.
 // Defines what type of network is connected via this connection.
 const (
-	CreateTransitGatewayConnectionOptions_NetworkType_Classic            = "classic"
-	CreateTransitGatewayConnectionOptions_NetworkType_Directlink         = "directlink"
+	CreateTransitGatewayConnectionOptions_NetworkType_Classic = "classic"
+	CreateTransitGatewayConnectionOptions_NetworkType_Directlink = "directlink"
 	CreateTransitGatewayConnectionOptions_NetworkType_DynamicRouteServer = "dynamic_route_server"
-	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel          = "gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel = "gre_tunnel"
 	CreateTransitGatewayConnectionOptions_NetworkType_PowerVirtualServer = "power_virtual_server"
-	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre       = "redundant_gre"
-	CreateTransitGatewayConnectionOptions_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	CreateTransitGatewayConnectionOptions_NetworkType_Vpc                = "vpc"
-	CreateTransitGatewayConnectionOptions_NetworkType_VpnGateway         = "vpn_gateway"
+	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre = "redundant_gre"
+	CreateTransitGatewayConnectionOptions_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	CreateTransitGatewayConnectionOptions_NetworkType_Vpc = "vpc"
+	CreateTransitGatewayConnectionOptions_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the CreateTransitGatewayConnectionOptions.BaseNetworkType property.
@@ -2478,7 +2789,7 @@ const (
 // `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 const (
 	CreateTransitGatewayConnectionOptions_BaseNetworkType_Classic = "classic"
-	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc     = "vpc"
+	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the CreateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
@@ -2487,7 +2798,7 @@ const (
 // required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server`
 // and `redundant_gre` connections.
 const (
-	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny   = "deny"
+	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny = "deny"
 	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -2495,7 +2806,7 @@ const (
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionOptions(transitGatewayID string, networkType string) *CreateTransitGatewayConnectionOptions {
 	return &CreateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		NetworkType:      core.StringPtr(networkType),
+		NetworkType: core.StringPtr(networkType),
 	}
 }
 
@@ -2650,14 +2961,14 @@ type CreateTransitGatewayConnectionPrefixFilterOptions struct {
 	// If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
 	Le *int64 `json:"le,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // Constants associated with the CreateTransitGatewayConnectionPrefixFilterOptions.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Deny   = "deny"
+	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Deny = "deny"
 	CreateTransitGatewayConnectionPrefixFilterOptions_Action_Permit = "permit"
 )
 
@@ -2665,9 +2976,9 @@ const (
 func (*TransitGatewayApisV1) NewCreateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, action string, prefix string) *CreateTransitGatewayConnectionPrefixFilterOptions {
 	return &CreateTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		Action:           core.StringPtr(action),
-		Prefix:           core.StringPtr(prefix),
+		ID: core.StringPtr(id),
+		Action: core.StringPtr(action),
+		Prefix: core.StringPtr(prefix),
 	}
 }
 
@@ -2753,7 +3064,7 @@ type CreateTransitGatewayGreTunnelOptions struct {
 	// on create requests, IBM will assign an ASN.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2761,13 +3072,13 @@ type CreateTransitGatewayGreTunnelOptions struct {
 func (*TransitGatewayApisV1) NewCreateTransitGatewayGreTunnelOptions(transitGatewayID string, id string, localGatewayIp string, localTunnelIp string, name string, remoteGatewayIp string, remoteTunnelIp string, zone ZoneIdentityIntf) *CreateTransitGatewayGreTunnelOptions {
 	return &CreateTransitGatewayGreTunnelOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		LocalGatewayIp:   core.StringPtr(localGatewayIp),
-		LocalTunnelIp:    core.StringPtr(localTunnelIp),
-		Name:             core.StringPtr(name),
-		RemoteGatewayIp:  core.StringPtr(remoteGatewayIp),
-		RemoteTunnelIp:   core.StringPtr(remoteTunnelIp),
-		Zone:             zone,
+		ID: core.StringPtr(id),
+		LocalGatewayIp: core.StringPtr(localGatewayIp),
+		LocalTunnelIp: core.StringPtr(localTunnelIp),
+		Name: core.StringPtr(name),
+		RemoteGatewayIp: core.StringPtr(remoteGatewayIp),
+		RemoteTunnelIp: core.StringPtr(remoteTunnelIp),
+		Zone: zone,
 	}
 }
 
@@ -2856,7 +3167,7 @@ type CreateTransitGatewayOptions struct {
 	// group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
 	ResourceGroup *ResourceGroupIdentity `json:"resource_group,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2864,7 +3175,7 @@ type CreateTransitGatewayOptions struct {
 func (*TransitGatewayApisV1) NewCreateTransitGatewayOptions(location string, name string) *CreateTransitGatewayOptions {
 	return &CreateTransitGatewayOptions{
 		Location: core.StringPtr(location),
-		Name:     core.StringPtr(name),
+		Name: core.StringPtr(name),
 	}
 }
 
@@ -2915,7 +3226,7 @@ type CreateTransitGatewayRouteReportOptions struct {
 	// The Transit Gateway identifier.
 	TransitGatewayID *string `json:"transit_gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2946,7 +3257,7 @@ type DeleteTransitGatewayConnectionOptions struct {
 	// The connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2954,7 +3265,7 @@ type DeleteTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionOptions(transitGatewayID string, id string) *DeleteTransitGatewayConnectionOptions {
 	return &DeleteTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -2987,7 +3298,7 @@ type DeleteTransitGatewayConnectionPrefixFilterOptions struct {
 	// Prefix filter identifier.
 	FilterID *string `json:"filter_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -2995,8 +3306,8 @@ type DeleteTransitGatewayConnectionPrefixFilterOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *DeleteTransitGatewayConnectionPrefixFilterOptions {
 	return &DeleteTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -3035,7 +3346,7 @@ type DeleteTransitGatewayConnectionTunnelsOptions struct {
 	// The tunnel identifier.
 	GreTunnelID *string `json:"gre_tunnel_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3043,8 +3354,8 @@ type DeleteTransitGatewayConnectionTunnelsOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string) *DeleteTransitGatewayConnectionTunnelsOptions {
 	return &DeleteTransitGatewayConnectionTunnelsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		GreTunnelID:      core.StringPtr(greTunnelID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 	}
 }
 
@@ -3077,7 +3388,7 @@ type DeleteTransitGatewayOptions struct {
 	// The Transit Gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3108,7 +3419,7 @@ type DeleteTransitGatewayRouteReportOptions struct {
 	// Route report identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3116,7 +3427,7 @@ type DeleteTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewDeleteTransitGatewayRouteReportOptions(transitGatewayID string, id string) *DeleteTransitGatewayRouteReportOptions {
 	return &DeleteTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3143,7 +3454,7 @@ type GetGatewayLocationOptions struct {
 	// The Transit Gateway location Name.
 	Name *string `json:"name" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3171,7 +3482,7 @@ type GetRedundancyGroupOptions struct {
 	// The redundancy group identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3202,7 +3513,7 @@ type GetTransitGatewayConnectionOptions struct {
 	// The connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3210,7 +3521,7 @@ type GetTransitGatewayConnectionOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionOptions(transitGatewayID string, id string) *GetTransitGatewayConnectionOptions {
 	return &GetTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3243,7 +3554,7 @@ type GetTransitGatewayConnectionPrefixFilterOptions struct {
 	// Prefix filter identifier.
 	FilterID *string `json:"filter_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3251,8 +3562,8 @@ type GetTransitGatewayConnectionPrefixFilterOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *GetTransitGatewayConnectionPrefixFilterOptions {
 	return &GetTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -3291,7 +3602,7 @@ type GetTransitGatewayConnectionTunnelsOptions struct {
 	// The tunnel identifier.
 	GreTunnelID *string `json:"gre_tunnel_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3299,8 +3610,8 @@ type GetTransitGatewayConnectionTunnelsOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string) *GetTransitGatewayConnectionTunnelsOptions {
 	return &GetTransitGatewayConnectionTunnelsOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		GreTunnelID:      core.StringPtr(greTunnelID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 	}
 }
 
@@ -3333,7 +3644,7 @@ type GetTransitGatewayOptions struct {
 	// The Transit Gateway identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3364,7 +3675,7 @@ type GetTransitGatewayRouteReportOptions struct {
 	// Route report identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3372,7 +3683,7 @@ type GetTransitGatewayRouteReportOptions struct {
 func (*TransitGatewayApisV1) NewGetTransitGatewayRouteReportOptions(transitGatewayID string, id string) *GetTransitGatewayRouteReportOptions {
 	return &GetTransitGatewayRouteReportOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3408,7 +3719,7 @@ type ListConnectionsOptions struct {
 	// Search for connections with the given network_type value.
 	NetworkType *string `json:"network_type,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3450,7 +3761,7 @@ func (options *ListConnectionsOptions) SetHeaders(param map[string]string) *List
 // ListGatewayLocationsOptions : The ListGatewayLocations options.
 type ListGatewayLocationsOptions struct {
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3470,7 +3781,7 @@ type ListRedundancyGroupsOptions struct {
 	// Filter the list of redundancy groups by name.
 	Name *string `json:"name,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3499,7 +3810,7 @@ type ListTransitGatewayConnectionPrefixFiltersOptions struct {
 	// The connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3507,7 +3818,7 @@ type ListTransitGatewayConnectionPrefixFiltersOptions struct {
 func (*TransitGatewayApisV1) NewListTransitGatewayConnectionPrefixFiltersOptions(transitGatewayID string, id string) *ListTransitGatewayConnectionPrefixFiltersOptions {
 	return &ListTransitGatewayConnectionPrefixFiltersOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3543,7 +3854,7 @@ type ListTransitGatewayConnectionsOptions struct {
 	// Search for connections with the given name.
 	Name *string `json:"name,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3592,7 +3903,7 @@ type ListTransitGatewayGreTunnelOptions struct {
 	// The connection identifier.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3600,7 +3911,7 @@ type ListTransitGatewayGreTunnelOptions struct {
 func (*TransitGatewayApisV1) NewListTransitGatewayGreTunnelOptions(transitGatewayID string, id string) *ListTransitGatewayGreTunnelOptions {
 	return &ListTransitGatewayGreTunnelOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -3627,7 +3938,7 @@ type ListTransitGatewayRouteReportsOptions struct {
 	// The Transit Gateway identifier.
 	TransitGatewayID *string `json:"transit_gateway_id" validate:"required,ne="`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3661,7 +3972,7 @@ type ListTransitGatewaysOptions struct {
 	// Filter the list of transit gateways by redundancy group name.
 	RedundancyGroup *string `json:"redundancy_group,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -3705,6 +4016,7 @@ func UnmarshalPaginationFirstConnection(m map[string]json.RawMessage, result int
 	obj := new(PaginationFirstConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3722,6 +4034,7 @@ func UnmarshalPaginationFirstTG(m map[string]json.RawMessage, result interface{}
 	obj := new(PaginationFirstTG)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3740,6 +4053,7 @@ func UnmarshalPaginationFirstTGWConnection(m map[string]json.RawMessage, result 
 	obj := new(PaginationFirstTGWConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3760,10 +4074,12 @@ func UnmarshalPaginationNextConnection(m map[string]json.RawMessage, result inte
 	obj := new(PaginationNextConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3784,10 +4100,12 @@ func UnmarshalPaginationNextTG(m map[string]json.RawMessage, result interface{})
 	obj := new(PaginationNextTG)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3808,10 +4126,12 @@ func UnmarshalPaginationNextTGWConnection(m map[string]json.RawMessage, result i
 	obj := new(PaginationNextTGWConnection)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "start", &obj.Start)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "start-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3829,6 +4149,7 @@ func UnmarshalPrefixFilterCollection(m map[string]json.RawMessage, result interf
 	obj := new(PrefixFilterCollection)
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalPrefixFilterCust)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3884,7 +4205,7 @@ type PrefixFilterCust struct {
 // Constants associated with the PrefixFilterCust.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	PrefixFilterCust_Action_Deny   = "deny"
+	PrefixFilterCust_Action_Deny = "deny"
 	PrefixFilterCust_Action_Permit = "permit"
 )
 
@@ -3893,34 +4214,42 @@ func UnmarshalPrefixFilterCust(m map[string]json.RawMessage, result interface{})
 	obj := new(PrefixFilterCust)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3947,18 +4276,22 @@ func UnmarshalRedundancyGroup(m map[string]json.RawMessage, result interface{}) 
 	obj := new(RedundancyGroup)
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3976,6 +4309,7 @@ func UnmarshalRedundancyGroupCollection(m map[string]json.RawMessage, result int
 	obj := new(RedundancyGroupCollection)
 	err = core.UnmarshalModel(m, "redundancy_groups", &obj.RedundancyGroups, UnmarshalRedundancyGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "redundancy_groups-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -3993,6 +4327,7 @@ func UnmarshalRedundancyGroupPatch(m map[string]json.RawMessage, result interfac
 	obj := new(RedundancyGroupPatch)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4001,11 +4336,11 @@ func UnmarshalRedundancyGroupPatch(m map[string]json.RawMessage, result interfac
 
 // AsPatch returns a generic map representation of the RedundancyGroupPatch
 func (redundancyGroupPatch *RedundancyGroupPatch) AsPatch() (_patch map[string]interface{}, err error) {
-	var jsonData []byte
-	jsonData, err = json.Marshal(redundancyGroupPatch)
-	if err == nil {
-		err = json.Unmarshal(jsonData, &_patch)
+	_patch = map[string]interface{}{}
+	if !core.IsNil(redundancyGroupPatch.Name) {
+		_patch["name"] = redundancyGroupPatch.Name
 	}
+
 	return
 }
 
@@ -4022,6 +4357,9 @@ func (*TransitGatewayApisV1) NewResourceGroupIdentity(id string) (_model *Resour
 		ID: core.StringPtr(id),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -4030,6 +4368,7 @@ func UnmarshalResourceGroupIdentity(m map[string]json.RawMessage, result interfa
 	obj := new(ResourceGroupIdentity)
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4051,10 +4390,12 @@ func UnmarshalResourceGroupReference(m map[string]json.RawMessage, result interf
 	obj := new(ResourceGroupReference)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4088,8 +4429,8 @@ type RouteReport struct {
 // using this field must tolerate unexpected values.
 const (
 	RouteReport_Status_Complete = "complete"
-	RouteReport_Status_Failed   = "failed"
-	RouteReport_Status_Pending  = "pending"
+	RouteReport_Status_Failed = "failed"
+	RouteReport_Status_Pending = "pending"
 )
 
 // UnmarshalRouteReport unmarshals an instance of RouteReport from the specified map of raw messages.
@@ -4097,26 +4438,32 @@ func UnmarshalRouteReport(m map[string]json.RawMessage, result interface{}) (err
 	obj := new(RouteReport)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalRouteReportConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "overlapping_routes", &obj.OverlappingRoutes, UnmarshalRouteReportOverlappingRouteGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "overlapping_routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4134,6 +4481,7 @@ func UnmarshalRouteReportCollection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportCollection)
 	err = core.UnmarshalModel(m, "route_reports", &obj.RouteReports, UnmarshalRouteReport)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "route_reports-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4163,22 +4511,27 @@ func UnmarshalRouteReportConnection(m map[string]json.RawMessage, result interfa
 	obj := new(RouteReportConnection)
 	err = core.UnmarshalModel(m, "bgps", &obj.Bgps, UnmarshalRouteReportConnectionBgp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "bgps-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportConnectionRoute)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4205,18 +4558,22 @@ func UnmarshalRouteReportConnectionBgp(m map[string]json.RawMessage, result inte
 	obj := new(RouteReportConnectionBgp)
 	err = core.UnmarshalPrimitive(m, "as_path", &obj.AsPath)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "as_path-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "is_used", &obj.IsUsed)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "is_used-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_preference", &obj.LocalPreference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_preference-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4234,6 +4591,7 @@ func UnmarshalRouteReportConnectionRoute(m map[string]json.RawMessage, result in
 	obj := new(RouteReportConnectionRoute)
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4254,10 +4612,12 @@ func UnmarshalRouteReportOverlappingRoute(m map[string]json.RawMessage, result i
 	obj := new(RouteReportOverlappingRoute)
 	err = core.UnmarshalPrimitive(m, "connection_id", &obj.ConnectionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4275,6 +4635,7 @@ func UnmarshalRouteReportOverlappingRouteGroup(m map[string]json.RawMessage, res
 	obj := new(RouteReportOverlappingRouteGroup)
 	err = core.UnmarshalModel(m, "routes", &obj.Routes, UnmarshalRouteReportOverlappingRoute)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "routes-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4292,6 +4653,7 @@ func UnmarshalTSCollection(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(TSCollection)
 	err = core.UnmarshalModel(m, "locations", &obj.Locations, UnmarshalTSLocationBasic)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "locations-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4320,7 +4682,7 @@ type TSLocalLocation struct {
 // list of enumerated values for this property may expand in the future. Code and processes using this field must
 // tolerate unexpected values.
 const (
-	TSLocalLocation_Type_Dc     = "dc"
+	TSLocalLocation_Type_Dc = "dc"
 	TSLocalLocation_Type_Region = "region"
 )
 
@@ -4329,18 +4691,22 @@ func UnmarshalTSLocalLocation(m map[string]json.RawMessage, result interface{}) 
 	obj := new(TSLocalLocation)
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "display_name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "supported_connection_types", &obj.SupportedConnectionTypes)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "supported_connection_types-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4370,22 +4736,27 @@ func UnmarshalTSLocation(m map[string]json.RawMessage, result interface{}) (err 
 	obj := new(TSLocation)
 	err = core.UnmarshalPrimitive(m, "billing_location", &obj.BillingLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "billing_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "local_connection_locations", &obj.LocalConnectionLocations, UnmarshalTSLocalLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_connection_locations-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zones", &obj.Zones, UnmarshalZoneReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "zones-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4409,14 +4780,17 @@ func UnmarshalTSLocationBasic(m map[string]json.RawMessage, result interface{}) 
 	obj := new(TSLocationBasic)
 	err = core.UnmarshalPrimitive(m, "billing_location", &obj.BillingLocation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "billing_location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4523,22 +4897,22 @@ type TransitConnection struct {
 // The type of network the GRE tunnel is targeting.
 const (
 	TransitConnection_BaseNetworkType_Classic = "classic"
-	TransitConnection_BaseNetworkType_Vpc     = "vpc"
+	TransitConnection_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the TransitConnection.NetworkType property.
 // Defines what type of network is connected via this connection. The list of enumerated values for this property may
 // expand in the future. Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnection_NetworkType_Classic            = "classic"
-	TransitConnection_NetworkType_Directlink         = "directlink"
+	TransitConnection_NetworkType_Classic = "classic"
+	TransitConnection_NetworkType_Directlink = "directlink"
 	TransitConnection_NetworkType_DynamicRouteServer = "dynamic_route_server"
-	TransitConnection_NetworkType_GreTunnel          = "gre_tunnel"
+	TransitConnection_NetworkType_GreTunnel = "gre_tunnel"
 	TransitConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitConnection_NetworkType_RedundantGre       = "redundant_gre"
-	TransitConnection_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	TransitConnection_NetworkType_Vpc                = "vpc"
-	TransitConnection_NetworkType_VpnGateway         = "vpn_gateway"
+	TransitConnection_NetworkType_RedundantGre = "redundant_gre"
+	TransitConnection_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitConnection_NetworkType_Vpc = "vpc"
+	TransitConnection_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the TransitConnection.PrefixFiltersDefault property.
@@ -4546,7 +4920,7 @@ const (
 //
 // This field does not apply to the `redundant_gre` network types.
 const (
-	TransitConnection_PrefixFiltersDefault_Deny   = "deny"
+	TransitConnection_PrefixFiltersDefault_Deny = "deny"
 	TransitConnection_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -4557,8 +4931,8 @@ const (
 const (
 	TransitConnection_RequestStatus_Approved = "approved"
 	TransitConnection_RequestStatus_Detached = "detached"
-	TransitConnection_RequestStatus_Expired  = "expired"
-	TransitConnection_RequestStatus_Pending  = "pending"
+	TransitConnection_RequestStatus_Expired = "expired"
+	TransitConnection_RequestStatus_Pending = "pending"
 	TransitConnection_RequestStatus_Rejected = "rejected"
 )
 
@@ -4566,15 +4940,15 @@ const (
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitConnection_Status_Attached       = "attached"
-	TransitConnection_Status_Deleting       = "deleting"
-	TransitConnection_Status_Detached       = "detached"
-	TransitConnection_Status_Detaching      = "detaching"
-	TransitConnection_Status_Failed         = "failed"
+	TransitConnection_Status_Attached = "attached"
+	TransitConnection_Status_Deleting = "deleting"
+	TransitConnection_Status_Detached = "detached"
+	TransitConnection_Status_Detaching = "detaching"
+	TransitConnection_Status_Failed = "failed"
 	TransitConnection_Status_NetworkPending = "network_pending"
-	TransitConnection_Status_Pending        = "pending"
-	TransitConnection_Status_Suspended      = "suspended"
-	TransitConnection_Status_Suspending     = "suspending"
+	TransitConnection_Status_Pending = "pending"
+	TransitConnection_Status_Suspended = "suspended"
+	TransitConnection_Status_Suspending = "suspending"
 )
 
 // UnmarshalTransitConnection unmarshals an instance of TransitConnection from the specified map of raw messages.
@@ -4582,98 +4956,122 @@ func UnmarshalTransitConnection(m map[string]json.RawMessage, result interface{}
 	obj := new(TransitConnection)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "base_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cidr", &obj.Cidr)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix_filters_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "request_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "transit_gateway", &obj.TransitGateway, UnmarshalTransitGatewayReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "transit_gateway-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4700,18 +5098,22 @@ func UnmarshalTransitConnectionCollection(m map[string]json.RawMessage, result i
 	obj := new(TransitConnectionCollection)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4779,11 +5181,11 @@ type TransitGateway struct {
 // The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code and
 // processes using this field must tolerate unexpected values.
 const (
-	TransitGateway_Status_Available  = "available"
-	TransitGateway_Status_Deleting   = "deleting"
-	TransitGateway_Status_Failed     = "failed"
-	TransitGateway_Status_Pending    = "pending"
-	TransitGateway_Status_Suspended  = "suspended"
+	TransitGateway_Status_Available = "available"
+	TransitGateway_Status_Deleting = "deleting"
+	TransitGateway_Status_Failed = "failed"
+	TransitGateway_Status_Pending = "pending"
+	TransitGateway_Status_Suspended = "suspended"
 	TransitGateway_Status_Suspending = "suspending"
 )
 
@@ -4792,58 +5194,72 @@ func UnmarshalTransitGateway(m map[string]json.RawMessage, result interface{}) (
 	obj := new(TransitGateway)
 	err = core.UnmarshalPrimitive(m, "connection_count", &obj.ConnectionCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connection_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "connection_needs_attention", &obj.ConnectionNeedsAttention)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connection_needs_attention-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "global", &obj.Global)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "global-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "gre_enhanced_route_propagation", &obj.GreEnhancedRoutePropagation)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "gre_enhanced_route_propagation-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "location-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "redundancy_group", &obj.RedundancyGroup)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "redundancy_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "redundancy_group_id", &obj.RedundancyGroupID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "redundancy_group_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4870,18 +5286,22 @@ func UnmarshalTransitGatewayCollection(m map[string]json.RawMessage, result inte
 	obj := new(TransitGatewayCollection)
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTG)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTG)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "transit_gateways", &obj.TransitGateways, UnmarshalTransitGateway)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "transit_gateways-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -4921,22 +5341,27 @@ func UnmarshalTransitGatewayConnectionCollection(m map[string]json.RawMessage, r
 	obj := new(TransitGatewayConnectionCollection)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalTransitGatewayConnectionCust)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPaginationFirstTGWConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPaginationNextTGWConnection)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5060,28 +5485,28 @@ type TransitGatewayConnectionCust struct {
 // `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 const (
 	TransitGatewayConnectionCust_BaseNetworkType_Classic = "classic"
-	TransitGatewayConnectionCust_BaseNetworkType_Vpc     = "vpc"
+	TransitGatewayConnectionCust_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.NetworkType property.
 // Defines what type of network is connected via this connection.
 const (
-	TransitGatewayConnectionCust_NetworkType_Classic            = "classic"
-	TransitGatewayConnectionCust_NetworkType_Directlink         = "directlink"
+	TransitGatewayConnectionCust_NetworkType_Classic = "classic"
+	TransitGatewayConnectionCust_NetworkType_Directlink = "directlink"
 	TransitGatewayConnectionCust_NetworkType_DynamicRouteServer = "dynamic_route_server"
-	TransitGatewayConnectionCust_NetworkType_GreTunnel          = "gre_tunnel"
+	TransitGatewayConnectionCust_NetworkType_GreTunnel = "gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_PowerVirtualServer = "power_virtual_server"
-	TransitGatewayConnectionCust_NetworkType_RedundantGre       = "redundant_gre"
-	TransitGatewayConnectionCust_NetworkType_UnboundGreTunnel   = "unbound_gre_tunnel"
-	TransitGatewayConnectionCust_NetworkType_Vpc                = "vpc"
-	TransitGatewayConnectionCust_NetworkType_VpnGateway         = "vpn_gateway"
+	TransitGatewayConnectionCust_NetworkType_RedundantGre = "redundant_gre"
+	TransitGatewayConnectionCust_NetworkType_UnboundGreTunnel = "unbound_gre_tunnel"
+	TransitGatewayConnectionCust_NetworkType_Vpc = "vpc"
+	TransitGatewayConnectionCust_NetworkType_VpnGateway = "vpn_gateway"
 )
 
 // Constants associated with the TransitGatewayConnectionCust.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
 // not apply to the `redundant_gre` network type.
 const (
-	TransitGatewayConnectionCust_PrefixFiltersDefault_Deny   = "deny"
+	TransitGatewayConnectionCust_PrefixFiltersDefault_Deny = "deny"
 	TransitGatewayConnectionCust_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -5092,8 +5517,8 @@ const (
 const (
 	TransitGatewayConnectionCust_RequestStatus_Approved = "approved"
 	TransitGatewayConnectionCust_RequestStatus_Detached = "detached"
-	TransitGatewayConnectionCust_RequestStatus_Expired  = "expired"
-	TransitGatewayConnectionCust_RequestStatus_Pending  = "pending"
+	TransitGatewayConnectionCust_RequestStatus_Expired = "expired"
+	TransitGatewayConnectionCust_RequestStatus_Pending = "pending"
 	TransitGatewayConnectionCust_RequestStatus_Rejected = "rejected"
 )
 
@@ -5101,15 +5526,15 @@ const (
 // Connection's current configuration state. The list of enumerated values for this property may expand in the future.
 // Code and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayConnectionCust_Status_Attached       = "attached"
-	TransitGatewayConnectionCust_Status_Deleting       = "deleting"
-	TransitGatewayConnectionCust_Status_Detached       = "detached"
-	TransitGatewayConnectionCust_Status_Detaching      = "detaching"
-	TransitGatewayConnectionCust_Status_Failed         = "failed"
+	TransitGatewayConnectionCust_Status_Attached = "attached"
+	TransitGatewayConnectionCust_Status_Deleting = "deleting"
+	TransitGatewayConnectionCust_Status_Detached = "detached"
+	TransitGatewayConnectionCust_Status_Detaching = "detaching"
+	TransitGatewayConnectionCust_Status_Failed = "failed"
 	TransitGatewayConnectionCust_Status_NetworkPending = "network_pending"
-	TransitGatewayConnectionCust_Status_Pending        = "pending"
-	TransitGatewayConnectionCust_Status_Suspended      = "suspended"
-	TransitGatewayConnectionCust_Status_Suspending     = "suspending"
+	TransitGatewayConnectionCust_Status_Pending = "pending"
+	TransitGatewayConnectionCust_Status_Suspended = "suspended"
+	TransitGatewayConnectionCust_Status_Suspending = "suspending"
 )
 
 // UnmarshalTransitGatewayConnectionCust unmarshals an instance of TransitGatewayConnectionCust from the specified map of raw messages.
@@ -5117,94 +5542,117 @@ func UnmarshalTransitGatewayConnectionCust(m map[string]json.RawMessage, result 
 	obj := new(TransitGatewayConnectionCust)
 	err = core.UnmarshalPrimitive(m, "base_connection_id", &obj.BaseConnectionID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "base_connection_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "cidr", &obj.Cidr)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "cidr-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_type", &obj.NetworkType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "prefix_filters", &obj.PrefixFilters, UnmarshalTransitGatewayConnectionPrefixFilterReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix_filters-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix_filters_default", &obj.PrefixFiltersDefault)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix_filters_default-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "request_status", &obj.RequestStatus)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "request_status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5229,7 +5677,7 @@ type TransitGatewayConnectionPrefixFilter struct {
 // Constants associated with the TransitGatewayConnectionPrefixFilter.Action property.
 // Whether to permit or deny prefix filter.
 const (
-	TransitGatewayConnectionPrefixFilter_Action_Deny   = "deny"
+	TransitGatewayConnectionPrefixFilter_Action_Deny = "deny"
 	TransitGatewayConnectionPrefixFilter_Action_Permit = "permit"
 )
 
@@ -5240,6 +5688,9 @@ func (*TransitGatewayApisV1) NewTransitGatewayConnectionPrefixFilter(action stri
 		Prefix: core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -5248,18 +5699,22 @@ func UnmarshalTransitGatewayConnectionPrefixFilter(m map[string]json.RawMessage,
 	obj := new(TransitGatewayConnectionPrefixFilter)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5311,7 +5766,7 @@ type TransitGatewayConnectionPrefixFilterReference struct {
 // Constants associated with the TransitGatewayConnectionPrefixFilterReference.Action property.
 // Whether to permit or deny prefix filter.
 const (
-	TransitGatewayConnectionPrefixFilterReference_Action_Deny   = "deny"
+	TransitGatewayConnectionPrefixFilterReference_Action_Deny = "deny"
 	TransitGatewayConnectionPrefixFilterReference_Action_Permit = "permit"
 )
 
@@ -5320,34 +5775,42 @@ func UnmarshalTransitGatewayConnectionPrefixFilterReference(m map[string]json.Ra
 	obj := new(TransitGatewayConnectionPrefixFilterReference)
 	err = core.UnmarshalPrimitive(m, "action", &obj.Action)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "action-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "before", &obj.Before)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "before-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "ge", &obj.Ge)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "ge-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "le", &obj.Le)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "le-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "prefix", &obj.Prefix)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "prefix-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5371,14 +5834,17 @@ func UnmarshalTransitGatewayReference(m map[string]json.RawMessage, result inter
 	obj := new(TransitGatewayReference)
 	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5446,20 +5912,20 @@ type TransitGatewayTunnel struct {
 // The type of network the redundant GRE tunnel is targeting.
 const (
 	TransitGatewayTunnel_BaseNetworkType_Classic = "classic"
-	TransitGatewayTunnel_BaseNetworkType_Vpc     = "vpc"
+	TransitGatewayTunnel_BaseNetworkType_Vpc = "vpc"
 )
 
 // Constants associated with the TransitGatewayTunnel.Status property.
 // Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code
 // and processes using this field must tolerate unexpected values.
 const (
-	TransitGatewayTunnel_Status_Attached   = "attached"
-	TransitGatewayTunnel_Status_Deleting   = "deleting"
-	TransitGatewayTunnel_Status_Detached   = "detached"
-	TransitGatewayTunnel_Status_Detaching  = "detaching"
-	TransitGatewayTunnel_Status_Failed     = "failed"
-	TransitGatewayTunnel_Status_Pending    = "pending"
-	TransitGatewayTunnel_Status_Suspended  = "suspended"
+	TransitGatewayTunnel_Status_Attached = "attached"
+	TransitGatewayTunnel_Status_Deleting = "deleting"
+	TransitGatewayTunnel_Status_Detached = "detached"
+	TransitGatewayTunnel_Status_Detaching = "detaching"
+	TransitGatewayTunnel_Status_Failed = "failed"
+	TransitGatewayTunnel_Status_Pending = "pending"
+	TransitGatewayTunnel_Status_Suspended = "suspended"
 	TransitGatewayTunnel_Status_Suspending = "suspending"
 )
 
@@ -5468,66 +5934,82 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	obj := new(TransitGatewayTunnel)
 	err = core.UnmarshalPrimitive(m, "base_network_type", &obj.BaseNetworkType)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "base_network_type-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_bgp_asn", &obj.LocalBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mtu", &obj.Mtu)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "mtu-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_account_id", &obj.NetworkAccountID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_account_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "network_id", &obj.NetworkID)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "network_id-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "updated_at-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneReference)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5545,6 +6027,7 @@ func UnmarshalTransitGatewayTunnelCollection(m map[string]json.RawMessage, resul
 	obj := new(TransitGatewayTunnelCollection)
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalTransitGatewayTunnel)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5562,6 +6045,7 @@ func UnmarshalTransitGatewayTunnelPatch(m map[string]json.RawMessage, result int
 	obj := new(TransitGatewayTunnelPatch)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5570,11 +6054,11 @@ func UnmarshalTransitGatewayTunnelPatch(m map[string]json.RawMessage, result int
 
 // AsPatch returns a generic map representation of the TransitGatewayTunnelPatch
 func (transitGatewayTunnelPatch *TransitGatewayTunnelPatch) AsPatch() (_patch map[string]interface{}, err error) {
-	var jsonData []byte
-	jsonData, err = json.Marshal(transitGatewayTunnelPatch)
-	if err == nil {
-		err = json.Unmarshal(jsonData, &_patch)
+	_patch = map[string]interface{}{}
+	if !core.IsNil(transitGatewayTunnelPatch.Name) {
+		_patch["name"] = transitGatewayTunnelPatch.Name
 	}
+
 	return
 }
 
@@ -5610,14 +6094,17 @@ type TransitGatewayTunnelTemplate struct {
 // NewTransitGatewayTunnelTemplate : Instantiate TransitGatewayTunnelTemplate (Generic Model Constructor)
 func (*TransitGatewayApisV1) NewTransitGatewayTunnelTemplate(localGatewayIp string, localTunnelIp string, name string, remoteGatewayIp string, remoteTunnelIp string, zone ZoneIdentityIntf) (_model *TransitGatewayTunnelTemplate, err error) {
 	_model = &TransitGatewayTunnelTemplate{
-		LocalGatewayIp:  core.StringPtr(localGatewayIp),
-		LocalTunnelIp:   core.StringPtr(localTunnelIp),
-		Name:            core.StringPtr(name),
+		LocalGatewayIp: core.StringPtr(localGatewayIp),
+		LocalTunnelIp: core.StringPtr(localTunnelIp),
+		Name: core.StringPtr(name),
 		RemoteGatewayIp: core.StringPtr(remoteGatewayIp),
-		RemoteTunnelIp:  core.StringPtr(remoteTunnelIp),
-		Zone:            zone,
+		RemoteTunnelIp: core.StringPtr(remoteTunnelIp),
+		Zone: zone,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
 	return
 }
 
@@ -5626,30 +6113,37 @@ func UnmarshalTransitGatewayTunnelTemplate(m map[string]json.RawMessage, result 
 	obj := new(TransitGatewayTunnelTemplate)
 	err = core.UnmarshalPrimitive(m, "local_gateway_ip", &obj.LocalGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "local_tunnel_ip", &obj.LocalTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "local_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_bgp_asn", &obj.RemoteBgpAsn)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_bgp_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_gateway_ip", &obj.RemoteGatewayIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_gateway_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "remote_tunnel_ip", &obj.RemoteTunnelIp)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "remote_tunnel_ip-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "zone", &obj.Zone, UnmarshalZoneIdentity)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "zone-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -5664,14 +6158,14 @@ type UpdateRedundancyGroupOptions struct {
 	// The redundancy group update template.
 	RedundancyGroupPatch map[string]interface{} `json:"redundancy_group_patch" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // NewUpdateRedundancyGroupOptions : Instantiate UpdateRedundancyGroupOptions
 func (*TransitGatewayApisV1) NewUpdateRedundancyGroupOptions(id string, redundancyGroupPatch map[string]interface{}) *UpdateRedundancyGroupOptions {
 	return &UpdateRedundancyGroupOptions{
-		ID:                   core.StringPtr(id),
+		ID: core.StringPtr(id),
 		RedundancyGroupPatch: redundancyGroupPatch,
 	}
 }
@@ -5710,14 +6204,14 @@ type UpdateTransitGatewayConnectionOptions struct {
 	// Default setting of permit or deny which applies to any routes that don't match a specified filter.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // Constants associated with the UpdateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter.
 const (
-	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny   = "deny"
+	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny = "deny"
 	UpdateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
 )
 
@@ -5725,7 +6219,7 @@ const (
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionOptions(transitGatewayID string, id string) *UpdateTransitGatewayConnectionOptions {
 	return &UpdateTransitGatewayConnectionOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
+		ID: core.StringPtr(id),
 	}
 }
 
@@ -5801,14 +6295,14 @@ type UpdateTransitGatewayConnectionPrefixFilterOptions struct {
 	// The IPv4 Prefix to be matched by this filter.
 	Prefix *string `json:"prefix,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // Constants associated with the UpdateTransitGatewayConnectionPrefixFilterOptions.Action property.
 // Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
 const (
-	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Deny   = "deny"
+	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Deny = "deny"
 	UpdateTransitGatewayConnectionPrefixFilterOptions_Action_Permit = "permit"
 )
 
@@ -5816,8 +6310,8 @@ const (
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionPrefixFilterOptions(transitGatewayID string, id string, filterID string) *UpdateTransitGatewayConnectionPrefixFilterOptions {
 	return &UpdateTransitGatewayConnectionPrefixFilterOptions{
 		TransitGatewayID: core.StringPtr(transitGatewayID),
-		ID:               core.StringPtr(id),
-		FilterID:         core.StringPtr(filterID),
+		ID: core.StringPtr(id),
+		FilterID: core.StringPtr(filterID),
 	}
 }
 
@@ -5889,16 +6383,16 @@ type UpdateTransitGatewayConnectionTunnelsOptions struct {
 	// The update connection tunnel template.
 	TransitGatewayTunnelPatch map[string]interface{} `json:"TransitGatewayTunnel_patch" validate:"required"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // NewUpdateTransitGatewayConnectionTunnelsOptions : Instantiate UpdateTransitGatewayConnectionTunnelsOptions
 func (*TransitGatewayApisV1) NewUpdateTransitGatewayConnectionTunnelsOptions(transitGatewayID string, id string, greTunnelID string, transitGatewayTunnelPatch map[string]interface{}) *UpdateTransitGatewayConnectionTunnelsOptions {
 	return &UpdateTransitGatewayConnectionTunnelsOptions{
-		TransitGatewayID:          core.StringPtr(transitGatewayID),
-		ID:                        core.StringPtr(id),
-		GreTunnelID:               core.StringPtr(greTunnelID),
+		TransitGatewayID: core.StringPtr(transitGatewayID),
+		ID: core.StringPtr(id),
+		GreTunnelID: core.StringPtr(greTunnelID),
 		TransitGatewayTunnelPatch: transitGatewayTunnelPatch,
 	}
 }
@@ -5955,7 +6449,7 @@ type UpdateTransitGatewayOptions struct {
 	// group, and no redundancy group with this name already exists in the account.
 	RedundancyGroup *string `json:"redundancy_group,omitempty"`
 
-	// Allows users to set headers on API requests
+	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
@@ -6009,7 +6503,6 @@ type ZoneIdentity struct {
 	// Availability zone name.
 	Name *string `json:"name,omitempty"`
 }
-
 func (*ZoneIdentity) isaZoneIdentity() bool {
 	return true
 }
@@ -6023,6 +6516,7 @@ func UnmarshalZoneIdentity(m map[string]json.RawMessage, result interface{}) (er
 	obj := new(ZoneIdentity)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6040,6 +6534,7 @@ func UnmarshalZoneReference(m map[string]json.RawMessage, result interface{}) (e
 	obj := new(ZoneReference)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -6062,17 +6557,20 @@ func UnmarshalZoneIdentityByName(m map[string]json.RawMessage, result interface{
 	obj := new(ZoneIdentityByName)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
 
+//
 // TransitGatewaysPager can be used to simplify the use of the "ListTransitGateways" method.
+//
 type TransitGatewaysPager struct {
-	hasNext     bool
-	options     *ListTransitGatewaysOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListTransitGatewaysOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
@@ -6081,7 +6579,7 @@ type TransitGatewaysPager struct {
 // NewTransitGatewaysPager returns a new TransitGatewaysPager instance.
 func (transitGatewayApis *TransitGatewayApisV1) NewTransitGatewaysPager(options *ListTransitGatewaysOptions) (pager *TransitGatewaysPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = fmt.Errorf("the 'options.Start' field should not be set")
+		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
 		return
 	}
 
@@ -6109,6 +6607,7 @@ func (pager *TransitGatewaysPager) GetNextWithContext(ctx context.Context) (page
 
 	result, _, err := pager.client.ListTransitGatewaysWithContext(ctx, pager.options)
 	if err != nil {
+		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6130,6 +6629,7 @@ func (pager *TransitGatewaysPager) GetAllWithContext(ctx context.Context) (allIt
 		var nextPage []TransitGateway
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
+			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6139,19 +6639,25 @@ func (pager *TransitGatewaysPager) GetAllWithContext(ctx context.Context) (allIt
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewaysPager) GetNext() (page []TransitGateway, err error) {
-	return pager.GetNextWithContext(context.Background())
+	page, err = pager.GetNextWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewaysPager) GetAll() (allItems []TransitGateway, err error) {
-	return pager.GetAllWithContext(context.Background())
+	allItems, err = pager.GetAllWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
+//
 // ConnectionsPager can be used to simplify the use of the "ListConnections" method.
+//
 type ConnectionsPager struct {
-	hasNext     bool
-	options     *ListConnectionsOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListConnectionsOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
@@ -6160,7 +6666,7 @@ type ConnectionsPager struct {
 // NewConnectionsPager returns a new ConnectionsPager instance.
 func (transitGatewayApis *TransitGatewayApisV1) NewConnectionsPager(options *ListConnectionsOptions) (pager *ConnectionsPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = fmt.Errorf("the 'options.Start' field should not be set")
+		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
 		return
 	}
 
@@ -6188,6 +6694,7 @@ func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []T
 
 	result, _, err := pager.client.ListConnectionsWithContext(ctx, pager.options)
 	if err != nil {
+		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6209,6 +6716,7 @@ func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems 
 		var nextPage []TransitConnection
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
+			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6218,19 +6726,25 @@ func (pager *ConnectionsPager) GetAllWithContext(ctx context.Context) (allItems 
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *ConnectionsPager) GetNext() (page []TransitConnection, err error) {
-	return pager.GetNextWithContext(context.Background())
+	page, err = pager.GetNextWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *ConnectionsPager) GetAll() (allItems []TransitConnection, err error) {
-	return pager.GetAllWithContext(context.Background())
+	allItems, err = pager.GetAllWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
+//
 // TransitGatewayConnectionsPager can be used to simplify the use of the "ListTransitGatewayConnections" method.
+//
 type TransitGatewayConnectionsPager struct {
-	hasNext     bool
-	options     *ListTransitGatewayConnectionsOptions
-	client      *TransitGatewayApisV1
+	hasNext bool
+	options *ListTransitGatewayConnectionsOptions
+	client  *TransitGatewayApisV1
 	pageContext struct {
 		next *string
 	}
@@ -6239,7 +6753,7 @@ type TransitGatewayConnectionsPager struct {
 // NewTransitGatewayConnectionsPager returns a new TransitGatewayConnectionsPager instance.
 func (transitGatewayApis *TransitGatewayApisV1) NewTransitGatewayConnectionsPager(options *ListTransitGatewayConnectionsOptions) (pager *TransitGatewayConnectionsPager, err error) {
 	if options.Start != nil && *options.Start != "" {
-		err = fmt.Errorf("the 'options.Start' field should not be set")
+		err = core.SDKErrorf(nil, "the 'options.Start' field should not be set", "no-query-setting", common.GetComponentInfo())
 		return
 	}
 
@@ -6267,6 +6781,7 @@ func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Cont
 
 	result, _, err := pager.client.ListTransitGatewayConnectionsWithContext(ctx, pager.options)
 	if err != nil {
+		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
 	}
 
@@ -6288,6 +6803,7 @@ func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Conte
 		var nextPage []TransitGatewayConnectionCust
 		nextPage, err = pager.GetNextWithContext(ctx)
 		if err != nil {
+			err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 			return
 		}
 		allItems = append(allItems, nextPage...)
@@ -6297,10 +6813,14 @@ func (pager *TransitGatewayConnectionsPager) GetAllWithContext(ctx context.Conte
 
 // GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewayConnectionsPager) GetNext() (page []TransitGatewayConnectionCust, err error) {
-	return pager.GetNextWithContext(context.Background())
+	page, err = pager.GetNextWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *TransitGatewayConnectionsPager) GetAll() (allItems []TransitGatewayConnectionCust, err error) {
-	return pager.GetAllWithContext(context.Background())
+	allItems, err = pager.GetAllWithContext(context.Background())
+	err = core.RepurposeSDKProblem(err, "")
+	return
 }
