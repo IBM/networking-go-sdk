@@ -2763,7 +2763,7 @@ type CreateTransitGatewayConnectionOptions struct {
 	// This field is optional for network type `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server` and
-	// `redundant_gre`  connections.
+	// `redundant_gre` connections.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Allows users to set headers on API requests.
@@ -4895,7 +4895,7 @@ type TransitConnection struct {
 	// Transit gateway reference.
 	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
 
-	// Collection of all tunnels for `redundant_gre`, `vpn_gateway` connections.
+	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
@@ -6024,7 +6024,7 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	return
 }
 
-// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
+// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
 type TransitGatewayTunnelCollection struct {
 	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels" validate:"required"`
