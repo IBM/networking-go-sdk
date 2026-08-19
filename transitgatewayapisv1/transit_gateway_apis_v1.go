@@ -266,8 +266,9 @@ func (transitGatewayApis *TransitGatewayApisV1) ListTransitGatewaysWithContext(c
 // Create a Transit Gateway based on the supplied input template. Required fields: `name` (string, 1–60 chars),
 // `location` (IBM Cloud region, e.g. us-south). Optional fields: `global` (boolean, enables cross-region routing),
 // `resource_group` (object with `id`), `redundancy_group` (string, name of the redundancy group to join),
-// `gre_enhanced_route_propagation` (boolean). Returns a `TransitGateway` object. Initial `status` will be `pending`
-// while provisioning.
+// `redundancy_group_id` (string, ID of an existing redundancy group in the account),
+// `gre_enhanced_route_propagation` (boolean). Either `redundancy_group` or `redundancy_group_id` can be provided, but
+// not both. Returns a `TransitGateway` object. Initial `status` will be `pending` while provisioning.
 func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGateway(createTransitGatewayOptions *CreateTransitGatewayOptions) (result *TransitGateway, response *core.DetailedResponse, err error) {
 	result, response, err = transitGatewayApis.CreateTransitGatewayWithContext(context.Background(), createTransitGatewayOptions)
 	err = core.RepurposeSDKProblem(err, "")
@@ -324,6 +325,9 @@ func (transitGatewayApis *TransitGatewayApisV1) CreateTransitGatewayWithContext(
 	}
 	if createTransitGatewayOptions.RedundancyGroup != nil {
 		body["redundancy_group"] = createTransitGatewayOptions.RedundancyGroup
+	}
+	if createTransitGatewayOptions.RedundancyGroupID != nil {
+		body["redundancy_group_id"] = createTransitGatewayOptions.RedundancyGroupID
 	}
 	if createTransitGatewayOptions.ResourceGroup != nil {
 		body["resource_group"] = createTransitGatewayOptions.ResourceGroup
@@ -2759,7 +2763,7 @@ type CreateTransitGatewayConnectionOptions struct {
 	// This field is optional for network type `vpn_gateway` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server` and
-	// `redundant_gre` connections.
+	// `redundant_gre`  connections.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Allows users to set headers on API requests.
@@ -3157,8 +3161,14 @@ type CreateTransitGatewayOptions struct {
 	// Include the global transit gateway in this redundancy group. When set, this transit gateway will be redundant to
 	// other transit gateways in this redundancy group. If this redundancy group doesn't exist in the account, it will be
 	// created. This property can only be set for global transit gateways and the transit gateway cannot be in a location
-	// already used by a global transit gateway in this redundancy group.
+	// already used by a global transit gateway in this redundancy group. If specified, `redundancy_group_id` cannot also
+	// be specified.
 	RedundancyGroup *string `json:"redundancy_group,omitempty"`
+
+	// Include the transit gateway in an existing redundancy group in the account. This property can only be set for global
+	// transit gateways and the transit gateway cannot be in a location already used by a global transit gateway in this
+	// redundancy group. If specified, `redundancy_group` cannot also be specified.
+	RedundancyGroupID *string `json:"redundancy_group_id,omitempty"`
 
 	// The resource group to use. If unspecified, the account's [default resource
 	// group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
@@ -3203,6 +3213,12 @@ func (_options *CreateTransitGatewayOptions) SetGreEnhancedRoutePropagation(greE
 // SetRedundancyGroup : Allow user to set RedundancyGroup
 func (_options *CreateTransitGatewayOptions) SetRedundancyGroup(redundancyGroup string) *CreateTransitGatewayOptions {
 	_options.RedundancyGroup = core.StringPtr(redundancyGroup)
+	return _options
+}
+
+// SetRedundancyGroupID : Allow user to set RedundancyGroupID
+func (_options *CreateTransitGatewayOptions) SetRedundancyGroupID(redundancyGroupID string) *CreateTransitGatewayOptions {
+	_options.RedundancyGroupID = core.StringPtr(redundancyGroupID)
 	return _options
 }
 
@@ -4879,7 +4895,7 @@ type TransitConnection struct {
 	// Transit gateway reference.
 	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
 
-	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+	// Collection of all tunnels for `redundant_gre`, `vpn_gateway` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
@@ -6008,7 +6024,7 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	return
 }
 
-// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
 type TransitGatewayTunnelCollection struct {
 	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels" validate:"required"`

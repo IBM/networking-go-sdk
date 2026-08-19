@@ -544,6 +544,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.RedundancyGroup = core.StringPtr("rg-1")
+				createTransitGatewayOptionsModel.RedundancyGroupID = core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -623,6 +624,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.RedundancyGroup = core.StringPtr("rg-1")
+				createTransitGatewayOptionsModel.RedundancyGroupID = core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -709,6 +711,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.RedundancyGroup = core.StringPtr("rg-1")
+				createTransitGatewayOptionsModel.RedundancyGroupID = core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -739,6 +742,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.RedundancyGroup = core.StringPtr("rg-1")
+				createTransitGatewayOptionsModel.RedundancyGroupID = core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -790,6 +794,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.Global = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.GreEnhancedRoutePropagation = core.BoolPtr(true)
 				createTransitGatewayOptionsModel.RedundancyGroup = core.StringPtr("rg-1")
+				createTransitGatewayOptionsModel.RedundancyGroupID = core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.ResourceGroup = resourceGroupIdentityModel
 				createTransitGatewayOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2109,7 +2114,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
 				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
@@ -2216,7 +2221,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
 				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
@@ -2330,7 +2335,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
 				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
@@ -2388,7 +2393,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
 				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
@@ -2467,7 +2472,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.LocalGatewayIp = core.StringPtr("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.LocalTunnelIp = core.StringPtr("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.Name = core.StringPtr("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("testString")
+				createTransitGatewayConnectionOptionsModel.NetworkAccountID = core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.NetworkID = core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.PrefixFilters = []transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}
 				createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault = core.StringPtr("permit")
@@ -7388,7 +7393,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayConnectionOptionsModel.SetLocalGatewayIp("192.168.100.1")
 				createTransitGatewayConnectionOptionsModel.SetLocalTunnelIp("192.168.129.2")
 				createTransitGatewayConnectionOptionsModel.SetName("Transit_Service_BWTN_SJ_DL")
-				createTransitGatewayConnectionOptionsModel.SetNetworkAccountID("testString")
+				createTransitGatewayConnectionOptionsModel.SetNetworkAccountID("28e4d90ac7504be694471ee66e70d0d5")
 				createTransitGatewayConnectionOptionsModel.SetNetworkID("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
 				createTransitGatewayConnectionOptionsModel.SetPrefixFilters([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel})
 				createTransitGatewayConnectionOptionsModel.SetPrefixFiltersDefault("permit")
@@ -7407,7 +7412,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayConnectionOptionsModel.LocalGatewayIp).To(Equal(core.StringPtr("192.168.100.1")))
 				Expect(createTransitGatewayConnectionOptionsModel.LocalTunnelIp).To(Equal(core.StringPtr("192.168.129.2")))
 				Expect(createTransitGatewayConnectionOptionsModel.Name).To(Equal(core.StringPtr("Transit_Service_BWTN_SJ_DL")))
-				Expect(createTransitGatewayConnectionOptionsModel.NetworkAccountID).To(Equal(core.StringPtr("testString")))
+				Expect(createTransitGatewayConnectionOptionsModel.NetworkAccountID).To(Equal(core.StringPtr("28e4d90ac7504be694471ee66e70d0d5")))
 				Expect(createTransitGatewayConnectionOptionsModel.NetworkID).To(Equal(core.StringPtr("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")))
 				Expect(createTransitGatewayConnectionOptionsModel.PrefixFilters).To(Equal([]transitgatewayapisv1.TransitGatewayConnectionPrefixFilter{*transitGatewayConnectionPrefixFilterModel}))
 				Expect(createTransitGatewayConnectionOptionsModel.PrefixFiltersDefault).To(Equal(core.StringPtr("permit")))
@@ -7498,6 +7503,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				createTransitGatewayOptionsModel.SetGlobal(true)
 				createTransitGatewayOptionsModel.SetGreEnhancedRoutePropagation(true)
 				createTransitGatewayOptionsModel.SetRedundancyGroup("rg-1")
+				createTransitGatewayOptionsModel.SetRedundancyGroupID("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
 				createTransitGatewayOptionsModel.SetResourceGroup(resourceGroupIdentityModel)
 				createTransitGatewayOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createTransitGatewayOptionsModel).ToNot(BeNil())
@@ -7506,6 +7512,7 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				Expect(createTransitGatewayOptionsModel.Global).To(Equal(core.BoolPtr(true)))
 				Expect(createTransitGatewayOptionsModel.GreEnhancedRoutePropagation).To(Equal(core.BoolPtr(true)))
 				Expect(createTransitGatewayOptionsModel.RedundancyGroup).To(Equal(core.StringPtr("rg-1")))
+				Expect(createTransitGatewayOptionsModel.RedundancyGroupID).To(Equal(core.StringPtr("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")))
 				Expect(createTransitGatewayOptionsModel.ResourceGroup).To(Equal(resourceGroupIdentityModel))
 				Expect(createTransitGatewayOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
