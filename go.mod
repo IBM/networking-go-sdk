@@ -9,7 +9,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/ginkgo/v2 v2.32.1
-	github.com/onsi/gomega v1.40.0
+	github.com/onsi/gomega v1.43.0
 	github.com/stretchr/testify v1.11.1
 )
 
