@@ -1,3 +1,11 @@
+## [0.53.12](https://github.com/IBM/networking-go-sdk/compare/v0.53.11...v0.53.12) (2026-09-15)
+
+
+### Bug Fixes
+
+* **npm-deps:** na artifactory to npm registry fixes ([ba94beb](https://github.com/IBM/networking-go-sdk/commit/ba94bebdc61af2ef7b7be036d8d153003f09c9d8))
+* **npm-deps:** npm audit fixes ([5e2b724](https://github.com/IBM/networking-go-sdk/commit/5e2b724cefcd9e807701d173dc75d601074e42ad))
+
 ## [0.53.11](https://github.com/IBM/networking-go-sdk/compare/v0.53.10...v0.53.11) (2026-09-10)
 
 
