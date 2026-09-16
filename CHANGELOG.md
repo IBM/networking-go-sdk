@@ -1,3 +1,18 @@
+# [0.54.0](https://github.com/IBM/networking-go-sdk/compare/v0.53.12...v0.54.0) (2026-09-16)
+
+
+### Features
+
+* Added Redundant Global TGW related changes ([d3c9a55](https://github.com/IBM/networking-go-sdk/commit/d3c9a554674b14cbbb419a292805f787101360e9))
+* Added Redundant Global TGW related changes ([3b7b368](https://github.com/IBM/networking-go-sdk/commit/3b7b3684e9d6ac1a64d5151d886e6a2abcac7423))
+* Added Redundant Global TGW related changes ([e486a38](https://github.com/IBM/networking-go-sdk/commit/e486a3848d11ef6b8165fbb56e61db937007eff2))
+* Added Redundant Global TGW related changes ([a39c22a](https://github.com/IBM/networking-go-sdk/commit/a39c22a74a3d15ab0a93efe48bdad1ed6a18f61d))
+* Added Redundant Global TGW related changes ([fd2e739](https://github.com/IBM/networking-go-sdk/commit/fd2e7399c5c9eddcb23622ed67a7d5b756a65e59))
+* Added Redundant Global TGW related changes ([ff64e51](https://github.com/IBM/networking-go-sdk/commit/ff64e51a2e7bf08e9debcd6f5682f64a7ee6db29))
+* Added Redundant Global TGW related changes ([1034ac1](https://github.com/IBM/networking-go-sdk/commit/1034ac1e4ffaf7dc7da493f102a899ece50ef0e7))
+* Added RG ID changes ([5f1a8b2](https://github.com/IBM/networking-go-sdk/commit/5f1a8b21dfb52cde2d8c575b03e2cf8e8410bd4d))
+* Added RG ID changes ([19aabff](https://github.com/IBM/networking-go-sdk/commit/19aabffda79e3f48dab719eefa9912f7ec848cb9))
+
 ## [0.53.12](https://github.com/IBM/networking-go-sdk/compare/v0.53.11...v0.53.12) (2026-09-15)
 
 
