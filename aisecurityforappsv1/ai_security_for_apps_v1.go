@@ -30,8 +30,8 @@ import (
 	"strings"
 	"time"
 
-	common "github.com/IBM/networking-go-sdk/common"
 	"github.com/IBM/go-sdk-core/v5/core"
+	common "github.com/IBM/networking-go-sdk/common"
 	"github.com/go-openapi/strfmt"
 )
 
@@ -128,8 +128,8 @@ func NewAiSecurityForAppsV1(options *AiSecurityForAppsV1Options) (service *AiSec
 	}
 
 	service = &AiSecurityForAppsV1{
-		Service: baseService,
-		Crn: options.Crn,
+		Service:        baseService,
+		Crn:            options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -208,7 +208,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetAiSecuritySettingsWithContext(c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -273,7 +273,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) ReplaceZoneAiSecuritySettingsWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -350,7 +350,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetApiGatewayDiscoveryWithContext(
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -415,7 +415,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) ListApiGatewayDiscoveryOperationsW
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -512,7 +512,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateZoneApiGatewayDiscoveryOpera
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -586,7 +586,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) CreateZoneApiGatewayOperationWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -660,7 +660,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) CreateApiGatewayOperationItemWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -743,7 +743,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateApiGatewayOperationLabelsWit
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -830,9 +830,9 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetZoneApiGatewayOperationWithCont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
-		"operation_id": *getZoneApiGatewayOperationOptions.OperationID,
+		"operation_id":    *getZoneApiGatewayOperationOptions.OperationID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -901,9 +901,9 @@ func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
-		"operation_id": *deleteZoneApiGatewayOperationOptions.OperationID,
+		"operation_id":    *deleteZoneApiGatewayOperationOptions.OperationID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -957,7 +957,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetApiGatewaySchemasWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn": *aiSecurityForApps.Crn,
+		"crn":             *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -1230,13 +1230,13 @@ type CreateApiGatewayOperationItemOptions struct {
 // Constants associated with the CreateApiGatewayOperationItemOptions.Method property.
 // The HTTP method for the operation.
 const (
-	CreateApiGatewayOperationItemOptions_Method_Delete = "DELETE"
-	CreateApiGatewayOperationItemOptions_Method_Get = "GET"
-	CreateApiGatewayOperationItemOptions_Method_Head = "HEAD"
+	CreateApiGatewayOperationItemOptions_Method_Delete  = "DELETE"
+	CreateApiGatewayOperationItemOptions_Method_Get     = "GET"
+	CreateApiGatewayOperationItemOptions_Method_Head    = "HEAD"
 	CreateApiGatewayOperationItemOptions_Method_Options = "OPTIONS"
-	CreateApiGatewayOperationItemOptions_Method_Patch = "PATCH"
-	CreateApiGatewayOperationItemOptions_Method_Post = "POST"
-	CreateApiGatewayOperationItemOptions_Method_Put = "PUT"
+	CreateApiGatewayOperationItemOptions_Method_Patch   = "PATCH"
+	CreateApiGatewayOperationItemOptions_Method_Post    = "POST"
+	CreateApiGatewayOperationItemOptions_Method_Put     = "PUT"
 )
 
 // NewCreateApiGatewayOperationItemOptions : Instantiate CreateApiGatewayOperationItemOptions
@@ -1493,25 +1493,25 @@ type ListApiGatewayDiscoveryOperationsOptions struct {
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Direction property.
 // Direction to order results.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Direction_Asc = "asc"
+	ListApiGatewayDiscoveryOperationsOptions_Direction_Asc  = "asc"
 	ListApiGatewayDiscoveryOperationsOptions_Direction_Desc = "desc"
 )
 
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Order property.
 // Field to order results by.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Order_Endpoint = "endpoint"
-	ListApiGatewayDiscoveryOperationsOptions_Order_Host = "host"
-	ListApiGatewayDiscoveryOperationsOptions_Order_Method = "method"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Endpoint                = "endpoint"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Host                    = "host"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Method                  = "method"
 	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsLastUpdated = "traffic_stats.last_updated"
-	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsRequests = "traffic_stats.requests"
+	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsRequests    = "traffic_stats.requests"
 )
 
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Origin property.
 // Filter by discovery engine source.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Origin_Labeldiscovery = "LabelDiscovery"
-	ListApiGatewayDiscoveryOperationsOptions_Origin_Ml = "ML"
+	ListApiGatewayDiscoveryOperationsOptions_Origin_Labeldiscovery    = "LabelDiscovery"
+	ListApiGatewayDiscoveryOperationsOptions_Origin_Ml                = "ML"
 	ListApiGatewayDiscoveryOperationsOptions_Origin_Sessionidentifier = "SessionIdentifier"
 )
 
@@ -1519,8 +1519,8 @@ const (
 // Filter results by discovery state (review/saved/ignored).
 const (
 	ListApiGatewayDiscoveryOperationsOptions_State_Ignored = "ignored"
-	ListApiGatewayDiscoveryOperationsOptions_State_Review = "review"
-	ListApiGatewayDiscoveryOperationsOptions_State_Saved = "saved"
+	ListApiGatewayDiscoveryOperationsOptions_State_Review  = "review"
+	ListApiGatewayDiscoveryOperationsOptions_State_Saved   = "saved"
 )
 
 // NewListApiGatewayDiscoveryOperationsOptions : Instantiate ListApiGatewayDiscoveryOperationsOptions
@@ -1789,20 +1789,20 @@ type ApiGatewayOperation struct {
 // Constants associated with the ApiGatewayOperation.Method property.
 // The HTTP method for the operation.
 const (
-	ApiGatewayOperation_Method_Delete = "DELETE"
-	ApiGatewayOperation_Method_Get = "GET"
-	ApiGatewayOperation_Method_Head = "HEAD"
+	ApiGatewayOperation_Method_Delete  = "DELETE"
+	ApiGatewayOperation_Method_Get     = "GET"
+	ApiGatewayOperation_Method_Head    = "HEAD"
 	ApiGatewayOperation_Method_Options = "OPTIONS"
-	ApiGatewayOperation_Method_Patch = "PATCH"
-	ApiGatewayOperation_Method_Post = "POST"
-	ApiGatewayOperation_Method_Put = "PUT"
+	ApiGatewayOperation_Method_Patch   = "PATCH"
+	ApiGatewayOperation_Method_Post    = "POST"
+	ApiGatewayOperation_Method_Put     = "PUT"
 )
 
 // NewApiGatewayOperation : Instantiate ApiGatewayOperation (Generic Model Constructor)
 func (*AiSecurityForAppsV1) NewApiGatewayOperation(method string, host string, endpoint string) (_model *ApiGatewayOperation, err error) {
 	_model = &ApiGatewayOperation{
-		Method: core.StringPtr(method),
-		Host: core.StringPtr(host),
+		Method:   core.StringPtr(method),
+		Host:     core.StringPtr(host),
 		Endpoint: core.StringPtr(endpoint),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -2031,20 +2031,20 @@ type DiscoveryOperation struct {
 // The HTTP method used to access the endpoint.
 const (
 	DiscoveryOperation_Method_Connect = "CONNECT"
-	DiscoveryOperation_Method_Delete = "DELETE"
-	DiscoveryOperation_Method_Get = "GET"
-	DiscoveryOperation_Method_Head = "HEAD"
+	DiscoveryOperation_Method_Delete  = "DELETE"
+	DiscoveryOperation_Method_Get     = "GET"
+	DiscoveryOperation_Method_Head    = "HEAD"
 	DiscoveryOperation_Method_Options = "OPTIONS"
-	DiscoveryOperation_Method_Patch = "PATCH"
-	DiscoveryOperation_Method_Post = "POST"
-	DiscoveryOperation_Method_Put = "PUT"
-	DiscoveryOperation_Method_Trace = "TRACE"
+	DiscoveryOperation_Method_Patch   = "PATCH"
+	DiscoveryOperation_Method_Post    = "POST"
+	DiscoveryOperation_Method_Put     = "PUT"
+	DiscoveryOperation_Method_Trace   = "TRACE"
 )
 
 // Constants associated with the DiscoveryOperation.Origin property.
 const (
-	DiscoveryOperation_Origin_Labeldiscovery = "LabelDiscovery"
-	DiscoveryOperation_Origin_Ml = "ML"
+	DiscoveryOperation_Origin_Labeldiscovery    = "LabelDiscovery"
+	DiscoveryOperation_Origin_Ml                = "ML"
 	DiscoveryOperation_Origin_Sessionidentifier = "SessionIdentifier"
 )
 
@@ -2053,8 +2053,8 @@ const (
 // Management; ignored - marked as ignored.
 const (
 	DiscoveryOperation_State_Ignored = "ignored"
-	DiscoveryOperation_State_Review = "review"
-	DiscoveryOperation_State_Saved = "saved"
+	DiscoveryOperation_State_Review  = "review"
+	DiscoveryOperation_State_Saved   = "saved"
 )
 
 // UnmarshalDiscoveryOperation unmarshals an instance of DiscoveryOperation from the specified map of raw messages.
