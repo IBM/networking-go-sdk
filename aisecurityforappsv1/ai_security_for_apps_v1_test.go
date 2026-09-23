@@ -2052,7 +2052,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": ["Labels"]}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm"}]}]}`)
 				}))
 			})
 			It(`Invoke UpdateApiGatewayOperationLabels successfully with retries`, func() {
@@ -2142,7 +2142,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": ["Labels"]}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm"}]}]}`)
 				}))
 			})
 			It(`Invoke UpdateApiGatewayOperationLabels successfully`, func() {
