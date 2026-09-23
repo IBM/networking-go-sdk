@@ -110,7 +110,8 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 				currentEnabled := *getResult.Result.Enabled
 				newEnabled := !currentEnabled
 
-				updateOptions := service.NewReplaceZoneAiSecuritySettingsOptions(newEnabled)
+				updateOptions := service.NewReplaceZoneAiSecuritySettingsOptions().
+					SetEnabled(newEnabled)
 				result, response, err := service.ReplaceZoneAiSecuritySettings(updateOptions)
 				Expect(err).To(BeNil())
 				Expect(response).ToNot(BeNil())
@@ -118,7 +119,8 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 				Expect(*result.Success).To(BeTrue())
 
 				// Restore original value
-				restoreOptions := service.NewReplaceZoneAiSecuritySettingsOptions(currentEnabled)
+				restoreOptions := service.NewReplaceZoneAiSecuritySettingsOptions().
+					SetEnabled(currentEnabled)
 				_, _, restoreErr := service.ReplaceZoneAiSecuritySettings(restoreOptions)
 				Expect(restoreErr).To(BeNil())
 			})
@@ -169,32 +171,166 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 	})
 
 	Describe(`API Gateway Operations`, func() {
-		Context(`Create and Delete API Gateway Operation`, func() {
-			It(`Create a single API Gateway Operation and delete it`, func() {
+		Context(`Create single operation, retrieve it, and delete it`, func() {
+			It(`Create a single API Gateway Operation, retrieve it by operation ID, then delete and verify deletion`, func() {
 				shouldSkipTest()
 
-				method := "POST"
-				host := "api.example.com"
-				endpoint := "/v1/messages"
+				// Create a single operation
+				createOptions := service.NewCreateApiGatewayOperationItemOptions().
+					SetMethod("POST").
+					SetHost("api.example.com").
+					SetEndpoint("/v1/messages")
 
-				createOptions := service.NewCreateApiGatewayOperationItemOptions(
-					method,
-					host,
-					endpoint,
-				)
 				createResult, createResponse, createErr := service.CreateApiGatewayOperationItem(createOptions)
 				Expect(createErr).To(BeNil())
 				Expect(createResponse).ToNot(BeNil())
 				Expect(createResult).ToNot(BeNil())
 				Expect(*createResult.Success).To(BeTrue())
+				Expect(createResult.Result).ToNot(BeNil())
+				Expect(createResult.Result.OperationID).ToNot(BeNil())
 
 				operationID := *createResult.Result.OperationID
 
-				// Delete the created operation
+				// Safety cleanup: runs if any subsequent expectation fails
+				defer func() {
+					if operationID != "" {
+						deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(operationID)
+						_, _ = service.DeleteZoneApiGatewayOperation(deleteOptions)
+					}
+				}()
+
+				// Retrieve the operation by ID
+				getOptions := service.NewGetZoneApiGatewayOperationOptions(operationID)
+				getResult, getResponse, getErr := service.GetZoneApiGatewayOperation(getOptions)
+				Expect(getErr).To(BeNil())
+				Expect(getResponse).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).To(BeTrue())
+				Expect(getResult.Result).ToNot(BeNil())
+				Expect(*getResult.Result.OperationID).To(Equal(operationID))
+
+				// Explicit Delete: verifies delete API response on normal flow
 				deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(operationID)
 				deleteResponse, deleteErr := service.DeleteZoneApiGatewayOperation(deleteOptions)
 				Expect(deleteErr).To(BeNil())
 				Expect(deleteResponse).ToNot(BeNil())
+
+				// Reset operationID so defer does not attempt a redundant delete
+				operationID = ""
+
+				// Verify deletion — the operation should no longer be retrievable
+				verifyGetOptions := service.NewGetZoneApiGatewayOperationOptions(*createResult.Result.OperationID)
+				_, verifyResponse, verifyErr := service.GetZoneApiGatewayOperation(verifyGetOptions)
+				Expect(verifyErr).ToNot(BeNil())
+				Expect(verifyResponse.StatusCode).To(Equal(404))
+			})
+		})
+
+		Context(`Create bulk operations, retrieve one, update labels, then delete all`, func() {
+			It(`Create 3 API Gateway operations in bulk, retrieve one, update labels, and clean up`, func() {
+				shouldSkipTest()
+
+				// Build 3 operations for the bulk create call
+				op1, err := service.NewApiGatewayOperation("GET", "api.example.com", "/v2/users")
+				Expect(err).To(BeNil())
+				op2, err := service.NewApiGatewayOperation("POST", "api.example.com", "/v2/orders")
+				Expect(err).To(BeNil())
+				op3, err := service.NewApiGatewayOperation("DELETE", "api.example.com", "/v2/sessions")
+				Expect(err).To(BeNil())
+
+				bulkCreateOptions := service.NewCreateZoneApiGatewayOperationOptions().
+					SetApiGatewayOperation([]ApiGatewayOperation{*op1, *op2, *op3})
+
+				bulkResult, bulkResponse, bulkErr := service.CreateZoneApiGatewayOperation(bulkCreateOptions)
+				Expect(bulkErr).To(BeNil())
+				Expect(bulkResponse).ToNot(BeNil())
+				Expect(bulkResult).ToNot(BeNil())
+				Expect(*bulkResult.Success).To(BeTrue())
+				Expect(len(bulkResult.Result)).To(Equal(3))
+
+				// Collect all operation IDs
+				bulkOperationIDs := []string{}
+				for _, item := range bulkResult.Result {
+					Expect(item.OperationID).ToNot(BeNil())
+					bulkOperationIDs = append(bulkOperationIDs, *item.OperationID)
+				}
+				Expect(len(bulkOperationIDs)).To(Equal(3))
+
+				// Safety cleanup: runs if any subsequent expectation fails
+				defer func() {
+					for _, opID := range bulkOperationIDs {
+						deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(opID)
+						_, _ = service.DeleteZoneApiGatewayOperation(deleteOptions)
+					}
+				}()
+
+				// --- Step 1: Retrieve the second operation by its operation ID ---
+				secondOperationID := bulkOperationIDs[1]
+				getOptions := service.NewGetZoneApiGatewayOperationOptions(secondOperationID)
+				getResult, getResponse, getErr := service.GetZoneApiGatewayOperation(getOptions)
+				Expect(getErr).To(BeNil())
+				Expect(getResponse).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+				Expect(*getResult.Success).To(BeTrue())
+				Expect(*getResult.Result.OperationID).To(Equal(secondOperationID))
+
+				// --- Step 2: Add managed label to all 3 operations ---
+				const managedLabel = "cf-llm"
+				addSelector := &ApiGatewayOperationsLabelsInputSelector{
+					Include: &ApiGatewayOperationsLabelsInputSelectorInclude{
+						OperationIds: bulkOperationIDs,
+					},
+				}
+				addLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
+					SetManaged(&ApiGatewayOperationsLabelsInputManaged{
+						Labels: []string{managedLabel},
+					}).
+					SetSelector(addSelector)
+
+				addResult, addResponse, addErr := service.UpdateApiGatewayOperationLabels(addLabelsOptions)
+				Expect(addErr).To(BeNil())
+				Expect(addResponse).ToNot(BeNil())
+				Expect(addResult).ToNot(BeNil())
+				Expect(*addResult.Success).To(BeTrue())
+				Expect(len(addResult.Result)).To(Equal(3))
+
+				for _, item := range addResult.Result {
+					Expect(item.Labels).To(ContainElement(HaveKeyWithValue("name", managedLabel)))
+				}
+
+				// --- Step 3: Remove the first operation ID from the label set ---
+				remainingIDs := bulkOperationIDs[1:]
+				removeSelector := &ApiGatewayOperationsLabelsInputSelector{
+					Include: &ApiGatewayOperationsLabelsInputSelectorInclude{
+						OperationIds: remainingIDs,
+					},
+				}
+				removeLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
+					SetManaged(&ApiGatewayOperationsLabelsInputManaged{
+						Labels: []string{managedLabel},
+					}).
+					SetSelector(removeSelector)
+
+				removeResult, removeResponse, removeErr := service.UpdateApiGatewayOperationLabels(removeLabelsOptions)
+				Expect(removeErr).To(BeNil())
+				Expect(removeResponse).ToNot(BeNil())
+				Expect(removeResult).ToNot(BeNil())
+				Expect(*removeResult.Success).To(BeTrue())
+
+				for _, item := range removeResult.Result {
+					Expect(item.Labels).To(ContainElement(HaveKeyWithValue("name", managedLabel)))
+				}
+
+				// --- Step 4: Explicit delete of all operations and verify API responses ---
+				for _, opID := range bulkOperationIDs {
+					deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(opID)
+					deleteResponse, deleteErr := service.DeleteZoneApiGatewayOperation(deleteOptions)
+					Expect(deleteErr).To(BeNil())
+					Expect(deleteResponse).ToNot(BeNil())
+				}
+
+				// Reset slice so defer does not attempt redundant deletes on normal exit
+				bulkOperationIDs = nil
 			})
 		})
 	})

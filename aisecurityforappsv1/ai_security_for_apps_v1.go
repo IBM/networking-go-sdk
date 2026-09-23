@@ -1153,7 +1153,7 @@ func UnmarshalApiGatewayOperationsLabelsInputUser(m map[string]json.RawMessage, 
 type ApiGatewayOperationsLabelsRespResultItem struct {
 	OperationID *string `json:"operation_id,omitempty"`
 
-	Labels []string `json:"labels,omitempty"`
+	Labels []map[string]interface{} `json:"labels,omitempty"`
 }
 
 // UnmarshalApiGatewayOperationsLabelsRespResultItem unmarshals an instance of ApiGatewayOperationsLabelsRespResultItem from the specified map of raw messages.
