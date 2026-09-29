@@ -1,3 +1,10 @@
+# [0.55.0](https://github.com/IBM/networking-go-sdk/compare/v0.54.0...v0.55.0) (2026-09-29)
+
+
+### Features
+
+* **transitgateway:** add drsaas to tgw ([#309](https://github.com/IBM/networking-go-sdk/issues/309)) ([26505bf](https://github.com/IBM/networking-go-sdk/commit/26505bfb742f7adfdf62c7e821e807a182300243))
+
 # [0.54.0](https://github.com/IBM/networking-go-sdk/compare/v0.53.12...v0.54.0) (2026-09-16)
 
 
