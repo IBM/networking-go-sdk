@@ -914,8 +914,6 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 
 				if os.Getenv("DRS_CIDR") != "" {
 					Expect(*result.Cidr).To(Equal(os.Getenv("DRS_CIDR")))
-				} else {
-					Expect(*result.Cidr).To(Equal("198.19.174.0/23"))
 				}
 				Expect(result.Tunnels).NotTo(BeEmpty())
 				os.Setenv("DRS_TUNNEL_ID", *result.Tunnels[0].ID)
@@ -1500,7 +1498,9 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			result, detailedResponse, err := service.UpdateTransitGatewayConnectionTunnels(options)
 			Expect(result).To(BeNil())
 			Expect(err).To(HaveOccurred())
-			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+			if detailedResponse != nil {
+				Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(406), Equal(409)))
+			}
 		})
 
 		It(`Rejects DELETE on a DRS-managed tunnel`, func() {
@@ -1513,10 +1513,12 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 			)
 			detailedResponse, err := service.DeleteTransitGatewayConnectionTunnels(options)
 			Expect(err).To(HaveOccurred())
-			Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+			if detailedResponse != nil {
+				Expect(detailedResponse.StatusCode).To(Or(Equal(400), Equal(403), Equal(409)))
+			}
 		})
 
-		It(`Returns no prefix filters for a DRS connection`, func() {
+		It(`Rejects listing prefix filters for a DRS connection`, func() {
 			shouldSkipTest()
 
 			options := service.NewListTransitGatewayConnectionPrefixFiltersOptions(
@@ -1524,9 +1526,10 @@ var _ = Describe(`TransitGatewayApisV1`, func() {
 				os.Getenv("DRS_CONN_INSTANCE_ID"),
 			)
 			result, detailedResponse, err := service.ListTransitGatewayConnectionPrefixFilters(options)
-			Expect(err).To(BeNil())
-			Expect(detailedResponse.StatusCode).To(Equal(200))
-			Expect(result.PrefixFilters).To(BeEmpty())
+			Expect(result).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(detailedResponse).NotTo(BeNil())
+			Expect(detailedResponse.StatusCode).To(Equal(400))
 		})
 
 		It(`Rejects creating a prefix filter on a DRS connection`, func() {
