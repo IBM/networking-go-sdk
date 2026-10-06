@@ -1,3 +1,10 @@
+## [0.55.2](https://github.com/IBM/networking-go-sdk/compare/v0.55.1...v0.55.2) (2026-10-06)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/onsi/gomega to v1.44.0 ([#334](https://github.com/IBM/networking-go-sdk/issues/334)) ([71fa8af](https://github.com/IBM/networking-go-sdk/commit/71fa8af0dbc8249865c218df321b440090648dad))
+
 ## [0.55.1](https://github.com/IBM/networking-go-sdk/compare/v0.55.0...v0.55.1) (2026-10-02)
 
 
