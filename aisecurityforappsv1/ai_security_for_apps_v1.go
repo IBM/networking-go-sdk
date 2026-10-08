@@ -30,8 +30,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/IBM/go-sdk-core/v5/core"
 	common "github.com/IBM/networking-go-sdk/common"
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/go-openapi/strfmt"
 )
 
@@ -128,8 +128,8 @@ func NewAiSecurityForAppsV1(options *AiSecurityForAppsV1Options) (service *AiSec
 	}
 
 	service = &AiSecurityForAppsV1{
-		Service:        baseService,
-		Crn:            options.Crn,
+		Service: baseService,
+		Crn: options.Crn,
 		ZoneIdentifier: options.ZoneIdentifier,
 	}
 
@@ -208,7 +208,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetAiSecuritySettingsWithContext(c
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -273,7 +273,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) ReplaceZoneAiSecuritySettingsWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -350,7 +350,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetApiGatewayDiscoveryWithContext(
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -415,7 +415,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) ListApiGatewayDiscoveryOperationsW
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -512,7 +512,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateZoneApiGatewayDiscoveryOpera
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -569,6 +569,172 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateZoneApiGatewayDiscoveryOpera
 	return
 }
 
+// DeleteZoneApiGatewayOperations : Bulk-delete all API Gateway operations for a zone
+// Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
+func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsOptions *DeleteZoneApiGatewayOperationsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.DeleteZoneApiGatewayOperationsWithContext(context.Background(), deleteZoneApiGatewayOperationsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// DeleteZoneApiGatewayOperationsWithContext is an alternate form of the DeleteZoneApiGatewayOperations method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationsWithContext(ctx context.Context, deleteZoneApiGatewayOperationsOptions *DeleteZoneApiGatewayOperationsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(deleteZoneApiGatewayOperationsOptions, "deleteZoneApiGatewayOperationsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "DeleteZoneApiGatewayOperations")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range deleteZoneApiGatewayOperationsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if deleteZoneApiGatewayOperationsOptions.OperationIds != nil {
+		body["operation_ids"] = deleteZoneApiGatewayOperationsOptions.OperationIds
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_zone_api_gateway_operations", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayNullResultResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListZoneApiGatewayOperations : List API Gateway operations
+// List all API Gateway operations saved to Endpoint Management for a zone.
+func (aiSecurityForApps *AiSecurityForAppsV1) ListZoneApiGatewayOperations(listZoneApiGatewayOperationsOptions *ListZoneApiGatewayOperationsOptions) (result *ApiGatewayOperationsListResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.ListZoneApiGatewayOperationsWithContext(context.Background(), listZoneApiGatewayOperationsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ListZoneApiGatewayOperationsWithContext is an alternate form of the ListZoneApiGatewayOperations method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) ListZoneApiGatewayOperationsWithContext(ctx context.Context, listZoneApiGatewayOperationsOptions *ListZoneApiGatewayOperationsOptions) (result *ApiGatewayOperationsListResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(listZoneApiGatewayOperationsOptions, "listZoneApiGatewayOperationsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "ListZoneApiGatewayOperations")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listZoneApiGatewayOperationsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	if listZoneApiGatewayOperationsOptions.Host != nil {
+		builder.AddQuery("host", strings.Join(listZoneApiGatewayOperationsOptions.Host, ","))
+	}
+	if listZoneApiGatewayOperationsOptions.Method != nil {
+		builder.AddQuery("method", strings.Join(listZoneApiGatewayOperationsOptions.Method, ","))
+	}
+	if listZoneApiGatewayOperationsOptions.Endpoint != nil {
+		builder.AddQuery("endpoint", fmt.Sprint(*listZoneApiGatewayOperationsOptions.Endpoint))
+	}
+	if listZoneApiGatewayOperationsOptions.Labels != nil {
+		builder.AddQuery("labels", strings.Join(listZoneApiGatewayOperationsOptions.Labels, ","))
+	}
+	if listZoneApiGatewayOperationsOptions.Direction != nil {
+		builder.AddQuery("direction", fmt.Sprint(*listZoneApiGatewayOperationsOptions.Direction))
+	}
+	if listZoneApiGatewayOperationsOptions.Order != nil {
+		builder.AddQuery("order", fmt.Sprint(*listZoneApiGatewayOperationsOptions.Order))
+	}
+	if listZoneApiGatewayOperationsOptions.Page != nil {
+		builder.AddQuery("page", fmt.Sprint(*listZoneApiGatewayOperationsOptions.Page))
+	}
+	if listZoneApiGatewayOperationsOptions.PerPage != nil {
+		builder.AddQuery("per_page", fmt.Sprint(*listZoneApiGatewayOperationsOptions.PerPage))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "list_zone_api_gateway_operations", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayOperationsListResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // CreateZoneApiGatewayOperation : Create API Gateway operations in bulk
 // Create API Gateway operations in bulk for a zone, saving them to Endpoint Management.
 func (aiSecurityForApps *AiSecurityForAppsV1) CreateZoneApiGatewayOperation(createZoneApiGatewayOperationOptions *CreateZoneApiGatewayOperationOptions) (result *ApiGatewayOperationsResp, response *core.DetailedResponse, err error) {
@@ -586,7 +752,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) CreateZoneApiGatewayOperationWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -660,7 +826,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) CreateApiGatewayOperationItemWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -725,6 +891,170 @@ func (aiSecurityForApps *AiSecurityForAppsV1) CreateApiGatewayOperationItemWithC
 	return
 }
 
+// ReplaceZoneApiGatewayOperationLabels : Replace labels on API Gateway operations in bulk
+// Replace labels on a set of API Gateway operations in bulk.
+func (aiSecurityForApps *AiSecurityForAppsV1) ReplaceZoneApiGatewayOperationLabels(replaceZoneApiGatewayOperationLabelsOptions *ReplaceZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationsLabelsResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.ReplaceZoneApiGatewayOperationLabelsWithContext(context.Background(), replaceZoneApiGatewayOperationLabelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ReplaceZoneApiGatewayOperationLabelsWithContext is an alternate form of the ReplaceZoneApiGatewayOperationLabels method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) ReplaceZoneApiGatewayOperationLabelsWithContext(ctx context.Context, replaceZoneApiGatewayOperationLabelsOptions *ReplaceZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationsLabelsResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(replaceZoneApiGatewayOperationLabelsOptions, "replaceZoneApiGatewayOperationLabelsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "ReplaceZoneApiGatewayOperationLabels")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range replaceZoneApiGatewayOperationLabelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if replaceZoneApiGatewayOperationLabelsOptions.Selector != nil {
+		body["selector"] = replaceZoneApiGatewayOperationLabelsOptions.Selector
+	}
+	if replaceZoneApiGatewayOperationLabelsOptions.User != nil {
+		body["user"] = replaceZoneApiGatewayOperationLabelsOptions.User
+	}
+	if replaceZoneApiGatewayOperationLabelsOptions.Managed != nil {
+		body["managed"] = replaceZoneApiGatewayOperationLabelsOptions.Managed
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_zone_api_gateway_operation_labels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayOperationsLabelsResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// DeleteZoneApiGatewayOperationLabels : Remove labels from API Gateway operations in bulk
+// Remove labels from a set of API Gateway operations in bulk.
+func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsOptions *DeleteZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.DeleteZoneApiGatewayOperationLabelsWithContext(context.Background(), deleteZoneApiGatewayOperationLabelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// DeleteZoneApiGatewayOperationLabelsWithContext is an alternate form of the DeleteZoneApiGatewayOperationLabels method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationLabelsWithContext(ctx context.Context, deleteZoneApiGatewayOperationLabelsOptions *DeleteZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateStruct(deleteZoneApiGatewayOperationLabelsOptions, "deleteZoneApiGatewayOperationLabelsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "DeleteZoneApiGatewayOperationLabels")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range deleteZoneApiGatewayOperationLabelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if deleteZoneApiGatewayOperationLabelsOptions.Selector != nil {
+		body["selector"] = deleteZoneApiGatewayOperationLabelsOptions.Selector
+	}
+	if deleteZoneApiGatewayOperationLabelsOptions.User != nil {
+		body["user"] = deleteZoneApiGatewayOperationLabelsOptions.User
+	}
+	if deleteZoneApiGatewayOperationLabelsOptions.Managed != nil {
+		body["managed"] = deleteZoneApiGatewayOperationLabelsOptions.Managed
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "delete_zone_api_gateway_operation_labels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayNullResultResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // UpdateApiGatewayOperationLabels : Add or remove labels from API Gateway operations
 // Add or remove labels from one or more API Gateway operations. Apply the built-in LLM label to endpoints that receive
 // LLM traffic to enable IBM AI Security for Apps to scan those endpoints for prompt injection, PII, and unsafe topics.
@@ -743,7 +1073,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateApiGatewayOperationLabelsWit
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -768,14 +1098,14 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateApiGatewayOperationLabelsWit
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
+	if updateApiGatewayOperationLabelsOptions.Selector != nil {
+		body["selector"] = updateApiGatewayOperationLabelsOptions.Selector
+	}
 	if updateApiGatewayOperationLabelsOptions.User != nil {
 		body["user"] = updateApiGatewayOperationLabelsOptions.User
 	}
 	if updateApiGatewayOperationLabelsOptions.Managed != nil {
 		body["managed"] = updateApiGatewayOperationLabelsOptions.Managed
-	}
-	if updateApiGatewayOperationLabelsOptions.Selector != nil {
-		body["selector"] = updateApiGatewayOperationLabelsOptions.Selector
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -808,6 +1138,261 @@ func (aiSecurityForApps *AiSecurityForAppsV1) UpdateApiGatewayOperationLabelsWit
 	return
 }
 
+// CreateApiGatewayOperationLabels : Attach labels to a single operation
+// Attach labels to a single API Gateway operation.
+func (aiSecurityForApps *AiSecurityForAppsV1) CreateApiGatewayOperationLabels(createApiGatewayOperationLabelsOptions *CreateApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationLabelResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.CreateApiGatewayOperationLabelsWithContext(context.Background(), createApiGatewayOperationLabelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// CreateApiGatewayOperationLabelsWithContext is an alternate form of the CreateApiGatewayOperationLabels method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) CreateApiGatewayOperationLabelsWithContext(ctx context.Context, createApiGatewayOperationLabelsOptions *CreateApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationLabelResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(createApiGatewayOperationLabelsOptions, "createApiGatewayOperationLabelsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(createApiGatewayOperationLabelsOptions, "createApiGatewayOperationLabelsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+		"operation_id": *createApiGatewayOperationLabelsOptions.OperationID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "CreateApiGatewayOperationLabels")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range createApiGatewayOperationLabelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if createApiGatewayOperationLabelsOptions.User != nil {
+		body["user"] = createApiGatewayOperationLabelsOptions.User
+	}
+	if createApiGatewayOperationLabelsOptions.Managed != nil {
+		body["managed"] = createApiGatewayOperationLabelsOptions.Managed
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "create_api_gateway_operation_labels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayOperationLabelResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// SetZoneApiGatewayOperationLabels : Replace labels on a single operation
+// Replace labels on a single API Gateway operation.
+func (aiSecurityForApps *AiSecurityForAppsV1) SetZoneApiGatewayOperationLabels(setZoneApiGatewayOperationLabelsOptions *SetZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationLabelResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.SetZoneApiGatewayOperationLabelsWithContext(context.Background(), setZoneApiGatewayOperationLabelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// SetZoneApiGatewayOperationLabelsWithContext is an alternate form of the SetZoneApiGatewayOperationLabels method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) SetZoneApiGatewayOperationLabelsWithContext(ctx context.Context, setZoneApiGatewayOperationLabelsOptions *SetZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayOperationLabelResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(setZoneApiGatewayOperationLabelsOptions, "setZoneApiGatewayOperationLabelsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(setZoneApiGatewayOperationLabelsOptions, "setZoneApiGatewayOperationLabelsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+		"operation_id": *setZoneApiGatewayOperationLabelsOptions.OperationID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "SetZoneApiGatewayOperationLabels")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range setZoneApiGatewayOperationLabelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if setZoneApiGatewayOperationLabelsOptions.User != nil {
+		body["user"] = setZoneApiGatewayOperationLabelsOptions.User
+	}
+	if setZoneApiGatewayOperationLabelsOptions.Managed != nil {
+		body["managed"] = setZoneApiGatewayOperationLabelsOptions.Managed
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "set_zone_api_gateway_operation_labels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayOperationLabelResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UnsetZoneApiGatewayOperationLabels : Remove labels from a single operation
+// Remove labels from a single API Gateway operation.
+func (aiSecurityForApps *AiSecurityForAppsV1) UnsetZoneApiGatewayOperationLabels(unsetZoneApiGatewayOperationLabelsOptions *UnsetZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	result, response, err = aiSecurityForApps.UnsetZoneApiGatewayOperationLabelsWithContext(context.Background(), unsetZoneApiGatewayOperationLabelsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UnsetZoneApiGatewayOperationLabelsWithContext is an alternate form of the UnsetZoneApiGatewayOperationLabels method which supports a Context parameter
+func (aiSecurityForApps *AiSecurityForAppsV1) UnsetZoneApiGatewayOperationLabelsWithContext(ctx context.Context, unsetZoneApiGatewayOperationLabelsOptions *UnsetZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(unsetZoneApiGatewayOperationLabelsOptions, "unsetZoneApiGatewayOperationLabelsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(unsetZoneApiGatewayOperationLabelsOptions, "unsetZoneApiGatewayOperationLabelsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"crn": *aiSecurityForApps.Crn,
+		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
+		"operation_id": *unsetZoneApiGatewayOperationLabelsOptions.OperationID,
+	}
+
+	builder := core.NewRequestBuilder(core.DELETE)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = aiSecurityForApps.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(aiSecurityForApps.Service.Options.URL, `/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("ai_security_for_apps", "V1", "UnsetZoneApiGatewayOperationLabels")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range unsetZoneApiGatewayOperationLabelsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if unsetZoneApiGatewayOperationLabelsOptions.User != nil {
+		body["user"] = unsetZoneApiGatewayOperationLabelsOptions.User
+	}
+	if unsetZoneApiGatewayOperationLabelsOptions.Managed != nil {
+		body["managed"] = unsetZoneApiGatewayOperationLabelsOptions.Managed
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = aiSecurityForApps.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "unset_zone_api_gateway_operation_labels", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalApiGatewayNullResultResp)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // GetZoneApiGatewayOperation : Retrieve information about an operation
 // Retrieve information about a specific operation on a zone.
 func (aiSecurityForApps *AiSecurityForAppsV1) GetZoneApiGatewayOperation(getZoneApiGatewayOperationOptions *GetZoneApiGatewayOperationOptions) (result *ApiGatewayOperationItemResp, response *core.DetailedResponse, err error) {
@@ -830,9 +1415,9 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetZoneApiGatewayOperationWithCont
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
-		"operation_id":    *getZoneApiGatewayOperationOptions.OperationID,
+		"operation_id": *getZoneApiGatewayOperationOptions.OperationID,
 	}
 
 	builder := core.NewRequestBuilder(core.GET)
@@ -901,9 +1486,9 @@ func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationWithC
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
-		"operation_id":    *deleteZoneApiGatewayOperationOptions.OperationID,
+		"operation_id": *deleteZoneApiGatewayOperationOptions.OperationID,
 	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
@@ -957,7 +1542,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) GetApiGatewaySchemasWithContext(ct
 	}
 
 	pathParamsMap := map[string]string{
-		"crn":             *aiSecurityForApps.Crn,
+		"crn": *aiSecurityForApps.Crn,
 		"zone_identifier": *aiSecurityForApps.ZoneIdentifier,
 	}
 
@@ -1065,15 +1650,67 @@ func UnmarshalApiGatewayOperationItemRespResult(m map[string]json.RawMessage, re
 	return
 }
 
-// ApiGatewayOperationsLabelsInputManaged : Managed labels to apply (e.g. cf-llm).
-type ApiGatewayOperationsLabelsInputManaged struct {
-	// Array of managed label strings.
+// ApiGatewayOperationLabelRespResult : The updated operation with its label set.
+type ApiGatewayOperationLabelRespResult struct {
+	// UUID of the operation.
+	OperationID *string `json:"operation_id,omitempty"`
+
+	// Labels applied to the operation.
+	Labels []ApiGatewayOperationLabelRespResultLabelsItem `json:"labels,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationLabelRespResult unmarshals an instance of ApiGatewayOperationLabelRespResult from the specified map of raw messages.
+func UnmarshalApiGatewayOperationLabelRespResult(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationLabelRespResult)
+	err = core.UnmarshalPrimitive(m, "operation_id", &obj.OperationID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "operation_id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "labels", &obj.Labels, UnmarshalApiGatewayOperationLabelRespResultLabelsItem)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationLabelRespResultLabelsItem : ApiGatewayOperationLabelRespResultLabelsItem struct
+type ApiGatewayOperationLabelRespResultLabelsItem struct {
+	// Label name.
+	Name *string `json:"name,omitempty"`
+
+	// Label source (e.g. managed or user).
+	Source *string `json:"source,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationLabelRespResultLabelsItem unmarshals an instance of ApiGatewayOperationLabelRespResultLabelsItem from the specified map of raw messages.
+func UnmarshalApiGatewayOperationLabelRespResultLabelsItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationLabelRespResultLabelsItem)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsBulkDeleteInputManaged : Managed labels to remove.
+type ApiGatewayOperationsLabelsBulkDeleteInputManaged struct {
+	// List of managed label names to remove.
 	Labels []string `json:"labels,omitempty"`
 }
 
-// UnmarshalApiGatewayOperationsLabelsInputManaged unmarshals an instance of ApiGatewayOperationsLabelsInputManaged from the specified map of raw messages.
-func UnmarshalApiGatewayOperationsLabelsInputManaged(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(ApiGatewayOperationsLabelsInputManaged)
+// UnmarshalApiGatewayOperationsLabelsBulkDeleteInputManaged unmarshals an instance of ApiGatewayOperationsLabelsBulkDeleteInputManaged from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkDeleteInputManaged(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkDeleteInputManaged)
 	err = core.UnmarshalPrimitive(m, "labels", &obj.Labels)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
@@ -1083,15 +1720,15 @@ func UnmarshalApiGatewayOperationsLabelsInputManaged(m map[string]json.RawMessag
 	return
 }
 
-// ApiGatewayOperationsLabelsInputSelector : Selector specifying which operations to label.
-type ApiGatewayOperationsLabelsInputSelector struct {
-	// Operations to include in the label operation.
-	Include *ApiGatewayOperationsLabelsInputSelectorInclude `json:"include" validate:"required"`
+// ApiGatewayOperationsLabelsBulkDeleteInputSelector : Selector specifying which operations to affect.
+type ApiGatewayOperationsLabelsBulkDeleteInputSelector struct {
+	// Operations to include.
+	Include *ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude `json:"include" validate:"required"`
 }
 
-// NewApiGatewayOperationsLabelsInputSelector : Instantiate ApiGatewayOperationsLabelsInputSelector (Generic Model Constructor)
-func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsInputSelector(include *ApiGatewayOperationsLabelsInputSelectorInclude) (_model *ApiGatewayOperationsLabelsInputSelector, err error) {
-	_model = &ApiGatewayOperationsLabelsInputSelector{
+// NewApiGatewayOperationsLabelsBulkDeleteInputSelector : Instantiate ApiGatewayOperationsLabelsBulkDeleteInputSelector (Generic Model Constructor)
+func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsBulkDeleteInputSelector(include *ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude) (_model *ApiGatewayOperationsLabelsBulkDeleteInputSelector, err error) {
+	_model = &ApiGatewayOperationsLabelsBulkDeleteInputSelector{
 		Include: include,
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -1101,10 +1738,10 @@ func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsInputSelector(include *
 	return
 }
 
-// UnmarshalApiGatewayOperationsLabelsInputSelector unmarshals an instance of ApiGatewayOperationsLabelsInputSelector from the specified map of raw messages.
-func UnmarshalApiGatewayOperationsLabelsInputSelector(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(ApiGatewayOperationsLabelsInputSelector)
-	err = core.UnmarshalModel(m, "include", &obj.Include, UnmarshalApiGatewayOperationsLabelsInputSelectorInclude)
+// UnmarshalApiGatewayOperationsLabelsBulkDeleteInputSelector unmarshals an instance of ApiGatewayOperationsLabelsBulkDeleteInputSelector from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkDeleteInputSelector(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkDeleteInputSelector)
+	err = core.UnmarshalModel(m, "include", &obj.Include, UnmarshalApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "include-error", common.GetComponentInfo())
 		return
@@ -1113,15 +1750,15 @@ func UnmarshalApiGatewayOperationsLabelsInputSelector(m map[string]json.RawMessa
 	return
 }
 
-// ApiGatewayOperationsLabelsInputSelectorInclude : Operations to include in the label operation.
-type ApiGatewayOperationsLabelsInputSelectorInclude struct {
-	// Array of operation UUIDs to label.
+// ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude : Operations to include.
+type ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude struct {
+	// Array of operation UUIDs to remove labels from.
 	OperationIds []string `json:"operation_ids,omitempty"`
 }
 
-// UnmarshalApiGatewayOperationsLabelsInputSelectorInclude unmarshals an instance of ApiGatewayOperationsLabelsInputSelectorInclude from the specified map of raw messages.
-func UnmarshalApiGatewayOperationsLabelsInputSelectorInclude(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(ApiGatewayOperationsLabelsInputSelectorInclude)
+// UnmarshalApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude unmarshals an instance of ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude)
 	err = core.UnmarshalPrimitive(m, "operation_ids", &obj.OperationIds)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "operation_ids-error", common.GetComponentInfo())
@@ -1131,15 +1768,99 @@ func UnmarshalApiGatewayOperationsLabelsInputSelectorInclude(m map[string]json.R
 	return
 }
 
-// ApiGatewayOperationsLabelsInputUser : User-defined labels to apply.
-type ApiGatewayOperationsLabelsInputUser struct {
-	// Array of user-defined label strings.
+// ApiGatewayOperationsLabelsBulkDeleteInputUser : User-defined labels to remove.
+type ApiGatewayOperationsLabelsBulkDeleteInputUser struct {
+	// List of user-defined label names to remove.
 	Labels []string `json:"labels,omitempty"`
 }
 
-// UnmarshalApiGatewayOperationsLabelsInputUser unmarshals an instance of ApiGatewayOperationsLabelsInputUser from the specified map of raw messages.
-func UnmarshalApiGatewayOperationsLabelsInputUser(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(ApiGatewayOperationsLabelsInputUser)
+// UnmarshalApiGatewayOperationsLabelsBulkDeleteInputUser unmarshals an instance of ApiGatewayOperationsLabelsBulkDeleteInputUser from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkDeleteInputUser(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkDeleteInputUser)
+	err = core.UnmarshalPrimitive(m, "labels", &obj.Labels)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsBulkInputManaged : Managed labels to apply (e.g. cf-llm).
+type ApiGatewayOperationsLabelsBulkInputManaged struct {
+	// List of managed label names to apply.
+	Labels []string `json:"labels,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsLabelsBulkInputManaged unmarshals an instance of ApiGatewayOperationsLabelsBulkInputManaged from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkInputManaged(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkInputManaged)
+	err = core.UnmarshalPrimitive(m, "labels", &obj.Labels)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsBulkInputSelector : Selector specifying which operations to label.
+type ApiGatewayOperationsLabelsBulkInputSelector struct {
+	// Operations to include in the label operation.
+	Include *ApiGatewayOperationsLabelsBulkInputSelectorInclude `json:"include" validate:"required"`
+}
+
+// NewApiGatewayOperationsLabelsBulkInputSelector : Instantiate ApiGatewayOperationsLabelsBulkInputSelector (Generic Model Constructor)
+func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsBulkInputSelector(include *ApiGatewayOperationsLabelsBulkInputSelectorInclude) (_model *ApiGatewayOperationsLabelsBulkInputSelector, err error) {
+	_model = &ApiGatewayOperationsLabelsBulkInputSelector{
+		Include: include,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+// UnmarshalApiGatewayOperationsLabelsBulkInputSelector unmarshals an instance of ApiGatewayOperationsLabelsBulkInputSelector from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkInputSelector(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkInputSelector)
+	err = core.UnmarshalModel(m, "include", &obj.Include, UnmarshalApiGatewayOperationsLabelsBulkInputSelectorInclude)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "include-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsBulkInputSelectorInclude : Operations to include in the label operation.
+type ApiGatewayOperationsLabelsBulkInputSelectorInclude struct {
+	// Array of operation UUIDs to label.
+	OperationIds []string `json:"operation_ids,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsLabelsBulkInputSelectorInclude unmarshals an instance of ApiGatewayOperationsLabelsBulkInputSelectorInclude from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkInputSelectorInclude(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkInputSelectorInclude)
+	err = core.UnmarshalPrimitive(m, "operation_ids", &obj.OperationIds)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "operation_ids-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsBulkInputUser : User-defined labels to apply.
+type ApiGatewayOperationsLabelsBulkInputUser struct {
+	// List of user-defined label names to apply.
+	Labels []string `json:"labels,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsLabelsBulkInputUser unmarshals an instance of ApiGatewayOperationsLabelsBulkInputUser from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsBulkInputUser(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsBulkInputUser)
 	err = core.UnmarshalPrimitive(m, "labels", &obj.Labels)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
@@ -1153,7 +1874,7 @@ func UnmarshalApiGatewayOperationsLabelsInputUser(m map[string]json.RawMessage, 
 type ApiGatewayOperationsLabelsRespResultItem struct {
 	OperationID *string `json:"operation_id,omitempty"`
 
-	Labels []map[string]interface{} `json:"labels,omitempty"`
+	Labels []ApiGatewayOperationsLabelsRespResultItemLabelsItem `json:"labels,omitempty"`
 }
 
 // UnmarshalApiGatewayOperationsLabelsRespResultItem unmarshals an instance of ApiGatewayOperationsLabelsRespResultItem from the specified map of raw messages.
@@ -1164,9 +1885,81 @@ func UnmarshalApiGatewayOperationsLabelsRespResultItem(m map[string]json.RawMess
 		err = core.SDKErrorf(err, "", "operation_id-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "labels", &obj.Labels)
+	err = core.UnmarshalModel(m, "labels", &obj.Labels, UnmarshalApiGatewayOperationsLabelsRespResultItemLabelsItem)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "labels-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsLabelsRespResultItemLabelsItem : ApiGatewayOperationsLabelsRespResultItemLabelsItem struct
+type ApiGatewayOperationsLabelsRespResultItemLabelsItem struct {
+	// Label name.
+	Name *string `json:"name,omitempty"`
+
+	// Label source (e.g. managed or user).
+	Source *string `json:"source,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsLabelsRespResultItemLabelsItem unmarshals an instance of ApiGatewayOperationsLabelsRespResultItemLabelsItem from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsLabelsRespResultItemLabelsItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsLabelsRespResultItemLabelsItem)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "source", &obj.Source)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "source-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsListRespResultItem : ApiGatewayOperationsListRespResultItem struct
+type ApiGatewayOperationsListRespResultItem struct {
+	// UUID of the operation.
+	OperationID *string `json:"operation_id,omitempty"`
+
+	Method *string `json:"method,omitempty"`
+
+	Host *string `json:"host,omitempty"`
+
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	LastUpdated *strfmt.DateTime `json:"last_updated,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsListRespResultItem unmarshals an instance of ApiGatewayOperationsListRespResultItem from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsListRespResultItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsListRespResultItem)
+	err = core.UnmarshalPrimitive(m, "operation_id", &obj.OperationID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "operation_id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "method", &obj.Method)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "method-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "host-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "endpoint", &obj.Endpoint)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "endpoint-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "last_updated", &obj.LastUpdated)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "last_updated-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -1230,13 +2023,13 @@ type CreateApiGatewayOperationItemOptions struct {
 // Constants associated with the CreateApiGatewayOperationItemOptions.Method property.
 // The HTTP method for the operation.
 const (
-	CreateApiGatewayOperationItemOptions_Method_Delete  = "DELETE"
-	CreateApiGatewayOperationItemOptions_Method_Get     = "GET"
-	CreateApiGatewayOperationItemOptions_Method_Head    = "HEAD"
+	CreateApiGatewayOperationItemOptions_Method_Delete = "DELETE"
+	CreateApiGatewayOperationItemOptions_Method_Get = "GET"
+	CreateApiGatewayOperationItemOptions_Method_Head = "HEAD"
 	CreateApiGatewayOperationItemOptions_Method_Options = "OPTIONS"
-	CreateApiGatewayOperationItemOptions_Method_Patch   = "PATCH"
-	CreateApiGatewayOperationItemOptions_Method_Post    = "POST"
-	CreateApiGatewayOperationItemOptions_Method_Put     = "PUT"
+	CreateApiGatewayOperationItemOptions_Method_Patch = "PATCH"
+	CreateApiGatewayOperationItemOptions_Method_Post = "POST"
+	CreateApiGatewayOperationItemOptions_Method_Put = "PUT"
 )
 
 // NewCreateApiGatewayOperationItemOptions : Instantiate CreateApiGatewayOperationItemOptions
@@ -1268,6 +2061,52 @@ func (options *CreateApiGatewayOperationItemOptions) SetHeaders(param map[string
 	return options
 }
 
+// CreateApiGatewayOperationLabelsOptions : The CreateApiGatewayOperationLabels options.
+type CreateApiGatewayOperationLabelsOptions struct {
+	// UUID of the API Gateway operation.
+	OperationID *string `json:"operation_id" validate:"required,ne="`
+
+	// Flat list of user-defined label names to attach.
+	User []string `json:"user,omitempty"`
+
+	// Flat list of managed label names to attach (e.g. cf-llm).
+	Managed []string `json:"managed,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewCreateApiGatewayOperationLabelsOptions : Instantiate CreateApiGatewayOperationLabelsOptions
+func (*AiSecurityForAppsV1) NewCreateApiGatewayOperationLabelsOptions(operationID string) *CreateApiGatewayOperationLabelsOptions {
+	return &CreateApiGatewayOperationLabelsOptions{
+		OperationID: core.StringPtr(operationID),
+	}
+}
+
+// SetOperationID : Allow user to set OperationID
+func (_options *CreateApiGatewayOperationLabelsOptions) SetOperationID(operationID string) *CreateApiGatewayOperationLabelsOptions {
+	_options.OperationID = core.StringPtr(operationID)
+	return _options
+}
+
+// SetUser : Allow user to set User
+func (_options *CreateApiGatewayOperationLabelsOptions) SetUser(user []string) *CreateApiGatewayOperationLabelsOptions {
+	_options.User = user
+	return _options
+}
+
+// SetManaged : Allow user to set Managed
+func (_options *CreateApiGatewayOperationLabelsOptions) SetManaged(managed []string) *CreateApiGatewayOperationLabelsOptions {
+	_options.Managed = managed
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *CreateApiGatewayOperationLabelsOptions) SetHeaders(param map[string]string) *CreateApiGatewayOperationLabelsOptions {
+	options.Headers = param
+	return options
+}
+
 // CreateZoneApiGatewayOperationOptions : The CreateZoneApiGatewayOperation options.
 type CreateZoneApiGatewayOperationOptions struct {
 	// List of operations to create.
@@ -1290,6 +2129,50 @@ func (_options *CreateZoneApiGatewayOperationOptions) SetApiGatewayOperation(api
 
 // SetHeaders : Allow user to set Headers
 func (options *CreateZoneApiGatewayOperationOptions) SetHeaders(param map[string]string) *CreateZoneApiGatewayOperationOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteZoneApiGatewayOperationLabelsOptions : The DeleteZoneApiGatewayOperationLabels options.
+type DeleteZoneApiGatewayOperationLabelsOptions struct {
+	// Selector specifying which operations to affect.
+	Selector *ApiGatewayOperationsLabelsBulkDeleteInputSelector `json:"selector,omitempty"`
+
+	// User-defined labels to remove.
+	User *ApiGatewayOperationsLabelsBulkDeleteInputUser `json:"user,omitempty"`
+
+	// Managed labels to remove.
+	Managed *ApiGatewayOperationsLabelsBulkDeleteInputManaged `json:"managed,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewDeleteZoneApiGatewayOperationLabelsOptions : Instantiate DeleteZoneApiGatewayOperationLabelsOptions
+func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationLabelsOptions() *DeleteZoneApiGatewayOperationLabelsOptions {
+	return &DeleteZoneApiGatewayOperationLabelsOptions{}
+}
+
+// SetSelector : Allow user to set Selector
+func (_options *DeleteZoneApiGatewayOperationLabelsOptions) SetSelector(selector *ApiGatewayOperationsLabelsBulkDeleteInputSelector) *DeleteZoneApiGatewayOperationLabelsOptions {
+	_options.Selector = selector
+	return _options
+}
+
+// SetUser : Allow user to set User
+func (_options *DeleteZoneApiGatewayOperationLabelsOptions) SetUser(user *ApiGatewayOperationsLabelsBulkDeleteInputUser) *DeleteZoneApiGatewayOperationLabelsOptions {
+	_options.User = user
+	return _options
+}
+
+// SetManaged : Allow user to set Managed
+func (_options *DeleteZoneApiGatewayOperationLabelsOptions) SetManaged(managed *ApiGatewayOperationsLabelsBulkDeleteInputManaged) *DeleteZoneApiGatewayOperationLabelsOptions {
+	_options.Managed = managed
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteZoneApiGatewayOperationLabelsOptions) SetHeaders(param map[string]string) *DeleteZoneApiGatewayOperationLabelsOptions {
 	options.Headers = param
 	return options
 }
@@ -1318,6 +2201,32 @@ func (_options *DeleteZoneApiGatewayOperationOptions) SetOperationID(operationID
 
 // SetHeaders : Allow user to set Headers
 func (options *DeleteZoneApiGatewayOperationOptions) SetHeaders(param map[string]string) *DeleteZoneApiGatewayOperationOptions {
+	options.Headers = param
+	return options
+}
+
+// DeleteZoneApiGatewayOperationsOptions : The DeleteZoneApiGatewayOperations options.
+type DeleteZoneApiGatewayOperationsOptions struct {
+	// Array of operation UUIDs to delete. When absent, all operations are deleted.
+	OperationIds []string `json:"operation_ids,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewDeleteZoneApiGatewayOperationsOptions : Instantiate DeleteZoneApiGatewayOperationsOptions
+func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationsOptions() *DeleteZoneApiGatewayOperationsOptions {
+	return &DeleteZoneApiGatewayOperationsOptions{}
+}
+
+// SetOperationIds : Allow user to set OperationIds
+func (_options *DeleteZoneApiGatewayOperationsOptions) SetOperationIds(operationIds []string) *DeleteZoneApiGatewayOperationsOptions {
+	_options.OperationIds = operationIds
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *DeleteZoneApiGatewayOperationsOptions) SetHeaders(param map[string]string) *DeleteZoneApiGatewayOperationsOptions {
 	options.Headers = param
 	return options
 }
@@ -1493,25 +2402,25 @@ type ListApiGatewayDiscoveryOperationsOptions struct {
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Direction property.
 // Direction to order results.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Direction_Asc  = "asc"
+	ListApiGatewayDiscoveryOperationsOptions_Direction_Asc = "asc"
 	ListApiGatewayDiscoveryOperationsOptions_Direction_Desc = "desc"
 )
 
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Order property.
 // Field to order results by.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Order_Endpoint                = "endpoint"
-	ListApiGatewayDiscoveryOperationsOptions_Order_Host                    = "host"
-	ListApiGatewayDiscoveryOperationsOptions_Order_Method                  = "method"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Endpoint = "endpoint"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Host = "host"
+	ListApiGatewayDiscoveryOperationsOptions_Order_Method = "method"
 	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsLastUpdated = "traffic_stats.last_updated"
-	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsRequests    = "traffic_stats.requests"
+	ListApiGatewayDiscoveryOperationsOptions_Order_TrafficStatsRequests = "traffic_stats.requests"
 )
 
 // Constants associated with the ListApiGatewayDiscoveryOperationsOptions.Origin property.
 // Filter by discovery engine source.
 const (
-	ListApiGatewayDiscoveryOperationsOptions_Origin_Labeldiscovery    = "LabelDiscovery"
-	ListApiGatewayDiscoveryOperationsOptions_Origin_Ml                = "ML"
+	ListApiGatewayDiscoveryOperationsOptions_Origin_Labeldiscovery = "LabelDiscovery"
+	ListApiGatewayDiscoveryOperationsOptions_Origin_Ml = "ML"
 	ListApiGatewayDiscoveryOperationsOptions_Origin_Sessionidentifier = "SessionIdentifier"
 )
 
@@ -1519,8 +2428,8 @@ const (
 // Filter results by discovery state (review/saved/ignored).
 const (
 	ListApiGatewayDiscoveryOperationsOptions_State_Ignored = "ignored"
-	ListApiGatewayDiscoveryOperationsOptions_State_Review  = "review"
-	ListApiGatewayDiscoveryOperationsOptions_State_Saved   = "saved"
+	ListApiGatewayDiscoveryOperationsOptions_State_Review = "review"
+	ListApiGatewayDiscoveryOperationsOptions_State_Saved = "saved"
 )
 
 // NewListApiGatewayDiscoveryOperationsOptions : Instantiate ListApiGatewayDiscoveryOperationsOptions
@@ -1594,6 +2503,123 @@ func (options *ListApiGatewayDiscoveryOperationsOptions) SetHeaders(param map[st
 	return options
 }
 
+// ListZoneApiGatewayOperationsOptions : The ListZoneApiGatewayOperations options.
+type ListZoneApiGatewayOperationsOptions struct {
+	// Filter results to only include the specified hosts.
+	Host []string `json:"host,omitempty"`
+
+	// Filter results to only include the specified HTTP methods.
+	Method []string `json:"method,omitempty"`
+
+	// Filter results to only include endpoints containing this pattern.
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// Filter results to only include operations with these labels applied. Use cf-llm to find endpoints tagged for AI
+	// Security for Apps scanning.
+	Labels []string `json:"labels,omitempty"`
+
+	// Direction to order results.
+	Direction *string `json:"direction,omitempty"`
+
+	// Field to order results by.
+	Order *string `json:"order,omitempty"`
+
+	// Page number of paginated results.
+	Page *int64 `json:"page,omitempty"`
+
+	// Maximum number of results per page.
+	PerPage *int64 `json:"per_page,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// Constants associated with the ListZoneApiGatewayOperationsOptions.Method property.
+const (
+	ListZoneApiGatewayOperationsOptions_Method_Delete = "DELETE"
+	ListZoneApiGatewayOperationsOptions_Method_Get = "GET"
+	ListZoneApiGatewayOperationsOptions_Method_Head = "HEAD"
+	ListZoneApiGatewayOperationsOptions_Method_Options = "OPTIONS"
+	ListZoneApiGatewayOperationsOptions_Method_Patch = "PATCH"
+	ListZoneApiGatewayOperationsOptions_Method_Post = "POST"
+	ListZoneApiGatewayOperationsOptions_Method_Put = "PUT"
+)
+
+// Constants associated with the ListZoneApiGatewayOperationsOptions.Direction property.
+// Direction to order results.
+const (
+	ListZoneApiGatewayOperationsOptions_Direction_Asc = "asc"
+	ListZoneApiGatewayOperationsOptions_Direction_Desc = "desc"
+)
+
+// Constants associated with the ListZoneApiGatewayOperationsOptions.Order property.
+// Field to order results by.
+const (
+	ListZoneApiGatewayOperationsOptions_Order_Endpoint = "endpoint"
+	ListZoneApiGatewayOperationsOptions_Order_Host = "host"
+	ListZoneApiGatewayOperationsOptions_Order_LastUpdated = "last_updated"
+	ListZoneApiGatewayOperationsOptions_Order_Method = "method"
+)
+
+// NewListZoneApiGatewayOperationsOptions : Instantiate ListZoneApiGatewayOperationsOptions
+func (*AiSecurityForAppsV1) NewListZoneApiGatewayOperationsOptions() *ListZoneApiGatewayOperationsOptions {
+	return &ListZoneApiGatewayOperationsOptions{}
+}
+
+// SetHost : Allow user to set Host
+func (_options *ListZoneApiGatewayOperationsOptions) SetHost(host []string) *ListZoneApiGatewayOperationsOptions {
+	_options.Host = host
+	return _options
+}
+
+// SetMethod : Allow user to set Method
+func (_options *ListZoneApiGatewayOperationsOptions) SetMethod(method []string) *ListZoneApiGatewayOperationsOptions {
+	_options.Method = method
+	return _options
+}
+
+// SetEndpoint : Allow user to set Endpoint
+func (_options *ListZoneApiGatewayOperationsOptions) SetEndpoint(endpoint string) *ListZoneApiGatewayOperationsOptions {
+	_options.Endpoint = core.StringPtr(endpoint)
+	return _options
+}
+
+// SetLabels : Allow user to set Labels
+func (_options *ListZoneApiGatewayOperationsOptions) SetLabels(labels []string) *ListZoneApiGatewayOperationsOptions {
+	_options.Labels = labels
+	return _options
+}
+
+// SetDirection : Allow user to set Direction
+func (_options *ListZoneApiGatewayOperationsOptions) SetDirection(direction string) *ListZoneApiGatewayOperationsOptions {
+	_options.Direction = core.StringPtr(direction)
+	return _options
+}
+
+// SetOrder : Allow user to set Order
+func (_options *ListZoneApiGatewayOperationsOptions) SetOrder(order string) *ListZoneApiGatewayOperationsOptions {
+	_options.Order = core.StringPtr(order)
+	return _options
+}
+
+// SetPage : Allow user to set Page
+func (_options *ListZoneApiGatewayOperationsOptions) SetPage(page int64) *ListZoneApiGatewayOperationsOptions {
+	_options.Page = core.Int64Ptr(page)
+	return _options
+}
+
+// SetPerPage : Allow user to set PerPage
+func (_options *ListZoneApiGatewayOperationsOptions) SetPerPage(perPage int64) *ListZoneApiGatewayOperationsOptions {
+	_options.PerPage = core.Int64Ptr(perPage)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListZoneApiGatewayOperationsOptions) SetHeaders(param map[string]string) *ListZoneApiGatewayOperationsOptions {
+	options.Headers = param
+	return options
+}
+
 // ReplaceZoneAiSecuritySettingsOptions : The ReplaceZoneAiSecuritySettings options.
 type ReplaceZoneAiSecuritySettingsOptions struct {
 	// Set to true to enable AI Security for Apps, false to disable.
@@ -1620,16 +2646,152 @@ func (options *ReplaceZoneAiSecuritySettingsOptions) SetHeaders(param map[string
 	return options
 }
 
-// UpdateApiGatewayOperationLabelsOptions : The UpdateApiGatewayOperationLabels options.
-type UpdateApiGatewayOperationLabelsOptions struct {
+// ReplaceZoneApiGatewayOperationLabelsOptions : The ReplaceZoneApiGatewayOperationLabels options.
+type ReplaceZoneApiGatewayOperationLabelsOptions struct {
+	// Selector specifying which operations to label.
+	Selector *ApiGatewayOperationsLabelsBulkInputSelector `json:"selector,omitempty"`
+
 	// User-defined labels to apply.
-	User *ApiGatewayOperationsLabelsInputUser `json:"user,omitempty"`
+	User *ApiGatewayOperationsLabelsBulkInputUser `json:"user,omitempty"`
 
 	// Managed labels to apply (e.g. cf-llm).
-	Managed *ApiGatewayOperationsLabelsInputManaged `json:"managed,omitempty"`
+	Managed *ApiGatewayOperationsLabelsBulkInputManaged `json:"managed,omitempty"`
 
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewReplaceZoneApiGatewayOperationLabelsOptions : Instantiate ReplaceZoneApiGatewayOperationLabelsOptions
+func (*AiSecurityForAppsV1) NewReplaceZoneApiGatewayOperationLabelsOptions() *ReplaceZoneApiGatewayOperationLabelsOptions {
+	return &ReplaceZoneApiGatewayOperationLabelsOptions{}
+}
+
+// SetSelector : Allow user to set Selector
+func (_options *ReplaceZoneApiGatewayOperationLabelsOptions) SetSelector(selector *ApiGatewayOperationsLabelsBulkInputSelector) *ReplaceZoneApiGatewayOperationLabelsOptions {
+	_options.Selector = selector
+	return _options
+}
+
+// SetUser : Allow user to set User
+func (_options *ReplaceZoneApiGatewayOperationLabelsOptions) SetUser(user *ApiGatewayOperationsLabelsBulkInputUser) *ReplaceZoneApiGatewayOperationLabelsOptions {
+	_options.User = user
+	return _options
+}
+
+// SetManaged : Allow user to set Managed
+func (_options *ReplaceZoneApiGatewayOperationLabelsOptions) SetManaged(managed *ApiGatewayOperationsLabelsBulkInputManaged) *ReplaceZoneApiGatewayOperationLabelsOptions {
+	_options.Managed = managed
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ReplaceZoneApiGatewayOperationLabelsOptions) SetHeaders(param map[string]string) *ReplaceZoneApiGatewayOperationLabelsOptions {
+	options.Headers = param
+	return options
+}
+
+// SetZoneApiGatewayOperationLabelsOptions : The SetZoneApiGatewayOperationLabels options.
+type SetZoneApiGatewayOperationLabelsOptions struct {
+	// UUID of the API Gateway operation.
+	OperationID *string `json:"operation_id" validate:"required,ne="`
+
+	// Flat list of user-defined label names to attach.
+	User []string `json:"user,omitempty"`
+
+	// Flat list of managed label names to attach (e.g. cf-llm).
+	Managed []string `json:"managed,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewSetZoneApiGatewayOperationLabelsOptions : Instantiate SetZoneApiGatewayOperationLabelsOptions
+func (*AiSecurityForAppsV1) NewSetZoneApiGatewayOperationLabelsOptions(operationID string) *SetZoneApiGatewayOperationLabelsOptions {
+	return &SetZoneApiGatewayOperationLabelsOptions{
+		OperationID: core.StringPtr(operationID),
+	}
+}
+
+// SetOperationID : Allow user to set OperationID
+func (_options *SetZoneApiGatewayOperationLabelsOptions) SetOperationID(operationID string) *SetZoneApiGatewayOperationLabelsOptions {
+	_options.OperationID = core.StringPtr(operationID)
+	return _options
+}
+
+// SetUser : Allow user to set User
+func (_options *SetZoneApiGatewayOperationLabelsOptions) SetUser(user []string) *SetZoneApiGatewayOperationLabelsOptions {
+	_options.User = user
+	return _options
+}
+
+// SetManaged : Allow user to set Managed
+func (_options *SetZoneApiGatewayOperationLabelsOptions) SetManaged(managed []string) *SetZoneApiGatewayOperationLabelsOptions {
+	_options.Managed = managed
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *SetZoneApiGatewayOperationLabelsOptions) SetHeaders(param map[string]string) *SetZoneApiGatewayOperationLabelsOptions {
+	options.Headers = param
+	return options
+}
+
+// UnsetZoneApiGatewayOperationLabelsOptions : The UnsetZoneApiGatewayOperationLabels options.
+type UnsetZoneApiGatewayOperationLabelsOptions struct {
+	// UUID of the API Gateway operation.
+	OperationID *string `json:"operation_id" validate:"required,ne="`
+
+	// Flat list of user-defined label names to remove.
+	User []string `json:"user,omitempty"`
+
+	// Flat list of managed label names to remove.
+	Managed []string `json:"managed,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewUnsetZoneApiGatewayOperationLabelsOptions : Instantiate UnsetZoneApiGatewayOperationLabelsOptions
+func (*AiSecurityForAppsV1) NewUnsetZoneApiGatewayOperationLabelsOptions(operationID string) *UnsetZoneApiGatewayOperationLabelsOptions {
+	return &UnsetZoneApiGatewayOperationLabelsOptions{
+		OperationID: core.StringPtr(operationID),
+	}
+}
+
+// SetOperationID : Allow user to set OperationID
+func (_options *UnsetZoneApiGatewayOperationLabelsOptions) SetOperationID(operationID string) *UnsetZoneApiGatewayOperationLabelsOptions {
+	_options.OperationID = core.StringPtr(operationID)
+	return _options
+}
+
+// SetUser : Allow user to set User
+func (_options *UnsetZoneApiGatewayOperationLabelsOptions) SetUser(user []string) *UnsetZoneApiGatewayOperationLabelsOptions {
+	_options.User = user
+	return _options
+}
+
+// SetManaged : Allow user to set Managed
+func (_options *UnsetZoneApiGatewayOperationLabelsOptions) SetManaged(managed []string) *UnsetZoneApiGatewayOperationLabelsOptions {
+	_options.Managed = managed
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UnsetZoneApiGatewayOperationLabelsOptions) SetHeaders(param map[string]string) *UnsetZoneApiGatewayOperationLabelsOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateApiGatewayOperationLabelsOptions : The UpdateApiGatewayOperationLabels options.
+type UpdateApiGatewayOperationLabelsOptions struct {
 	// Selector specifying which operations to label.
-	Selector *ApiGatewayOperationsLabelsInputSelector `json:"selector,omitempty"`
+	Selector *ApiGatewayOperationsLabelsBulkInputSelector `json:"selector,omitempty"`
+
+	// User-defined labels to apply.
+	User *ApiGatewayOperationsLabelsBulkInputUser `json:"user,omitempty"`
+
+	// Managed labels to apply (e.g. cf-llm).
+	Managed *ApiGatewayOperationsLabelsBulkInputManaged `json:"managed,omitempty"`
 
 	// Allows users to set headers on API requests.
 	Headers map[string]string
@@ -1640,21 +2802,21 @@ func (*AiSecurityForAppsV1) NewUpdateApiGatewayOperationLabelsOptions() *UpdateA
 	return &UpdateApiGatewayOperationLabelsOptions{}
 }
 
+// SetSelector : Allow user to set Selector
+func (_options *UpdateApiGatewayOperationLabelsOptions) SetSelector(selector *ApiGatewayOperationsLabelsBulkInputSelector) *UpdateApiGatewayOperationLabelsOptions {
+	_options.Selector = selector
+	return _options
+}
+
 // SetUser : Allow user to set User
-func (_options *UpdateApiGatewayOperationLabelsOptions) SetUser(user *ApiGatewayOperationsLabelsInputUser) *UpdateApiGatewayOperationLabelsOptions {
+func (_options *UpdateApiGatewayOperationLabelsOptions) SetUser(user *ApiGatewayOperationsLabelsBulkInputUser) *UpdateApiGatewayOperationLabelsOptions {
 	_options.User = user
 	return _options
 }
 
 // SetManaged : Allow user to set Managed
-func (_options *UpdateApiGatewayOperationLabelsOptions) SetManaged(managed *ApiGatewayOperationsLabelsInputManaged) *UpdateApiGatewayOperationLabelsOptions {
+func (_options *UpdateApiGatewayOperationLabelsOptions) SetManaged(managed *ApiGatewayOperationsLabelsBulkInputManaged) *UpdateApiGatewayOperationLabelsOptions {
 	_options.Managed = managed
-	return _options
-}
-
-// SetSelector : Allow user to set Selector
-func (_options *UpdateApiGatewayOperationLabelsOptions) SetSelector(selector *ApiGatewayOperationsLabelsInputSelector) *UpdateApiGatewayOperationLabelsOptions {
-	_options.Selector = selector
 	return _options
 }
 
@@ -1774,6 +2936,48 @@ func UnmarshalApiGatewayDiscoveryResp(m map[string]json.RawMessage, result inter
 	return
 }
 
+// ApiGatewayNullResultResp : API Gateway response with null result on success.
+type ApiGatewayNullResultResp struct {
+	// Was operation successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// Result is empty on success.
+	Result map[string]interface{} `json:"result" validate:"required"`
+}
+
+// UnmarshalApiGatewayNullResultResp unmarshals an instance of ApiGatewayNullResultResp from the specified map of raw messages.
+func UnmarshalApiGatewayNullResultResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayNullResultResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "result", &obj.Result)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ApiGatewayOperation : An API Gateway operation definition.
 type ApiGatewayOperation struct {
 	// The HTTP method for the operation.
@@ -1789,20 +2993,20 @@ type ApiGatewayOperation struct {
 // Constants associated with the ApiGatewayOperation.Method property.
 // The HTTP method for the operation.
 const (
-	ApiGatewayOperation_Method_Delete  = "DELETE"
-	ApiGatewayOperation_Method_Get     = "GET"
-	ApiGatewayOperation_Method_Head    = "HEAD"
+	ApiGatewayOperation_Method_Delete = "DELETE"
+	ApiGatewayOperation_Method_Get = "GET"
+	ApiGatewayOperation_Method_Head = "HEAD"
 	ApiGatewayOperation_Method_Options = "OPTIONS"
-	ApiGatewayOperation_Method_Patch   = "PATCH"
-	ApiGatewayOperation_Method_Post    = "POST"
-	ApiGatewayOperation_Method_Put     = "PUT"
+	ApiGatewayOperation_Method_Patch = "PATCH"
+	ApiGatewayOperation_Method_Post = "POST"
+	ApiGatewayOperation_Method_Put = "PUT"
 )
 
 // NewApiGatewayOperation : Instantiate ApiGatewayOperation (Generic Model Constructor)
 func (*AiSecurityForAppsV1) NewApiGatewayOperation(method string, host string, endpoint string) (_model *ApiGatewayOperation, err error) {
 	_model = &ApiGatewayOperation{
-		Method:   core.StringPtr(method),
-		Host:     core.StringPtr(host),
+		Method: core.StringPtr(method),
+		Host: core.StringPtr(host),
 		Endpoint: core.StringPtr(endpoint),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -1875,6 +3079,48 @@ func UnmarshalApiGatewayOperationItemResp(m map[string]json.RawMessage, result i
 	return
 }
 
+// ApiGatewayOperationLabelResp : API Gateway single operation label response.
+type ApiGatewayOperationLabelResp struct {
+	// Was operation successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// The updated operation with its label set.
+	Result *ApiGatewayOperationLabelRespResult `json:"result" validate:"required"`
+}
+
+// UnmarshalApiGatewayOperationLabelResp unmarshals an instance of ApiGatewayOperationLabelResp from the specified map of raw messages.
+func UnmarshalApiGatewayOperationLabelResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationLabelResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalApiGatewayOperationLabelRespResult)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ApiGatewayOperationsLabelsResp : API Gateway operations labels update response.
 type ApiGatewayOperationsLabelsResp struct {
 	// Was operation successful.
@@ -1911,6 +3157,55 @@ func UnmarshalApiGatewayOperationsLabelsResp(m map[string]json.RawMessage, resul
 	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalApiGatewayOperationsLabelsRespResultItem)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ApiGatewayOperationsListResp : API Gateway operations list response.
+type ApiGatewayOperationsListResp struct {
+	// Was operation successful.
+	Success *bool `json:"success" validate:"required"`
+
+	// Array of errors encountered.
+	Errors [][]string `json:"errors" validate:"required"`
+
+	// Array of messages returned.
+	Messages [][]string `json:"messages" validate:"required"`
+
+	// List of operations in Endpoint Management.
+	Result []ApiGatewayOperationsListRespResultItem `json:"result" validate:"required"`
+
+	ResultInfo *ResultInfo `json:"result_info,omitempty"`
+}
+
+// UnmarshalApiGatewayOperationsListResp unmarshals an instance of ApiGatewayOperationsListResp from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsListResp(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsListResp)
+	err = core.UnmarshalPrimitive(m, "success", &obj.Success)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "success-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "errors", &obj.Errors)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "messages", &obj.Messages)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "messages-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result", &obj.Result, UnmarshalApiGatewayOperationsListRespResultItem)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "result_info", &obj.ResultInfo, UnmarshalResultInfo)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "result_info-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -2031,20 +3326,20 @@ type DiscoveryOperation struct {
 // The HTTP method used to access the endpoint.
 const (
 	DiscoveryOperation_Method_Connect = "CONNECT"
-	DiscoveryOperation_Method_Delete  = "DELETE"
-	DiscoveryOperation_Method_Get     = "GET"
-	DiscoveryOperation_Method_Head    = "HEAD"
+	DiscoveryOperation_Method_Delete = "DELETE"
+	DiscoveryOperation_Method_Get = "GET"
+	DiscoveryOperation_Method_Head = "HEAD"
 	DiscoveryOperation_Method_Options = "OPTIONS"
-	DiscoveryOperation_Method_Patch   = "PATCH"
-	DiscoveryOperation_Method_Post    = "POST"
-	DiscoveryOperation_Method_Put     = "PUT"
-	DiscoveryOperation_Method_Trace   = "TRACE"
+	DiscoveryOperation_Method_Patch = "PATCH"
+	DiscoveryOperation_Method_Post = "POST"
+	DiscoveryOperation_Method_Put = "PUT"
+	DiscoveryOperation_Method_Trace = "TRACE"
 )
 
 // Constants associated with the DiscoveryOperation.Origin property.
 const (
-	DiscoveryOperation_Origin_Labeldiscovery    = "LabelDiscovery"
-	DiscoveryOperation_Origin_Ml                = "ML"
+	DiscoveryOperation_Origin_Labeldiscovery = "LabelDiscovery"
+	DiscoveryOperation_Origin_Ml = "ML"
 	DiscoveryOperation_Origin_Sessionidentifier = "SessionIdentifier"
 )
 
@@ -2053,8 +3348,8 @@ const (
 // Management; ignored - marked as ignored.
 const (
 	DiscoveryOperation_State_Ignored = "ignored"
-	DiscoveryOperation_State_Review  = "review"
-	DiscoveryOperation_State_Saved   = "saved"
+	DiscoveryOperation_State_Review = "review"
+	DiscoveryOperation_State_Saved = "saved"
 )
 
 // UnmarshalDiscoveryOperation unmarshals an instance of DiscoveryOperation from the specified map of raw messages.

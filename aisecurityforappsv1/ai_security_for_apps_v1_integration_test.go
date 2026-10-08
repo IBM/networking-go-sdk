@@ -170,6 +170,146 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`API Gateway Discovery Operations Update`, func() {
+		Context(`Update API Gateway Discovery Operation`, func() {
+			It(`Update API Gateway Discovery Operation`, func() {
+				shouldSkipTest()
+
+				updateOptions := service.NewUpdateZoneApiGatewayDiscoveryOperationOptions()
+				result, response, err := service.UpdateZoneApiGatewayDiscoveryOperation(updateOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(*result.Success).To(BeTrue())
+			})
+		})
+	})
+
+	Describe(`API Gateway Operations List and Delete`, func() {
+		Context(`List API Gateway Operations`, func() {
+			It(`List API Gateway Operations`, func() {
+				shouldSkipTest()
+
+				listOptions := service.NewListZoneApiGatewayOperationsOptions()
+				result, response, err := service.ListZoneApiGatewayOperations(listOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(*result.Success).To(BeTrue())
+			})
+		})
+
+		Context(`Delete Zone API Gateway Operations (bulk)`, func() {
+			It(`Delete Zone API Gateway Operations`, func() {
+				shouldSkipTest()
+
+				deleteOptions := service.NewDeleteZoneApiGatewayOperationsOptions()
+				result, response, err := service.DeleteZoneApiGatewayOperations(deleteOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(*result.Success).To(BeTrue())
+			})
+		})
+	})
+
+	Describe(`API Gateway Operation Labels — per-operation`, func() {
+		Context(`Add, replace, and remove labels on a single operation`, func() {
+			It(`Create operation, manage per-operation labels, then clean up`, func() {
+				shouldSkipTest()
+
+				// Create a single operation to work with
+				createOptions := service.NewCreateApiGatewayOperationItemOptions().
+					SetMethod("POST").
+					SetHost("api.example.com").
+					SetEndpoint("/v1/label-test")
+
+				createResult, createResponse, createErr := service.CreateApiGatewayOperationItem(createOptions)
+				Expect(createErr).To(BeNil())
+				Expect(createResponse).ToNot(BeNil())
+				Expect(createResult).ToNot(BeNil())
+				Expect(*createResult.Success).To(BeTrue())
+				Expect(createResult.Result.OperationID).ToNot(BeNil())
+
+				operationID := *createResult.Result.OperationID
+
+				defer func() {
+					if operationID != "" {
+						deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(operationID)
+						_, _ = service.DeleteZoneApiGatewayOperation(deleteOptions)
+					}
+				}()
+
+				// Step 1: Add labels (create_api_gateway_operation_labels)
+				addLabelsOptions := service.NewCreateApiGatewayOperationLabelsOptions(operationID).
+					SetManaged([]string{"cf-llm"})
+				addResult, addResponse, addErr := service.CreateApiGatewayOperationLabels(addLabelsOptions)
+				Expect(addErr).To(BeNil())
+				Expect(addResponse).ToNot(BeNil())
+				Expect(addResult).ToNot(BeNil())
+				Expect(*addResult.Success).To(BeTrue())
+
+				// Step 2: Replace labels (set_zone_api_gateway_operation_labels)
+				setLabelsOptions := service.NewSetZoneApiGatewayOperationLabelsOptions(operationID).
+					SetManaged([]string{"cf-llm"})
+				setResult, setResponse, setErr := service.SetZoneApiGatewayOperationLabels(setLabelsOptions)
+				Expect(setErr).To(BeNil())
+				Expect(setResponse).ToNot(BeNil())
+				Expect(setResult).ToNot(BeNil())
+				Expect(*setResult.Success).To(BeTrue())
+
+				// Step 3: Bulk-replace labels on a selector (replace_zone_api_gateway_operation_labels)
+				replaceSelector := &ApiGatewayOperationsLabelsBulkInputSelector{
+					Include: &ApiGatewayOperationsLabelsBulkInputSelectorInclude{
+						OperationIds: []string{operationID},
+					},
+				}
+				replaceLabelsOptions := service.NewReplaceZoneApiGatewayOperationLabelsOptions().
+					SetManaged(&ApiGatewayOperationsLabelsBulkInputManaged{
+						Labels: []string{"cf-llm"},
+					}).
+					SetSelector(replaceSelector)
+				replaceResult, replaceResponse, replaceErr := service.ReplaceZoneApiGatewayOperationLabels(replaceLabelsOptions)
+				Expect(replaceErr).To(BeNil())
+				Expect(replaceResponse).ToNot(BeNil())
+				Expect(replaceResult).ToNot(BeNil())
+				Expect(*replaceResult.Success).To(BeTrue())
+
+				// Step 4: Remove label from single operation (unset_zone_api_gateway_operation_labels)
+				unsetLabelsOptions := service.NewUnsetZoneApiGatewayOperationLabelsOptions(operationID).
+					SetManaged([]string{"cf-llm"})
+				unsetResult, unsetResponse, unsetErr := service.UnsetZoneApiGatewayOperationLabels(unsetLabelsOptions)
+				Expect(unsetErr).To(BeNil())
+				Expect(unsetResponse).ToNot(BeNil())
+				Expect(unsetResult).ToNot(BeNil())
+				Expect(*unsetResult.Success).To(BeTrue())
+
+				// Step 5: Bulk-delete labels on a selector (delete_zone_api_gateway_operation_labels)
+				deleteSelector := &ApiGatewayOperationsLabelsBulkDeleteInputSelector{
+					Include: &ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude{
+						OperationIds: []string{operationID},
+					},
+				}
+				deleteLabelsOptions := service.NewDeleteZoneApiGatewayOperationLabelsOptions().
+					SetManaged(&ApiGatewayOperationsLabelsBulkDeleteInputManaged{
+						Labels: []string{"cf-llm"},
+					}).
+					SetSelector(deleteSelector)
+				deleteLabelsResult, deleteLabelsResponse, deleteLabelsErr := service.DeleteZoneApiGatewayOperationLabels(deleteLabelsOptions)
+				Expect(deleteLabelsErr).To(BeNil())
+				Expect(deleteLabelsResponse).ToNot(BeNil())
+				Expect(deleteLabelsResult).ToNot(BeNil())
+				Expect(*deleteLabelsResult.Success).To(BeTrue())
+
+				// Cleanup
+				deleteOptions := service.NewDeleteZoneApiGatewayOperationOptions(operationID)
+				_, deleteErr := service.DeleteZoneApiGatewayOperation(deleteOptions)
+				Expect(deleteErr).To(BeNil())
+				operationID = ""
+			})
+		})
+	})
+
 	Describe(`API Gateway Operations`, func() {
 		Context(`Create single operation, retrieve it, and delete it`, func() {
 			It(`Create a single API Gateway Operation, retrieve it by operation ID, then delete and verify deletion`, func() {
@@ -275,51 +415,65 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 				Expect(*getResult.Result.OperationID).To(Equal(secondOperationID))
 
 				// --- Step 2: Add managed label to all 3 operations ---
-				const managedLabel = "cf-llm"
-				addSelector := &ApiGatewayOperationsLabelsInputSelector{
-					Include: &ApiGatewayOperationsLabelsInputSelectorInclude{
-						OperationIds: bulkOperationIDs,
-					},
-				}
-				addLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
-					SetManaged(&ApiGatewayOperationsLabelsInputManaged{
-						Labels: []string{managedLabel},
-					}).
-					SetSelector(addSelector)
-
-				addResult, addResponse, addErr := service.UpdateApiGatewayOperationLabels(addLabelsOptions)
-				Expect(addErr).To(BeNil())
-				Expect(addResponse).ToNot(BeNil())
-				Expect(addResult).ToNot(BeNil())
-				Expect(*addResult.Success).To(BeTrue())
-				Expect(len(addResult.Result)).To(Equal(3))
-
-				for _, item := range addResult.Result {
-					Expect(item.Labels).To(ContainElement(HaveKeyWithValue("name", managedLabel)))
-				}
-
-				// --- Step 3: Remove the first operation ID from the label set ---
-				remainingIDs := bulkOperationIDs[1:]
-				removeSelector := &ApiGatewayOperationsLabelsInputSelector{
-					Include: &ApiGatewayOperationsLabelsInputSelectorInclude{
-						OperationIds: remainingIDs,
-					},
-				}
-				removeLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
-					SetManaged(&ApiGatewayOperationsLabelsInputManaged{
-						Labels: []string{managedLabel},
-					}).
-					SetSelector(removeSelector)
-
-				removeResult, removeResponse, removeErr := service.UpdateApiGatewayOperationLabels(removeLabelsOptions)
-				Expect(removeErr).To(BeNil())
-				Expect(removeResponse).ToNot(BeNil())
-				Expect(removeResult).ToNot(BeNil())
-				Expect(*removeResult.Success).To(BeTrue())
-
-				for _, item := range removeResult.Result {
-					Expect(item.Labels).To(ContainElement(HaveKeyWithValue("name", managedLabel)))
-				}
+					const managedLabel = "cf-llm"
+					addSelector := &ApiGatewayOperationsLabelsBulkInputSelector{
+						Include: &ApiGatewayOperationsLabelsBulkInputSelectorInclude{
+							OperationIds: bulkOperationIDs,
+						},
+					}
+					addLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
+						SetManaged(&ApiGatewayOperationsLabelsBulkInputManaged{
+							Labels: []string{managedLabel},
+						}).
+						SetSelector(addSelector)
+	
+					addResult, addResponse, addErr := service.UpdateApiGatewayOperationLabels(addLabelsOptions)
+					Expect(addErr).To(BeNil())
+					Expect(addResponse).ToNot(BeNil())
+					Expect(addResult).ToNot(BeNil())
+					Expect(*addResult.Success).To(BeTrue())
+					Expect(len(addResult.Result)).To(Equal(3))
+	
+					for _, item := range addResult.Result {
+						found := false
+						for _, lbl := range item.Labels {
+							if lbl.Name != nil && *lbl.Name == managedLabel {
+								found = true
+								break
+							}
+						}
+						Expect(found).To(BeTrue(), "Expected label '%s' on operation %s", managedLabel, *item.OperationID)
+					}
+	
+					// --- Step 3: Remove the first operation ID from the label set ---
+					remainingIDs := bulkOperationIDs[1:]
+					removeSelector := &ApiGatewayOperationsLabelsBulkInputSelector{
+						Include: &ApiGatewayOperationsLabelsBulkInputSelectorInclude{
+							OperationIds: remainingIDs,
+						},
+					}
+					removeLabelsOptions := service.NewUpdateApiGatewayOperationLabelsOptions().
+						SetManaged(&ApiGatewayOperationsLabelsBulkInputManaged{
+							Labels: []string{managedLabel},
+						}).
+						SetSelector(removeSelector)
+	
+					removeResult, removeResponse, removeErr := service.UpdateApiGatewayOperationLabels(removeLabelsOptions)
+					Expect(removeErr).To(BeNil())
+					Expect(removeResponse).ToNot(BeNil())
+					Expect(removeResult).ToNot(BeNil())
+					Expect(*removeResult.Success).To(BeTrue())
+	
+					for _, item := range removeResult.Result {
+						found := false
+						for _, lbl := range item.Labels {
+							if lbl.Name != nil && *lbl.Name == managedLabel {
+								found = true
+								break
+							}
+						}
+						Expect(found).To(BeTrue(), "Expected label '%s' on operation %s", managedLabel, *item.OperationID)
+					}
 
 				// --- Step 4: Explicit delete of all operations and verify API responses ---
 				for _, opID := range bulkOperationIDs {
