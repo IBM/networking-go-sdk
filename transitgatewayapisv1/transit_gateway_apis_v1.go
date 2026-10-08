@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
+ * IBM OpenAPI SDK Code Generator Version: 3.117.1-c28a0a4f-20260924-094841
  */
 
 // Package transitgatewayapisv1 : Operations and models for the TransitGatewayApisV1 service
@@ -2665,13 +2665,14 @@ type CreateTransitGatewayConnectionOptions struct {
 	// The type of network the Unbound GRE tunnel is targeting. This field is required for network type
 	// `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
 	// can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
-	// `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+	// `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE tunnels.
+	// network_type `vpn_gateway` and `dynamic_route_server`connections use `cidr` to specify the CIDR to use for the VPN
+	// gateway / Dynamic route server GRE tunnels.
 	//
-	// This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
-	// 198.19.174.0/23.
+	// This field is optional for network type `vpn_gateway` and `dynamic_route_server` connections. If unspecified, the
+	// default value is 198.19.174.0/23.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
 	// `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -2679,7 +2680,7 @@ type CreateTransitGatewayConnectionOptions struct {
 
 	// Local gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
-	// `vpn_gateway` and `redundant_gre` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	LocalGatewayIp *string `json:"local_gateway_ip,omitempty"`
 
 	// Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network. Neither
@@ -2688,14 +2689,14 @@ type CreateTransitGatewayConnectionOptions struct {
 	// This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
-	// `vpn_gateway` and `redundant_gre` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	LocalTunnelIp *string `json:"local_tunnel_ip,omitempty"`
 
 	// The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to the name
 	// of the VPC.  Network type `classic` connections are named `classic`.
 	//
 	// This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`, `unbound_gre_tunnel`,
-	// `vpn_gateway` and `redundant_gre` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	//
 	// This field is optional for network type `classic`, `vpc` connections.
 	Name *string `json:"name,omitempty"`
@@ -2707,10 +2708,11 @@ type CreateTransitGatewayConnectionOptions struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
-	// respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
-	// connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
-	// field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+	// `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
+	// Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
+	// `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also required for
+	// `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be unspecified for
+	// network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
@@ -2718,13 +2720,13 @@ type CreateTransitGatewayConnectionOptions struct {
 	// connections. This is order dependent with those first in the array being applied first, and those at the end of the
 	// array being applied last, or just before applying the default. This field is optional for network type `classic`,
 	// `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network
-	// type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+	// type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	PrefixFilters []TransitGatewayConnectionPrefixFilter `json:"prefix_filters,omitempty"`
 
 	// Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
 	// optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is
-	// required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
-	// connections.
+	// required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`,
+	// `dynamic_route_server` and `redundant_gre` connections.
 	PrefixFiltersDefault *string `json:"prefix_filters_default,omitempty"`
 
 	// Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
@@ -2734,12 +2736,12 @@ type CreateTransitGatewayConnectionOptions struct {
 	// This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
-	// `vpn_gateway` and `gre_tunnel` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 	RemoteBgpAsn *int64 `json:"remote_bgp_asn,omitempty"`
 
 	// Remote gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
 	// connections. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-	// `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+	// `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	RemoteGatewayIp *string `json:"remote_gateway_ip,omitempty"`
 
 	// Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
@@ -2748,7 +2750,7 @@ type CreateTransitGatewayConnectionOptions struct {
 	// This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
 	//
 	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,  `power_virtual_server`,
-	// `vpn_gateway` and `redundant_gre` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	RemoteTunnelIp *string `json:"remote_tunnel_ip,omitempty"`
 
 	// Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for `redundant_gre`
@@ -2762,8 +2764,8 @@ type CreateTransitGatewayConnectionOptions struct {
 	//
 	// This field is optional for network type `vpn_gateway` connections.
 	//
-	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server` and
-	// `redundant_gre` connections.
+	// This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
+	// `redundant_gre` and `dynamic_route_server` connections.
 	Zone ZoneIdentityIntf `json:"zone,omitempty"`
 
 	// Allows users to set headers on API requests.
@@ -2775,6 +2777,7 @@ type CreateTransitGatewayConnectionOptions struct {
 const (
 	CreateTransitGatewayConnectionOptions_NetworkType_Classic            = "classic"
 	CreateTransitGatewayConnectionOptions_NetworkType_Directlink         = "directlink"
+	CreateTransitGatewayConnectionOptions_NetworkType_DynamicRouteServer = "dynamic_route_server"
 	CreateTransitGatewayConnectionOptions_NetworkType_GreTunnel          = "gre_tunnel"
 	CreateTransitGatewayConnectionOptions_NetworkType_PowerVirtualServer = "power_virtual_server"
 	CreateTransitGatewayConnectionOptions_NetworkType_RedundantGre       = "redundant_gre"
@@ -2787,7 +2790,7 @@ const (
 // The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel`
 // and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or
 // Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-// `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+// `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 const (
 	CreateTransitGatewayConnectionOptions_BaseNetworkType_Classic = "classic"
 	CreateTransitGatewayConnectionOptions_BaseNetworkType_Vpc     = "vpc"
@@ -2796,8 +2799,8 @@ const (
 // Constants associated with the CreateTransitGatewayConnectionOptions.PrefixFiltersDefault property.
 // Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
 // optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is
-// required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
-// connections.
+// required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server`
+// and `redundant_gre` connections.
 const (
 	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Deny   = "deny"
 	CreateTransitGatewayConnectionOptions_PrefixFiltersDefault_Permit = "permit"
@@ -4819,9 +4822,9 @@ type TransitConnection struct {
 	Name *string `json:"name" validate:"required"`
 
 	// The ID of the network being connected via this connection. This field is required for some types, such as `vpc`,
-	// `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
-	// respectively.
+	// `power_virtual_server`, `directlink`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre`. For network types
+	// `vpc`, `vpn_gateway`, `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC /
+	// VPN / Dynamic Route Server / PowerVS / Direct Link gateway respectively.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection. The list of enumerated values for this property may
@@ -4838,7 +4841,8 @@ type TransitConnection struct {
 	// Deprecated: this field is deprecated and may be removed in a future release.
 	BaseConnectionID *string `json:"base_connection_id,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE tunnels.
+	// network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for the `VPN
+	// gateway / Dynamic route server` GRE tunnels.
 	Cidr *string `json:"cidr,omitempty"`
 
 	// The date and time that this connection was created.
@@ -4895,7 +4899,7 @@ type TransitConnection struct {
 	// Transit gateway reference.
 	TransitGateway *TransitGatewayReference `json:"transit_gateway" validate:"required"`
 
-	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+	// Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
@@ -4918,6 +4922,7 @@ const (
 const (
 	TransitConnection_NetworkType_Classic            = "classic"
 	TransitConnection_NetworkType_Directlink         = "directlink"
+	TransitConnection_NetworkType_DynamicRouteServer = "dynamic_route_server"
 	TransitConnection_NetworkType_GreTunnel          = "gre_tunnel"
 	TransitConnection_NetworkType_PowerVirtualServer = "power_virtual_server"
 	TransitConnection_NetworkType_RedundantGre       = "redundant_gre"
@@ -5399,10 +5404,11 @@ type TransitGatewayConnectionCust struct {
 	// The type of network the Unbound GRE tunnel is targeting. This field is required for network type
 	// `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
 	// can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
-	// `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+	// `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 	BaseNetworkType *string `json:"base_network_type,omitempty"`
 
-	// network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE tunnels.
+	// network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for the `VPN
+	// gateway / Dynamic route server` GRE tunnels.
 	Cidr *string `json:"cidr,omitempty"`
 
 	// The date and time that this connection was created.
@@ -5428,7 +5434,7 @@ type TransitGatewayConnectionCust struct {
 	// of the VPC.  Network type `classic` connections are named `classic`.
 	//
 	// This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`, `unbound_gre_tunnel`,
-	// `vpn_gateway` and `redundant_gre` connections.
+	// `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
 	//
 	// This field is optional for network type `classic`, `vpc` connections.
 	Name *string `json:"name,omitempty"`
@@ -5438,10 +5444,11 @@ type TransitGatewayConnectionCust struct {
 	NetworkAccountID *string `json:"network_account_id,omitempty"`
 
 	// The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-	// `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
-	// respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
-	// connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
-	// field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+	// `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
+	// Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
+	// `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also required for
+	// `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be unspecified for
+	// network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
 	NetworkID *string `json:"network_id,omitempty"`
 
 	// Defines what type of network is connected via this connection.
@@ -5476,7 +5483,7 @@ type TransitGatewayConnectionCust struct {
 	// Code and processes using this field must tolerate unexpected values.
 	Status *string `json:"status" validate:"required"`
 
-	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+	// Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels,omitempty"`
 
 	// The date and time that this connection was last updated.
@@ -5491,7 +5498,7 @@ type TransitGatewayConnectionCust struct {
 // The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel`
 // and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or
 // Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-// `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+// `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
 const (
 	TransitGatewayConnectionCust_BaseNetworkType_Classic = "classic"
 	TransitGatewayConnectionCust_BaseNetworkType_Vpc     = "vpc"
@@ -5502,6 +5509,7 @@ const (
 const (
 	TransitGatewayConnectionCust_NetworkType_Classic            = "classic"
 	TransitGatewayConnectionCust_NetworkType_Directlink         = "directlink"
+	TransitGatewayConnectionCust_NetworkType_DynamicRouteServer = "dynamic_route_server"
 	TransitGatewayConnectionCust_NetworkType_GreTunnel          = "gre_tunnel"
 	TransitGatewayConnectionCust_NetworkType_PowerVirtualServer = "power_virtual_server"
 	TransitGatewayConnectionCust_NetworkType_RedundantGre       = "redundant_gre"
@@ -6024,9 +6032,9 @@ func UnmarshalTransitGatewayTunnel(m map[string]json.RawMessage, result interfac
 	return
 }
 
-// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+// TransitGatewayTunnelCollection : Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
 type TransitGatewayTunnelCollection struct {
-	// Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+	// Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
 	Tunnels []TransitGatewayTunnel `json:"tunnels" validate:"required"`
 }
 
@@ -6590,7 +6598,7 @@ func (transitGatewayApis *TransitGatewayApisV1) NewTransitGatewaysPager(options 
 		return
 	}
 
-	var optionsCopy ListTransitGatewaysOptions = *options
+	optionsCopy := *options
 	pager = &TransitGatewaysPager{
 		hasNext: true,
 		options: &optionsCopy,
@@ -6612,7 +6620,8 @@ func (pager *TransitGatewaysPager) GetNextWithContext(ctx context.Context) (page
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListTransitGatewaysWithContext(ctx, pager.options)
+	var result *TransitGatewayCollection
+	result, _, err = pager.client.ListTransitGatewaysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -6675,7 +6684,7 @@ func (transitGatewayApis *TransitGatewayApisV1) NewConnectionsPager(options *Lis
 		return
 	}
 
-	var optionsCopy ListConnectionsOptions = *options
+	optionsCopy := *options
 	pager = &ConnectionsPager{
 		hasNext: true,
 		options: &optionsCopy,
@@ -6697,7 +6706,8 @@ func (pager *ConnectionsPager) GetNextWithContext(ctx context.Context) (page []T
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListConnectionsWithContext(ctx, pager.options)
+	var result *TransitConnectionCollection
+	result, _, err = pager.client.ListConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -6760,7 +6770,7 @@ func (transitGatewayApis *TransitGatewayApisV1) NewTransitGatewayConnectionsPage
 		return
 	}
 
-	var optionsCopy ListTransitGatewayConnectionsOptions = *options
+	optionsCopy := *options
 	pager = &TransitGatewayConnectionsPager{
 		hasNext: true,
 		options: &optionsCopy,
@@ -6782,7 +6792,8 @@ func (pager *TransitGatewayConnectionsPager) GetNextWithContext(ctx context.Cont
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListTransitGatewayConnectionsWithContext(ctx, pager.options)
+	var result *TransitGatewayConnectionCollection
+	result, _, err = pager.client.ListTransitGatewayConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return

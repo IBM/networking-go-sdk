@@ -1,3 +1,24 @@
+## [0.55.2](https://github.com/IBM/networking-go-sdk/compare/v0.55.1...v0.55.2) (2026-10-06)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/onsi/gomega to v1.44.0 ([#334](https://github.com/IBM/networking-go-sdk/issues/334)) ([71fa8af](https://github.com/IBM/networking-go-sdk/commit/71fa8af0dbc8249865c218df321b440090648dad))
+
+## [0.55.1](https://github.com/IBM/networking-go-sdk/compare/v0.55.0...v0.55.1) (2026-10-02)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/onsi/ginkgo to v2 ([#322](https://github.com/IBM/networking-go-sdk/issues/322)) ([d7cdcfe](https://github.com/IBM/networking-go-sdk/commit/d7cdcfe95cf343794d9f25ae16013dcaa55abe0f))
+
+# [0.55.0](https://github.com/IBM/networking-go-sdk/compare/v0.54.0...v0.55.0) (2026-09-29)
+
+
+### Features
+
+* **transitgateway:** add drsaas to tgw ([#309](https://github.com/IBM/networking-go-sdk/issues/309)) ([26505bf](https://github.com/IBM/networking-go-sdk/commit/26505bfb742f7adfdf62c7e821e807a182300243))
+
 # [0.54.0](https://github.com/IBM/networking-go-sdk/compare/v0.53.12...v0.54.0) (2026-09-16)
 
 
