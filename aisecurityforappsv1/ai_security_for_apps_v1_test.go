@@ -888,7 +888,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					Expect(req.URL.Query()["origin"]).To(Equal([]string{"ML"}))
 					Expect(req.URL.Query()["state"]).To(Equal([]string{"review"}))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
-					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -915,7 +915,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.Origin = core.StringPtr("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.State = core.StringPtr("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.Page = core.Int64Ptr(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := aiSecurityForAppsService.ListApiGatewayDiscoveryOperations(listApiGatewayDiscoveryOperationsOptionsModel)
@@ -955,7 +955,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					Expect(req.URL.Query()["origin"]).To(Equal([]string{"ML"}))
 					Expect(req.URL.Query()["state"]).To(Equal([]string{"review"}))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
-					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -987,7 +987,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.Origin = core.StringPtr("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.State = core.StringPtr("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.Page = core.Int64Ptr(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1031,7 +1031,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					Expect(req.URL.Query()["origin"]).To(Equal([]string{"ML"}))
 					Expect(req.URL.Query()["state"]).To(Equal([]string{"review"}))
 					Expect(req.URL.Query()["page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
-					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(1))}))
+					Expect(req.URL.Query()["per_page"]).To(Equal([]string{fmt.Sprint(int64(5))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -1065,7 +1065,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.Origin = core.StringPtr("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.State = core.StringPtr("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.Page = core.Int64Ptr(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1096,7 +1096,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.Origin = core.StringPtr("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.State = core.StringPtr("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.Page = core.Int64Ptr(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := aiSecurityForAppsService.SetServiceURL("")
@@ -1141,7 +1141,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.Origin = core.StringPtr("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.State = core.StringPtr("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.Page = core.Int64Ptr(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.PerPage = core.Int64Ptr(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1492,7 +1492,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke DeleteZoneApiGatewayOperations successfully with retries`, func() {
@@ -1564,7 +1564,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke DeleteZoneApiGatewayOperations successfully`, func() {
@@ -2913,7 +2913,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke DeleteZoneApiGatewayOperationLabels successfully with retries`, func() {
@@ -3003,7 +3003,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke DeleteZoneApiGatewayOperationLabels successfully`, func() {
@@ -3052,7 +3052,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke DeleteZoneApiGatewayOperationLabels with error: Operation request error`, func() {
+			It(`Invoke DeleteZoneApiGatewayOperationLabels with error: Operation validation and request error`, func() {
 				aiSecurityForAppsService, serviceErr := aisecurityforappsv1.NewAiSecurityForAppsV1(&aisecurityforappsv1.AiSecurityForAppsV1Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -3090,6 +3090,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				result, response, operationErr := aiSecurityForAppsService.DeleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the DeleteZoneApiGatewayOperationLabelsOptions model with no property values
+				deleteZoneApiGatewayOperationLabelsOptionsModelNew := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationLabelsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = aiSecurityForAppsService.DeleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 			})
@@ -3523,7 +3530,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the CreateApiGatewayOperationLabelsOptions model
 				createApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.CreateApiGatewayOperationLabelsOptions)
 				createApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				createApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				createApiGatewayOperationLabelsOptionsModel.User = []string{}
 				createApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				createApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3596,7 +3603,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the CreateApiGatewayOperationLabelsOptions model
 				createApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.CreateApiGatewayOperationLabelsOptions)
 				createApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				createApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				createApiGatewayOperationLabelsOptionsModel.User = []string{}
 				createApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				createApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3675,7 +3682,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the CreateApiGatewayOperationLabelsOptions model
 				createApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.CreateApiGatewayOperationLabelsOptions)
 				createApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				createApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				createApiGatewayOperationLabelsOptionsModel.User = []string{}
 				createApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				createApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3699,7 +3706,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the CreateApiGatewayOperationLabelsOptions model
 				createApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.CreateApiGatewayOperationLabelsOptions)
 				createApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				createApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				createApiGatewayOperationLabelsOptionsModel.User = []string{}
 				createApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				createApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3744,7 +3751,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the CreateApiGatewayOperationLabelsOptions model
 				createApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.CreateApiGatewayOperationLabelsOptions)
 				createApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				createApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				createApiGatewayOperationLabelsOptionsModel.User = []string{}
 				createApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				createApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3791,7 +3798,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
 				setZoneApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.SetZoneApiGatewayOperationLabelsOptions)
 				setZoneApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{}
 				setZoneApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				setZoneApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3864,7 +3871,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
 				setZoneApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.SetZoneApiGatewayOperationLabelsOptions)
 				setZoneApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{}
 				setZoneApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				setZoneApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3943,7 +3950,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
 				setZoneApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.SetZoneApiGatewayOperationLabelsOptions)
 				setZoneApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{}
 				setZoneApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				setZoneApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3967,7 +3974,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
 				setZoneApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.SetZoneApiGatewayOperationLabelsOptions)
 				setZoneApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{}
 				setZoneApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				setZoneApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4012,7 +4019,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				// Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
 				setZoneApiGatewayOperationLabelsOptionsModel := new(aisecurityforappsv1.SetZoneApiGatewayOperationLabelsOptions)
 				setZoneApiGatewayOperationLabelsOptionsModel.OperationID = core.StringPtr("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{"string"}
+				setZoneApiGatewayOperationLabelsOptionsModel.User = []string{}
 				setZoneApiGatewayOperationLabelsOptionsModel.Managed = []string{"cf-llm"}
 				setZoneApiGatewayOperationLabelsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4115,7 +4122,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke UnsetZoneApiGatewayOperationLabels successfully with retries`, func() {
@@ -4189,7 +4196,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"anyKey": "anyValue"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": "anyValue"}`)
 				}))
 			})
 			It(`Invoke UnsetZoneApiGatewayOperationLabels successfully`, func() {
@@ -4826,10 +4833,22 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				_, err := aiSecurityForAppsService.NewApiGatewayOperationsLabelsBulkDeleteInputSelector(include)
 				Expect(err).ToNot(BeNil())
 			})
+			It(`Invoke NewApiGatewayOperationsLabelsBulkInputManaged successfully`, func() {
+				labels := []string{"testString"}
+				_model, err := aiSecurityForAppsService.NewApiGatewayOperationsLabelsBulkInputManaged(labels)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewApiGatewayOperationsLabelsBulkInputSelector successfully`, func() {
 				var include *aisecurityforappsv1.ApiGatewayOperationsLabelsBulkInputSelectorInclude = nil
 				_, err := aiSecurityForAppsService.NewApiGatewayOperationsLabelsBulkInputSelector(include)
 				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewApiGatewayOperationsLabelsBulkInputUser successfully`, func() {
+				labels := []string{"testString"}
+				_model, err := aiSecurityForAppsService.NewApiGatewayOperationsLabelsBulkInputUser(labels)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
 			})
 			It(`Invoke NewCreateApiGatewayOperationItemOptions successfully`, func() {
 				// Construct an instance of the CreateApiGatewayOperationItemOptions model
@@ -4849,12 +4868,12 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				operationID := "testString"
 				createApiGatewayOperationLabelsOptionsModel := aiSecurityForAppsService.NewCreateApiGatewayOperationLabelsOptions(operationID)
 				createApiGatewayOperationLabelsOptionsModel.SetOperationID("testString")
-				createApiGatewayOperationLabelsOptionsModel.SetUser([]string{"string"})
+				createApiGatewayOperationLabelsOptionsModel.SetUser([]string{})
 				createApiGatewayOperationLabelsOptionsModel.SetManaged([]string{"cf-llm"})
 				createApiGatewayOperationLabelsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createApiGatewayOperationLabelsOptionsModel).ToNot(BeNil())
 				Expect(createApiGatewayOperationLabelsOptionsModel.OperationID).To(Equal(core.StringPtr("testString")))
-				Expect(createApiGatewayOperationLabelsOptionsModel.User).To(Equal([]string{"string"}))
+				Expect(createApiGatewayOperationLabelsOptionsModel.User).To(Equal([]string{}))
 				Expect(createApiGatewayOperationLabelsOptionsModel.Managed).To(Equal([]string{"cf-llm"}))
 				Expect(createApiGatewayOperationLabelsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -4903,7 +4922,8 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(apiGatewayOperationsLabelsBulkDeleteInputManagedModel.Labels).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the DeleteZoneApiGatewayOperationLabelsOptions model
-				deleteZoneApiGatewayOperationLabelsOptionsModel := aiSecurityForAppsService.NewDeleteZoneApiGatewayOperationLabelsOptions()
+				var deleteZoneApiGatewayOperationLabelsOptionsSelector *aisecurityforappsv1.ApiGatewayOperationsLabelsBulkDeleteInputSelector = nil
+				deleteZoneApiGatewayOperationLabelsOptionsModel := aiSecurityForAppsService.NewDeleteZoneApiGatewayOperationLabelsOptions(deleteZoneApiGatewayOperationLabelsOptionsSelector)
 				deleteZoneApiGatewayOperationLabelsOptionsModel.SetSelector(apiGatewayOperationsLabelsBulkDeleteInputSelectorModel)
 				deleteZoneApiGatewayOperationLabelsOptionsModel.SetUser(apiGatewayOperationsLabelsBulkDeleteInputUserModel)
 				deleteZoneApiGatewayOperationLabelsOptionsModel.SetManaged(apiGatewayOperationsLabelsBulkDeleteInputManagedModel)
@@ -4976,7 +4996,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				listApiGatewayDiscoveryOperationsOptionsModel.SetOrigin("ML")
 				listApiGatewayDiscoveryOperationsOptionsModel.SetState("review")
 				listApiGatewayDiscoveryOperationsOptionsModel.SetPage(int64(1))
-				listApiGatewayDiscoveryOperationsOptionsModel.SetPerPage(int64(1))
+				listApiGatewayDiscoveryOperationsOptionsModel.SetPerPage(int64(5))
 				listApiGatewayDiscoveryOperationsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel).ToNot(BeNil())
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel.Diff).To(Equal(core.BoolPtr(true)))
@@ -4988,7 +5008,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel.Origin).To(Equal(core.StringPtr("ML")))
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel.State).To(Equal(core.StringPtr("review")))
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel.Page).To(Equal(core.Int64Ptr(int64(1))))
-				Expect(listApiGatewayDiscoveryOperationsOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(1))))
+				Expect(listApiGatewayDiscoveryOperationsOptionsModel.PerPage).To(Equal(core.Int64Ptr(int64(5))))
 				Expect(listApiGatewayDiscoveryOperationsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListZoneApiGatewayOperationsOptions successfully`, func() {
@@ -5065,12 +5085,12 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				operationID := "testString"
 				setZoneApiGatewayOperationLabelsOptionsModel := aiSecurityForAppsService.NewSetZoneApiGatewayOperationLabelsOptions(operationID)
 				setZoneApiGatewayOperationLabelsOptionsModel.SetOperationID("testString")
-				setZoneApiGatewayOperationLabelsOptionsModel.SetUser([]string{"string"})
+				setZoneApiGatewayOperationLabelsOptionsModel.SetUser([]string{})
 				setZoneApiGatewayOperationLabelsOptionsModel.SetManaged([]string{"cf-llm"})
 				setZoneApiGatewayOperationLabelsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(setZoneApiGatewayOperationLabelsOptionsModel).ToNot(BeNil())
 				Expect(setZoneApiGatewayOperationLabelsOptionsModel.OperationID).To(Equal(core.StringPtr("testString")))
-				Expect(setZoneApiGatewayOperationLabelsOptionsModel.User).To(Equal([]string{"string"}))
+				Expect(setZoneApiGatewayOperationLabelsOptionsModel.User).To(Equal([]string{}))
 				Expect(setZoneApiGatewayOperationLabelsOptionsModel.Managed).To(Equal([]string{"cf-llm"}))
 				Expect(setZoneApiGatewayOperationLabelsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})

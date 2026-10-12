@@ -579,6 +579,11 @@ func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperations(del
 
 // DeleteZoneApiGatewayOperationsWithContext is an alternate form of the DeleteZoneApiGatewayOperations method which supports a Context parameter
 func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationsWithContext(ctx context.Context, deleteZoneApiGatewayOperationsOptions *DeleteZoneApiGatewayOperationsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteZoneApiGatewayOperationsOptions, "deleteZoneApiGatewayOperationsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
 	err = core.ValidateStruct(deleteZoneApiGatewayOperationsOptions, "deleteZoneApiGatewayOperationsOptions")
 	if err != nil {
 		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
@@ -983,6 +988,11 @@ func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationLabel
 
 // DeleteZoneApiGatewayOperationLabelsWithContext is an alternate form of the DeleteZoneApiGatewayOperationLabels method which supports a Context parameter
 func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationLabelsWithContext(ctx context.Context, deleteZoneApiGatewayOperationLabelsOptions *DeleteZoneApiGatewayOperationLabelsOptions) (result *ApiGatewayNullResultResp, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(deleteZoneApiGatewayOperationLabelsOptions, "deleteZoneApiGatewayOperationLabelsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
 	err = core.ValidateStruct(deleteZoneApiGatewayOperationLabelsOptions, "deleteZoneApiGatewayOperationLabelsOptions")
 	if err != nil {
 		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
@@ -1789,7 +1799,19 @@ func UnmarshalApiGatewayOperationsLabelsBulkDeleteInputUser(m map[string]json.Ra
 // ApiGatewayOperationsLabelsBulkInputManaged : Managed labels to apply (e.g. cf-llm).
 type ApiGatewayOperationsLabelsBulkInputManaged struct {
 	// List of managed label names to apply.
-	Labels []string `json:"labels,omitempty"`
+	Labels []string `json:"labels" validate:"required"`
+}
+
+// NewApiGatewayOperationsLabelsBulkInputManaged : Instantiate ApiGatewayOperationsLabelsBulkInputManaged (Generic Model Constructor)
+func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsBulkInputManaged(labels []string) (_model *ApiGatewayOperationsLabelsBulkInputManaged, err error) {
+	_model = &ApiGatewayOperationsLabelsBulkInputManaged{
+		Labels: labels,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
 }
 
 // UnmarshalApiGatewayOperationsLabelsBulkInputManaged unmarshals an instance of ApiGatewayOperationsLabelsBulkInputManaged from the specified map of raw messages.
@@ -1854,8 +1876,20 @@ func UnmarshalApiGatewayOperationsLabelsBulkInputSelectorInclude(m map[string]js
 
 // ApiGatewayOperationsLabelsBulkInputUser : User-defined labels to apply.
 type ApiGatewayOperationsLabelsBulkInputUser struct {
-	// List of user-defined label names to apply.
-	Labels []string `json:"labels,omitempty"`
+	// List of user-defined label names to apply. Send an empty array if no user labels are needed.
+	Labels []string `json:"labels" validate:"required"`
+}
+
+// NewApiGatewayOperationsLabelsBulkInputUser : Instantiate ApiGatewayOperationsLabelsBulkInputUser (Generic Model Constructor)
+func (*AiSecurityForAppsV1) NewApiGatewayOperationsLabelsBulkInputUser(labels []string) (_model *ApiGatewayOperationsLabelsBulkInputUser, err error) {
+	_model = &ApiGatewayOperationsLabelsBulkInputUser{
+		Labels: labels,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
 }
 
 // UnmarshalApiGatewayOperationsLabelsBulkInputUser unmarshals an instance of ApiGatewayOperationsLabelsBulkInputUser from the specified map of raw messages.
@@ -2066,7 +2100,7 @@ type CreateApiGatewayOperationLabelsOptions struct {
 	// UUID of the API Gateway operation.
 	OperationID *string `json:"operation_id" validate:"required,ne="`
 
-	// Flat list of user-defined label names to attach.
+	// Flat list of user-defined label names to attach. Must be present; send an empty array if no user labels are needed.
 	User []string `json:"user,omitempty"`
 
 	// Flat list of managed label names to attach (e.g. cf-llm).
@@ -2136,7 +2170,7 @@ func (options *CreateZoneApiGatewayOperationOptions) SetHeaders(param map[string
 // DeleteZoneApiGatewayOperationLabelsOptions : The DeleteZoneApiGatewayOperationLabels options.
 type DeleteZoneApiGatewayOperationLabelsOptions struct {
 	// Selector specifying which operations to affect.
-	Selector *ApiGatewayOperationsLabelsBulkDeleteInputSelector `json:"selector,omitempty"`
+	Selector *ApiGatewayOperationsLabelsBulkDeleteInputSelector `json:"selector" validate:"required"`
 
 	// User-defined labels to remove.
 	User *ApiGatewayOperationsLabelsBulkDeleteInputUser `json:"user,omitempty"`
@@ -2149,8 +2183,10 @@ type DeleteZoneApiGatewayOperationLabelsOptions struct {
 }
 
 // NewDeleteZoneApiGatewayOperationLabelsOptions : Instantiate DeleteZoneApiGatewayOperationLabelsOptions
-func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationLabelsOptions() *DeleteZoneApiGatewayOperationLabelsOptions {
-	return &DeleteZoneApiGatewayOperationLabelsOptions{}
+func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationLabelsOptions(selector *ApiGatewayOperationsLabelsBulkDeleteInputSelector) *DeleteZoneApiGatewayOperationLabelsOptions {
+	return &DeleteZoneApiGatewayOperationLabelsOptions{
+		Selector: selector,
+	}
 }
 
 // SetSelector : Allow user to set Selector
@@ -2207,7 +2243,7 @@ func (options *DeleteZoneApiGatewayOperationOptions) SetHeaders(param map[string
 
 // DeleteZoneApiGatewayOperationsOptions : The DeleteZoneApiGatewayOperations options.
 type DeleteZoneApiGatewayOperationsOptions struct {
-	// Array of operation UUIDs to delete. When absent, all operations are deleted.
+	// Array of operation UUIDs to delete.
 	OperationIds []string `json:"operation_ids,omitempty"`
 
 	// Allows users to set headers on API requests.
@@ -2695,7 +2731,7 @@ type SetZoneApiGatewayOperationLabelsOptions struct {
 	// UUID of the API Gateway operation.
 	OperationID *string `json:"operation_id" validate:"required,ne="`
 
-	// Flat list of user-defined label names to attach.
+	// Flat list of user-defined label names to attach. Must be present; send an empty array if no user labels are needed.
 	User []string `json:"user,omitempty"`
 
 	// Flat list of managed label names to attach (e.g. cf-llm).
@@ -2947,8 +2983,9 @@ type ApiGatewayNullResultResp struct {
 	// Array of messages returned.
 	Messages [][]string `json:"messages" validate:"required"`
 
-	// Result is empty on success.
-	Result map[string]interface{} `json:"result" validate:"required"`
+	// Result on success. May be an empty object ({}) or an empty array ([]) depending on the operation. No type constraint
+	// is applied so that SDK generators produce an interface{} / any field that can hold either.
+	Result interface{} `json:"result" validate:"required"`
 }
 
 // UnmarshalApiGatewayNullResultResp unmarshals an instance of ApiGatewayNullResultResp from the specified map of raw messages.
