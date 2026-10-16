@@ -1435,9 +1435,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(aiSecurityForAppsService).ToNot(BeNil())
 
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
 				deleteZoneApiGatewayOperationsOptionsModel := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
-				deleteZoneApiGatewayOperationsOptionsModel.OperationIds = []string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}
+				deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem = []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}
 				deleteZoneApiGatewayOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := aiSecurityForAppsService.DeleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsOptionsModel)
@@ -1506,9 +1510,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(aiSecurityForAppsService).ToNot(BeNil())
 				aiSecurityForAppsService.EnableRetries(0, 0)
 
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
 				deleteZoneApiGatewayOperationsOptionsModel := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
-				deleteZoneApiGatewayOperationsOptionsModel.OperationIds = []string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}
+				deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem = []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}
 				deleteZoneApiGatewayOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1583,9 +1591,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
 				deleteZoneApiGatewayOperationsOptionsModel := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
-				deleteZoneApiGatewayOperationsOptionsModel.OperationIds = []string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}
+				deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem = []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}
 				deleteZoneApiGatewayOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1595,7 +1607,7 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(result).ToNot(BeNil())
 
 			})
-			It(`Invoke DeleteZoneApiGatewayOperations with error: Operation request error`, func() {
+			It(`Invoke DeleteZoneApiGatewayOperations with error: Operation validation and request error`, func() {
 				aiSecurityForAppsService, serviceErr := aisecurityforappsv1.NewAiSecurityForAppsV1(&aisecurityforappsv1.AiSecurityForAppsV1Options{
 					URL:            testServer.URL,
 					Authenticator:  &core.NoAuthAuthenticator{},
@@ -1605,9 +1617,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(aiSecurityForAppsService).ToNot(BeNil())
 
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
 				deleteZoneApiGatewayOperationsOptionsModel := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
-				deleteZoneApiGatewayOperationsOptionsModel.OperationIds = []string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}
+				deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem = []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}
 				deleteZoneApiGatewayOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := aiSecurityForAppsService.SetServiceURL("")
@@ -1615,6 +1631,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				result, response, operationErr := aiSecurityForAppsService.DeleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the DeleteZoneApiGatewayOperationsOptions model with no property values
+				deleteZoneApiGatewayOperationsOptionsModelNew := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = aiSecurityForAppsService.DeleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 			})
@@ -1641,9 +1664,13 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(aiSecurityForAppsService).ToNot(BeNil())
 
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
 				deleteZoneApiGatewayOperationsOptionsModel := new(aisecurityforappsv1.DeleteZoneApiGatewayOperationsOptions)
-				deleteZoneApiGatewayOperationsOptionsModel.OperationIds = []string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}
+				deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem = []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}
 				deleteZoneApiGatewayOperationsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4828,6 +4855,12 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Crn:            core.StringPtr(crn),
 				ZoneIdentifier: core.StringPtr(zoneIdentifier),
 			})
+			It(`Invoke NewApiGatewayOperationsDeleteInputItem successfully`, func() {
+				operationID := "f174e90a-fafe-4643-bbbc-4a0ed4fc8415"
+				_model, err := aiSecurityForAppsService.NewApiGatewayOperationsDeleteInputItem(operationID)
+				Expect(_model).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
 			It(`Invoke NewApiGatewayOperationsLabelsBulkDeleteInputSelector successfully`, func() {
 				var include *aisecurityforappsv1.ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude = nil
 				_, err := aiSecurityForAppsService.NewApiGatewayOperationsLabelsBulkDeleteInputSelector(include)
@@ -4945,12 +4978,19 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 				Expect(deleteZoneApiGatewayOperationOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteZoneApiGatewayOperationsOptions successfully`, func() {
+				// Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+				apiGatewayOperationsDeleteInputItemModel := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+				Expect(apiGatewayOperationsDeleteInputItemModel).ToNot(BeNil())
+				apiGatewayOperationsDeleteInputItemModel.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+				Expect(apiGatewayOperationsDeleteInputItemModel.OperationID).To(Equal(core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")))
+
 				// Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
-				deleteZoneApiGatewayOperationsOptionsModel := aiSecurityForAppsService.NewDeleteZoneApiGatewayOperationsOptions()
-				deleteZoneApiGatewayOperationsOptionsModel.SetOperationIds([]string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"})
+				apiGatewayOperationsDeleteInputItem := []aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{}
+				deleteZoneApiGatewayOperationsOptionsModel := aiSecurityForAppsService.NewDeleteZoneApiGatewayOperationsOptions(apiGatewayOperationsDeleteInputItem)
+				deleteZoneApiGatewayOperationsOptionsModel.SetApiGatewayOperationsDeleteInputItem([]aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel})
 				deleteZoneApiGatewayOperationsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteZoneApiGatewayOperationsOptionsModel).ToNot(BeNil())
-				Expect(deleteZoneApiGatewayOperationsOptionsModel.OperationIds).To(Equal([]string{"f174e90a-fafe-4643-bbbc-4a0ed4fc8415"}))
+				Expect(deleteZoneApiGatewayOperationsOptionsModel.ApiGatewayOperationsDeleteInputItem).To(Equal([]aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem{*apiGatewayOperationsDeleteInputItemModel}))
 				Expect(deleteZoneApiGatewayOperationsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetAiSecuritySettingsOptions successfully`, func() {
@@ -5165,6 +5205,24 @@ var _ = Describe(`AiSecurityForAppsV1`, func() {
 		})
 	})
 	Describe(`Model unmarshaling tests`, func() {
+		It(`Invoke UnmarshalApiGatewayOperationsDeleteInputItem successfully`, func() {
+			// Construct an instance of the model.
+			model := new(aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem)
+			model.OperationID = core.StringPtr("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *aisecurityforappsv1.ApiGatewayOperationsDeleteInputItem
+			err = aisecurityforappsv1.UnmarshalApiGatewayOperationsDeleteInputItem(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
 		It(`Invoke UnmarshalApiGatewayOperationsLabelsBulkDeleteInputManaged successfully`, func() {
 			// Construct an instance of the model.
 			model := new(aisecurityforappsv1.ApiGatewayOperationsLabelsBulkDeleteInputManaged)

@@ -567,9 +567,16 @@ var _ = Describe(`AiSecurityForAppsV1 Integration Tests`, func() {
 					}
 				}()
 
+				deleteItems := make([]ApiGatewayOperationsDeleteInputItem, 0, len(ids))
+				for _, id := range ids {
+					item, err := service.NewApiGatewayOperationsDeleteInputItem(id)
+					Expect(err).To(BeNil())
+					deleteItems = append(deleteItems, *item)
+				}
+
 				// Attempt bulk-delete; tolerate failure (backend inconsistency on some zones)
 				bulkDeleteResult, bulkDeleteResponse, bulkDeleteErr := service.DeleteZoneApiGatewayOperations(
-					service.NewDeleteZoneApiGatewayOperationsOptions().SetOperationIds(ids),
+					service.NewDeleteZoneApiGatewayOperationsOptions(deleteItems),
 				)
 				if bulkDeleteErr == nil {
 					Expect(bulkDeleteResponse).ToNot(BeNil())

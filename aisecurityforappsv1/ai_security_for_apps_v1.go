@@ -615,11 +615,7 @@ func (aiSecurityForApps *AiSecurityForAppsV1) DeleteZoneApiGatewayOperationsWith
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
-	body := make(map[string]interface{})
-	if deleteZoneApiGatewayOperationsOptions.OperationIds != nil {
-		body["operation_ids"] = deleteZoneApiGatewayOperationsOptions.OperationIds
-	}
-	_, err = builder.SetBodyContentJSON(body)
+	_, err = builder.SetBodyContentJSON(deleteZoneApiGatewayOperationsOptions.ApiGatewayOperationsDeleteInputItem)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
 		return
@@ -1712,6 +1708,36 @@ func UnmarshalApiGatewayOperationLabelRespResultLabelsItem(m map[string]json.Raw
 	return
 }
 
+// ApiGatewayOperationsDeleteInputItem : ApiGatewayOperationsDeleteInputItem struct
+type ApiGatewayOperationsDeleteInputItem struct {
+	// UUID of the operation to delete.
+	OperationID *string `json:"operation_id" validate:"required"`
+}
+
+// NewApiGatewayOperationsDeleteInputItem : Instantiate ApiGatewayOperationsDeleteInputItem (Generic Model Constructor)
+func (*AiSecurityForAppsV1) NewApiGatewayOperationsDeleteInputItem(operationID string) (_model *ApiGatewayOperationsDeleteInputItem, err error) {
+	_model = &ApiGatewayOperationsDeleteInputItem{
+		OperationID: core.StringPtr(operationID),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+// UnmarshalApiGatewayOperationsDeleteInputItem unmarshals an instance of ApiGatewayOperationsDeleteInputItem from the specified map of raw messages.
+func UnmarshalApiGatewayOperationsDeleteInputItem(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ApiGatewayOperationsDeleteInputItem)
+	err = core.UnmarshalPrimitive(m, "operation_id", &obj.OperationID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "operation_id-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ApiGatewayOperationsLabelsBulkDeleteInputManaged : Managed labels to remove.
 type ApiGatewayOperationsLabelsBulkDeleteInputManaged struct {
 	// List of managed label names to remove.
@@ -2243,21 +2269,23 @@ func (options *DeleteZoneApiGatewayOperationOptions) SetHeaders(param map[string
 
 // DeleteZoneApiGatewayOperationsOptions : The DeleteZoneApiGatewayOperations options.
 type DeleteZoneApiGatewayOperationsOptions struct {
-	// Array of operation UUIDs to delete.
-	OperationIds []string `json:"operation_ids,omitempty"`
+	// List of specific operation IDs to delete.
+	ApiGatewayOperationsDeleteInputItem []ApiGatewayOperationsDeleteInputItem `json:"ApiGatewayOperationsDeleteInputItem" validate:"required"`
 
 	// Allows users to set headers on API requests.
 	Headers map[string]string
 }
 
 // NewDeleteZoneApiGatewayOperationsOptions : Instantiate DeleteZoneApiGatewayOperationsOptions
-func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationsOptions() *DeleteZoneApiGatewayOperationsOptions {
-	return &DeleteZoneApiGatewayOperationsOptions{}
+func (*AiSecurityForAppsV1) NewDeleteZoneApiGatewayOperationsOptions(apiGatewayOperationsDeleteInputItem []ApiGatewayOperationsDeleteInputItem) *DeleteZoneApiGatewayOperationsOptions {
+	return &DeleteZoneApiGatewayOperationsOptions{
+		ApiGatewayOperationsDeleteInputItem: apiGatewayOperationsDeleteInputItem,
+	}
 }
 
-// SetOperationIds : Allow user to set OperationIds
-func (_options *DeleteZoneApiGatewayOperationsOptions) SetOperationIds(operationIds []string) *DeleteZoneApiGatewayOperationsOptions {
-	_options.OperationIds = operationIds
+// SetApiGatewayOperationsDeleteInputItem : Allow user to set ApiGatewayOperationsDeleteInputItem
+func (_options *DeleteZoneApiGatewayOperationsOptions) SetApiGatewayOperationsDeleteInputItem(apiGatewayOperationsDeleteInputItem []ApiGatewayOperationsDeleteInputItem) *DeleteZoneApiGatewayOperationsOptions {
+	_options.ApiGatewayOperationsDeleteInputItem = apiGatewayOperationsDeleteInputItem
 	return _options
 }
 
