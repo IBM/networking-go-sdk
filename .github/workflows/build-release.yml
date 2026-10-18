@@ -45,6 +45,11 @@ jobs:
       - name: Run go mod tidy
         run: make tidy
 
+      - name: Dry run version bump
+        run: |
+          CURRENT=$(grep -oP 'const Version = "\K[^"]+' common/version.go)
+          ./scripts/bump-version.sh --dry-run "$CURRENT" 999.999.999
+
   create-release:
     name: semantic-release
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore')
@@ -56,14 +61,9 @@ jobs:
     steps:
       - name: Notify Slack - Release Started
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-go-sdk",
-              "language": "go",
-              "status": "started",
-              "actor": "${{ github.actor }}"
-            }'
+          jq -n --arg results "Run : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{sdk: "networking-go-sdk", language: "go", status: "started", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -76,36 +76,27 @@ jobs:
         with:
           node-version: 24
 
-      - name: Setup Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.14'
-
       - name: Install publishing tools
-        run: |
-          pip install bump2version
-          npm ci
+        run: npm ci
 
       - name: Validate version consistency
+        id: validate
         run: |
           echo "=== Checking version consistency across files ==="
           
           # Extract versions from each file
           VERSION_GO=$(grep -oP 'const Version = "\K[^"]+' common/version.go)
-          VERSION_CFG=$(grep -oP 'current_version = \K.*' .bumpversion.cfg)
           VERSION_README_TITLE=$(grep -oP 'IBM Cloud Networking Go SDK Version \K[0-9.]+' README.md | head -1)
           VERSION_README_CURRENT=$(grep -oP 'The current version of this SDK: \K[0-9.]+' README.md)
           VERSION_README_GOPKG=$(grep -oP 'version = "\K[^"]+' README.md | head -1)
           
           echo "common/version.go:     $VERSION_GO"
-          echo ".bumpversion.cfg:      $VERSION_CFG"
           echo "README.md (title):     $VERSION_README_TITLE"
           echo "README.md (current):   $VERSION_README_CURRENT"
           echo "README.md (Gopkg):     $VERSION_README_GOPKG"
           
           # Check if all versions match
-          if [ "$VERSION_GO" != "$VERSION_CFG" ] || \
-             [ "$VERSION_GO" != "$VERSION_README_TITLE" ] || \
+          if [ "$VERSION_GO" != "$VERSION_README_TITLE" ] || \
              [ "$VERSION_GO" != "$VERSION_README_CURRENT" ] || \
              [ "$VERSION_GO" != "$VERSION_README_GOPKG" ]; then
             echo "❌ ERROR: Version mismatch detected!"
@@ -116,6 +107,7 @@ jobs:
           echo "✅ All version strings match: $VERSION_GO"
 
       - name: Run semantic-release
+        id: release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
@@ -123,23 +115,19 @@ jobs:
       - name: Notify Slack - Release Completed
         if: success()
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-go-sdk",
-              "language": "go",
-              "status": "completed",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Release : %s\nRun     : %s' \
+            "${{ steps.release.outputs.version || 'No new release published' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-go-sdk", language: "go", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Notify Slack - Release Failed
         if: failure()
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-go-sdk",
-              "language": "go",
-              "status": "failed",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Error : %s\nRun   : %s' \
+            "${{ steps.validate.outcome == 'failure' && 'Version validation failed, version strings in common/version.go and README.md do not match' || steps.release.outcome == 'failure' && 'semantic-release failed' || 'Failed before semantic-release' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-go-sdk", language: "go", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
