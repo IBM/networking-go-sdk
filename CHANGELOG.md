@@ -1,3 +1,12 @@
+## [0.55.3](https://github.com/IBM/networking-go-sdk/compare/v0.55.2...v0.55.3) (2026-10-18)
+
+
+### Bug Fixes
+
+* **deps:** override npm packages ([1ed78d8](https://github.com/IBM/networking-go-sdk/commit/1ed78d859f00ea123c531e763d2340f706339d6a))
+* **deps:** upgrade go packages ([50a5eef](https://github.com/IBM/networking-go-sdk/commit/50a5eeffc652c0560a473fa7b1537c2d07501ceb))
+* **release:** replace bump2version with scripted version bump ([e4b2163](https://github.com/IBM/networking-go-sdk/commit/e4b2163ab387901a21bacb65bf8be8e1be56955a))
+
 ## [0.55.2](https://github.com/IBM/networking-go-sdk/compare/v0.55.1...v0.55.2) (2026-10-06)
 
 
