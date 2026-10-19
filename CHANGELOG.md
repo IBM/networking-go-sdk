@@ -1,3 +1,21 @@
+# [0.56.0](https://github.com/IBM/networking-go-sdk/compare/v0.55.3...v0.56.0) (2026-10-19)
+
+
+### Bug Fixes
+
+* **aisecurityforappsv1:** apply gofmt formatting to fix lint errors ([357ab29](https://github.com/IBM/networking-go-sdk/commit/357ab2989157a21fb894443426bdedd31757f4af))
+* **CIS:** AI security for apps - added more IT scenarios and fixed the response for operation labels ([9981b0e](https://github.com/IBM/networking-go-sdk/commit/9981b0e42e592efad4bb4da1a3339a72ca3dbbab))
+* **CIS:** lint fixes for ai_security_for_apps ([b3a5b1a](https://github.com/IBM/networking-go-sdk/commit/b3a5b1a3672318eeab82ea81645c913e87ed506a))
+* **cis:** update ai security for apps to latest specs ([97b3c1d](https://github.com/IBM/networking-go-sdk/commit/97b3c1dcdce6d155feef9d8413bc82f25057e8a8))
+* **CIS:** update AI Security with latest specs ([8ba7a16](https://github.com/IBM/networking-go-sdk/commit/8ba7a16a3b3c48ffb1c92022c20a78629a3c46c4))
+* **CIS:** UT changes related to Operation Label response struct ([a3244e9](https://github.com/IBM/networking-go-sdk/commit/a3244e937842363ae62652fe9494024f294373e3))
+
+
+### Features
+
+* **aisecurityforappsv1:** add AI Security for Apps v1 SDK with full integration tests covering all 17 endpoints ([48b7fcb](https://github.com/IBM/networking-go-sdk/commit/48b7fcb512e4ce8311fca4cc31caa1116f128702))
+* **CIS:** Add support for AI Security for Apps ([1f97e4b](https://github.com/IBM/networking-go-sdk/commit/1f97e4b80acfe011ccb71d37e430de9c2d1f2f7b))
+
 ## [0.55.3](https://github.com/IBM/networking-go-sdk/compare/v0.55.2...v0.55.3) (2026-10-18)
 
 
