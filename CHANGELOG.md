@@ -1,3 +1,12 @@
+## [0.56.1](https://github.com/IBM/networking-go-sdk/compare/v0.56.0...v0.56.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **ci:** added detect-secrets in workflow ([a09d8c2](https://github.com/IBM/networking-go-sdk/commit/a09d8c2c8e8c390d3625a08e05c224b6a3de422a))
+* detect secrets audit fixes ([0defe7e](https://github.com/IBM/networking-go-sdk/commit/0defe7ecbc9ec7ffce395efb103444387a3de26d))
+* **package:** fix npm vuln using fresh package-lock.json ([aec9d6c](https://github.com/IBM/networking-go-sdk/commit/aec9d6c1b623f0ca13010d3fbafe949679b6bb92))
+
 # [0.56.0](https://github.com/IBM/networking-go-sdk/compare/v0.55.3...v0.56.0) (2026-10-19)
 
 
