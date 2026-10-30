@@ -1,3 +1,10 @@
+## [0.56.2](https://github.com/IBM/networking-go-sdk/compare/v0.56.1...v0.56.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/ibm/go-sdk-core/v5 to v5.25.2 ([6c5398d](https://github.com/IBM/networking-go-sdk/commit/6c5398d44e97d5bf996eb25102e19be8527a4df7))
+
 ## [0.56.1](https://github.com/IBM/networking-go-sdk/compare/v0.56.0...v0.56.1) (2026-10-27)
 
 
