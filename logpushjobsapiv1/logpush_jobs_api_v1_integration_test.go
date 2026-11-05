@@ -259,8 +259,8 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestGenericModel := &logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobGenericReq{
 					Name:            core.StringPtr("Test123"),
 					Enabled:         core.BoolPtr(false),
-					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost,ClientRequestMethod"),
-					DestinationConf: core.StringPtr("https://httpbin.org/post"),
+					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost,ClientRequestMethod,EdgeResponseStatus&timestamps=rfc3339"),
+					DestinationConf: core.StringPtr("https://httpbin.org/post?header_Authorization=Basic%20dGVzdA=="),
 					Dataset:         core.StringPtr("http_requests"),
 					Frequency:       core.StringPtr("high"),
 				}
@@ -294,8 +294,8 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				updateOptions := testService.NewUpdateLogpushJobV2Options(strconv.FormatInt(*job.ID, 10))
 				updateLogpushJobV2RequestGenericModel := &logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq{
 					Enabled:         core.BoolPtr(false),
-					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost"),
-					DestinationConf: core.StringPtr("https://httpbin.org/post"),
+					LogpullOptions:  core.StringPtr("fields=ClientIP,ClientRequestHost&timestamps=rfc3339"),
+					DestinationConf: core.StringPtr("https://httpbin.org/post?header_Authorization=Basic%20dXBkYXRlZA=="),
 					Frequency:       core.StringPtr("high"),
 				}
 
@@ -305,6 +305,53 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				Expect(updateErr).To(BeNil())
 				Expect(updateResponse).ToNot(BeNil())
 				Expect(updateResult).ToNot(BeNil())
+
+				//Delete Logpush Jobs
+				for _, thisJob := range allJobs {
+					delOptions := testService.NewDeleteLogpushJobV2Options(strconv.FormatInt(*thisJob.ID, 10))
+					delResult, delResponse, delErr := testService.DeleteLogpushJobV2(delOptions)
+					Expect(delErr).To(BeNil())
+					Expect(delResponse).ToNot(BeNil())
+					Expect(delResult).ToNot(BeNil())
+				}
+			})
+
+			It(`create/get/list/delete logpush jobs with extensive field configuration`, func() {
+				shouldSkipTest()
+
+				options := testService.NewCreateLogpushJobV2Options()
+				createLogpushJobV2RequestGenericModel := &logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobGenericReq{
+					Name:            core.StringPtr("Test123"),
+					Enabled:         core.BoolPtr(false),
+					LogpullOptions:  core.StringPtr("fields=ClientRequestBytes,ClientIP,ClientRequestUserAgent,EdgeResponseStatus,SecurityAction,OriginDNSResponseTimeMs,RequestHeaders,WAFXSSAttackScore,EdgeResponseContentType,EdgeRequestHost,OriginResponseHTTPExpires,ClientRequestMethod,ClientRequestProtocol,ClientRequestHost,ClientSSLCipher,EdgeResponseBodyBytes,OriginResponseBytes,ClientDeviceType,OriginResponseTime,OriginSSLProtocol,WAFFlags,WAFMatchedVar,ClientRequestURI,EdgePathingStatus,ClientCountry,EdgeResponseBytes,EdgeTimeToFirstByteMs,ClientCity,ClientSrcPort,SecurityRuleIDs,ParentRayID,WAFRCEAttackScore,EdgeStartTimestamp,OriginResponseDurationMs,OriginResponseHeaderReceiveDurationMs,ClientTCPRTTMs,ResponseHeaders,SecurityRuleDescription,WAFAttackScore,ClientRequestPath,ClientRequestReferer,EdgeServerIP,SecurityActions,OriginResponseStatus,OriginTCPHandshakeDurationMs,RayID,EdgePathingOp,SecurityRuleID,ClientRequestScheme,ClientSSLProtocol,OriginTLSHandshakeDurationMs,SecuritySources,EdgeEndTimestamp,OriginIP,WAFSQLiAttackScore&timestamps=rfc3339"),
+					DestinationConf: core.StringPtr("https://httpbin.org/post?header_Authorization=Basic%20VGVzdFVzZXI6VGVzdFBhc3N3b3JkMTIzNDU2Nzg5MA==&header_X-Custom-Header=SomeLongValueForTestingPurposes"),
+					Dataset:         core.StringPtr("http_requests"),
+					Frequency:       core.StringPtr("high"),
+				}
+
+				options.SetCreateLogpushJobV2Request(createLogpushJobV2RequestGenericModel)
+				result, response, operationErr := testService.CreateLogpushJobV2(options)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				job := result.Result
+
+				// Get Logpush Job by jobID
+				getOptions := testService.NewGetLogpushJobV2Options(strconv.FormatInt(*job.ID, 10))
+				getResult, getResponse, getErr := testService.GetLogpushJobV2(getOptions)
+				Expect(getErr).To(BeNil())
+				Expect(getResponse).ToNot(BeNil())
+				Expect(getResult).ToNot(BeNil())
+
+				// List all Logpush Jobs
+				listOptions := testService.NewGetLogpushJobsV2Options()
+				listResult, listResponse, listErr := testService.GetLogpushJobsV2(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResponse).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+
+				allJobs := listResult.Result
 
 				//Delete Logpush Jobs
 				for _, thisJob := range allJobs {
