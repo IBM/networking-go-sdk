@@ -1861,6 +1861,97 @@ var _ = Describe(`dnssvcsv1`, func() {
 				Expect(responseDel).ToNot(BeNil())
 				Expect(responseDel.GetStatusCode()).To(BeEquivalentTo(204))
 			})
+			It(`clear cache action lifecycle (trigger, get, list)`, func() {
+				shouldSkipTest()
+				locationInputModel := new(dnssvcsv1.LocationInput)
+				locationInputModel.SubnetCrn = core.StringPtr(subnetCrn)
+				locationInputModel.Enabled = core.BoolPtr(true)
+
+				createCustomResolverOptions := service.NewCreateCustomResolverOptions(instanceID, "test-resolver-clear-cache")
+				createCustomResolverOptions.SetDescription("Integration test resolver for clear cache")
+				createCustomResolverOptions.SetXCorrelationID("abc12387")
+				createCustomResolverOptions.SetLocations([]dnssvcsv1.LocationInput{*locationInputModel})
+				createCustomResolverOptions.SetProfile("essential")
+
+				result, response, err := service.CreateCustomResolver(createCustomResolverOptions)
+				Expect(err).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+				Expect(response.GetStatusCode()).To(BeEquivalentTo(200))
+				crID := *result.ID
+
+				// 1. List clear cache actions initially
+				listOptions := service.NewListClearCacheActionsOptions(instanceID, crID)
+				listOptions.SetXCorrelationID("abc12387")
+				Expect(listOptions).ToNot(BeNil())
+				listResult, listResp, listErr := service.ListClearCacheActions(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+
+				// 2. Trigger Clear Custom Resolver Cache
+				clearOptions := service.NewClearCustomResolverCacheOptions(instanceID, crID)
+				clearOptions.SetXCorrelationID("abc12387")
+				Expect(clearOptions).ToNot(BeNil())
+				clearResult, clearResp, clearErr := service.ClearCustomResolverCache(clearOptions)
+				Expect(clearErr).To(BeNil())
+				Expect(clearResp).ToNot(BeNil())
+				Expect(clearResult).ToNot(BeNil())
+				Expect(clearResp.GetStatusCode()).To(BeEquivalentTo(202))
+				Expect(clearResult.ID).ToNot(BeNil())
+				Expect(clearResult.Status).ToNot(BeNil())
+				Expect(clearResult.CreatedOn).ToNot(BeNil())
+				Expect(clearResult.ExpiresOn).ToNot(BeNil())
+				actionID := *clearResult.ID
+
+				// 3. Get Clear Cache Action by ID & poll for completion
+				getOptions := service.NewGetClearCacheActionOptions(instanceID, crID, actionID)
+				getOptions.SetXCorrelationID("abc12387")
+				Expect(getOptions).ToNot(BeNil())
+
+				var finalStatus string
+				for attempt := 0; attempt < 30; attempt++ {
+					getResult, getResp, getErr := service.GetClearCacheAction(getOptions)
+					Expect(getErr).To(BeNil())
+					Expect(getResp).ToNot(BeNil())
+					Expect(getResult).ToNot(BeNil())
+					Expect(getResp.GetStatusCode()).To(BeEquivalentTo(200))
+					Expect(*getResult.ID).To(Equal(actionID))
+					Expect(getResult.Status).ToNot(BeNil())
+					finalStatus = *getResult.Status
+					if finalStatus != "pending" {
+						break
+					}
+					time.Sleep(2 * time.Second)
+				}
+				Expect(finalStatus).To(BeElementOf("pending", "success", "failed"))
+
+				// 4. List Clear Cache Actions (verify action appears in list)
+				listResult, listResp, listErr = service.ListClearCacheActions(listOptions)
+				Expect(listErr).To(BeNil())
+				Expect(listResp).ToNot(BeNil())
+				Expect(listResult).ToNot(BeNil())
+				Expect(listResp.GetStatusCode()).To(BeEquivalentTo(200))
+				Expect(len(listResult.ClearCacheActions)).To(BeNumerically(">=", 1))
+				Expect(*listResult.Count).To(BeNumerically(">=", 1))
+
+				// 5. Negative Test - Get non-existent Clear Cache Action (expect 404)
+				invalidGetOptions := service.NewGetClearCacheActionOptions(instanceID, crID, "non-existent-action-id")
+				invalidGetOptions.SetXCorrelationID("abc12387")
+				_, invalidResp, invalidErr := service.GetClearCacheAction(invalidGetOptions)
+				Expect(invalidErr).ToNot(BeNil())
+				Expect(invalidResp).ToNot(BeNil())
+				Expect(invalidResp.GetStatusCode()).To(BeEquivalentTo(404))
+
+				// 6. Clean up - Delete Custom Resolver
+				deleteOptions := service.NewDeleteCustomResolverOptions(instanceID, crID)
+				deleteOptions.SetXCorrelationID("abc12387")
+				delResp, delErr := service.DeleteCustomResolver(deleteOptions)
+				Expect(delErr).To(BeNil())
+				Expect(delResp).ToNot(BeNil())
+				Expect(delResp.GetStatusCode()).To(BeEquivalentTo(204))
+			})
 		})
 		Context(`customresolverv1 pagination params`, func() {
 			var customResolverID string
