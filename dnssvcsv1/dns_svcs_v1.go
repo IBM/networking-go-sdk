@@ -10586,7 +10586,7 @@ type ClearCacheAction struct {
 // Constants associated with the ClearCacheAction.Status property.
 // The status of the cache clear action.
 const (
-	ClearCacheAction_Status_Failed = "failed"
+	ClearCacheAction_Status_Failed  = "failed"
 	ClearCacheAction_Status_Pending = "pending"
 	ClearCacheAction_Status_Success = "success"
 )
