@@ -12654,6 +12654,583 @@ var _ = Describe(`DnsSvcsV1`, func() {
 			})
 		})
 	})
+	Describe(`ListClearCacheActions(listClearCacheActionsOptions *ListClearCacheActionsOptions) - Operation response error`, func() {
+		listClearCacheActionsPath := "/instances/testString/custom_resolvers/testString/clear_cache"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listClearCacheActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListClearCacheActions with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListClearCacheActionsOptions model
+				listClearCacheActionsOptionsModel := new(dnssvcsv1.ListClearCacheActionsOptions)
+				listClearCacheActionsOptionsModel.InstanceID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.ResolverID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListClearCacheActions(listClearCacheActionsOptions *ListClearCacheActionsOptions)`, func() {
+		listClearCacheActionsPath := "/instances/testString/custom_resolvers/testString/clear_cache"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listClearCacheActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"clear_cache_actions": [{"id": "1717236000000000", "status": "success", "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}], "count": 1}`)
+				}))
+			})
+			It(`Invoke ListClearCacheActions successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListClearCacheActionsOptions model
+				listClearCacheActionsOptionsModel := new(dnssvcsv1.ListClearCacheActionsOptions)
+				listClearCacheActionsOptionsModel.InstanceID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.ResolverID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ListClearCacheActionsWithContext(ctx, listClearCacheActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ListClearCacheActionsWithContext(ctx, listClearCacheActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listClearCacheActionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"clear_cache_actions": [{"id": "1717236000000000", "status": "success", "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}], "count": 1}`)
+				}))
+			})
+			It(`Invoke ListClearCacheActions successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ListClearCacheActions(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListClearCacheActionsOptions model
+				listClearCacheActionsOptionsModel := new(dnssvcsv1.ListClearCacheActionsOptions)
+				listClearCacheActionsOptionsModel.InstanceID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.ResolverID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListClearCacheActions with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ListClearCacheActionsOptions model
+				listClearCacheActionsOptionsModel := new(dnssvcsv1.ListClearCacheActionsOptions)
+				listClearCacheActionsOptionsModel.InstanceID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.ResolverID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.XCorrelationID = core.StringPtr("testString")
+				listClearCacheActionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				dnsSvcsService.SetServiceURL("")
+				result, response, operationErr := dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct a second instance of the ListClearCacheActionsOptions model with no property values
+				listClearCacheActionsOptionsModelNew := new(dnssvcsv1.ListClearCacheActionsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ListClearCacheActions(listClearCacheActionsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ClearCustomResolverCache(clearCustomResolverCacheOptions *ClearCustomResolverCacheOptions) - Operation response error`, func() {
+		clearCustomResolverCachePath := "/instances/testString/custom_resolvers/testString/clear_cache"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(clearCustomResolverCachePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ClearCustomResolverCache with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ClearCustomResolverCacheOptions model
+				clearCustomResolverCacheOptionsModel := new(dnssvcsv1.ClearCustomResolverCacheOptions)
+				clearCustomResolverCacheOptionsModel.InstanceID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.ResolverID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.XCorrelationID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ClearCustomResolverCache(clearCustomResolverCacheOptions *ClearCustomResolverCacheOptions)`, func() {
+		clearCustomResolverCachePath := "/instances/testString/custom_resolvers/testString/clear_cache"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(clearCustomResolverCachePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"id": "1717236000000000", "status": "pending", "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:00.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke ClearCustomResolverCache successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the ClearCustomResolverCacheOptions model
+				clearCustomResolverCacheOptionsModel := new(dnssvcsv1.ClearCustomResolverCacheOptions)
+				clearCustomResolverCacheOptionsModel.InstanceID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.ResolverID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.XCorrelationID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.ClearCustomResolverCacheWithContext(ctx, clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.ClearCustomResolverCacheWithContext(ctx, clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(clearCustomResolverCachePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(202)
+					fmt.Fprintf(res, "%s", `{"id": "1717236000000000", "status": "pending", "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:00.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke ClearCustomResolverCache successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.ClearCustomResolverCache(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ClearCustomResolverCacheOptions model
+				clearCustomResolverCacheOptionsModel := new(dnssvcsv1.ClearCustomResolverCacheOptions)
+				clearCustomResolverCacheOptionsModel.InstanceID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.ResolverID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.XCorrelationID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ClearCustomResolverCache with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the ClearCustomResolverCacheOptions model
+				clearCustomResolverCacheOptionsModel := new(dnssvcsv1.ClearCustomResolverCacheOptions)
+				clearCustomResolverCacheOptionsModel.InstanceID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.ResolverID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.XCorrelationID = core.StringPtr("testString")
+				clearCustomResolverCacheOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				dnsSvcsService.SetServiceURL("")
+				result, response, operationErr := dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct a second instance of the ClearCustomResolverCacheOptions model with no property values
+				clearCustomResolverCacheOptionsModelNew := new(dnssvcsv1.ClearCustomResolverCacheOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.ClearCustomResolverCache(clearCustomResolverCacheOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetClearCacheAction(getClearCacheActionOptions *GetClearCacheActionOptions) - Operation response error`, func() {
+		getClearCacheActionPath := "/instances/testString/custom_resolvers/testString/clear_cache/testString"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getClearCacheActionPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke GetClearCacheAction with error: Operation response processing error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetClearCacheActionOptions model
+				getClearCacheActionOptionsModel := new(dnssvcsv1.GetClearCacheActionOptions)
+				getClearCacheActionOptionsModel.InstanceID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ResolverID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ActionID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				dnsSvcsService.EnableRetries(0, 0)
+				result, response, operationErr = dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`GetClearCacheAction(getClearCacheActionOptions *GetClearCacheActionOptions)`, func() {
+		getClearCacheActionPath := "/instances/testString/custom_resolvers/testString/clear_cache/testString"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getClearCacheActionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "1717236000000000", "status": "success", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetClearCacheAction successfully with retries`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+				dnsSvcsService.EnableRetries(0, 0)
+
+				// Construct an instance of the GetClearCacheActionOptions model
+				getClearCacheActionOptionsModel := new(dnssvcsv1.GetClearCacheActionOptions)
+				getClearCacheActionOptionsModel.InstanceID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ResolverID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ActionID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := dnsSvcsService.GetClearCacheActionWithContext(ctx, getClearCacheActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				dnsSvcsService.DisableRetries()
+				result, response, operationErr := dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = dnsSvcsService.GetClearCacheActionWithContext(ctx, getClearCacheActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(getClearCacheActionPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.Header["X-Correlation-Id"]).ToNot(BeNil())
+					Expect(req.Header["X-Correlation-Id"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "1717236000000000", "status": "success", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}`)
+				}))
+			})
+			It(`Invoke GetClearCacheAction successfully`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := dnsSvcsService.GetClearCacheAction(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the GetClearCacheActionOptions model
+				getClearCacheActionOptionsModel := new(dnssvcsv1.GetClearCacheActionOptions)
+				getClearCacheActionOptionsModel.InstanceID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ResolverID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ActionID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke GetClearCacheAction with error: Operation validation and request error`, func() {
+				dnsSvcsService, serviceErr := dnssvcsv1.NewDnsSvcsV1(&dnssvcsv1.DnsSvcsV1Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(dnsSvcsService).ToNot(BeNil())
+
+				// Construct an instance of the GetClearCacheActionOptions model
+				getClearCacheActionOptionsModel := new(dnssvcsv1.GetClearCacheActionOptions)
+				getClearCacheActionOptionsModel.InstanceID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ResolverID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.ActionID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.XCorrelationID = core.StringPtr("testString")
+				getClearCacheActionOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				dnsSvcsService.SetServiceURL("")
+				result, response, operationErr := dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct a second instance of the GetClearCacheActionOptions model with no property values
+				getClearCacheActionOptionsModelNew := new(dnssvcsv1.GetClearCacheActionOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = dnsSvcsService.GetClearCacheAction(getClearCacheActionOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions) - Operation response error`, func() {
 		listLinkedZonesPath := "/instances/testString/linked_dnszones"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -16522,6 +17099,54 @@ var _ = Describe(`DnsSvcsV1`, func() {
 				Expect(importResourceRecordsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
 				Expect(importResourceRecordsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewClearCustomResolverCacheOptions successfully`, func() {
+				// Construct an instance of the ClearCustomResolverCacheOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				clearCustomResolverCacheOptionsModel := dnsSvcsService.NewClearCustomResolverCacheOptions(instanceID, resolverID)
+				clearCustomResolverCacheOptionsModel.SetInstanceID("testString")
+				clearCustomResolverCacheOptionsModel.SetResolverID("testString")
+				clearCustomResolverCacheOptionsModel.SetXCorrelationID("testString")
+				clearCustomResolverCacheOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(clearCustomResolverCacheOptionsModel).ToNot(BeNil())
+				Expect(clearCustomResolverCacheOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(clearCustomResolverCacheOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(clearCustomResolverCacheOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(clearCustomResolverCacheOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewListClearCacheActionsOptions successfully`, func() {
+				// Construct an instance of the ListClearCacheActionsOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				listClearCacheActionsOptionsModel := dnsSvcsService.NewListClearCacheActionsOptions(instanceID, resolverID)
+				listClearCacheActionsOptionsModel.SetInstanceID("testString")
+				listClearCacheActionsOptionsModel.SetResolverID("testString")
+				listClearCacheActionsOptionsModel.SetXCorrelationID("testString")
+				listClearCacheActionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listClearCacheActionsOptionsModel).ToNot(BeNil())
+				Expect(listClearCacheActionsOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(listClearCacheActionsOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(listClearCacheActionsOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(listClearCacheActionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetClearCacheActionOptions successfully`, func() {
+				// Construct an instance of the GetClearCacheActionOptions model
+				instanceID := "testString"
+				resolverID := "testString"
+				actionID := "testString"
+				getClearCacheActionOptionsModel := dnsSvcsService.NewGetClearCacheActionOptions(instanceID, resolverID, actionID)
+				getClearCacheActionOptionsModel.SetInstanceID("testString")
+				getClearCacheActionOptionsModel.SetResolverID("testString")
+				getClearCacheActionOptionsModel.SetActionID("testString")
+				getClearCacheActionOptionsModel.SetXCorrelationID("testString")
+				getClearCacheActionOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getClearCacheActionOptionsModel).ToNot(BeNil())
+				Expect(getClearCacheActionOptionsModel.InstanceID).To(Equal(core.StringPtr("testString")))
+				Expect(getClearCacheActionOptionsModel.ResolverID).To(Equal(core.StringPtr("testString")))
+				Expect(getClearCacheActionOptionsModel.ActionID).To(Equal(core.StringPtr("testString")))
+				Expect(getClearCacheActionOptionsModel.XCorrelationID).To(Equal(core.StringPtr("testString")))
+				Expect(getClearCacheActionOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListCustomResolversOptions successfully`, func() {
 				// Construct an instance of the ListCustomResolversOptions model
 				instanceID := "testString"
@@ -17747,6 +18372,77 @@ var _ = Describe(`DnsSvcsV1`, func() {
 
 			var result *dnssvcsv1.ForwardingRuleInputForwardingRuleOnlyView
 			err = dnssvcsv1.UnmarshalForwardingRuleInputForwardingRuleOnlyView(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalClearCacheError successfully`, func() {
+			model := new(dnssvcsv1.ClearCacheError)
+			model.Code = core.StringPtr("location_unreachable")
+			model.Message = core.StringPtr("The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.")
+			model.LocationID = core.StringPtr("9a234ede-c2b6-4c39-bc27-d39ec139ecdb")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ClearCacheError
+			err = dnssvcsv1.UnmarshalClearCacheError(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalClearCacheAction successfully`, func() {
+			errorModel := dnssvcsv1.ClearCacheError{
+				Code:       core.StringPtr("location_unreachable"),
+				Message:    core.StringPtr("The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb."),
+				LocationID: core.StringPtr("9a234ede-c2b6-4c39-bc27-d39ec139ecdb"),
+			}
+			model := new(dnssvcsv1.ClearCacheAction)
+			model.ID = core.StringPtr("1717236000000000")
+			model.Status = core.StringPtr("failed")
+			model.Errors = []dnssvcsv1.ClearCacheError{errorModel}
+			model.CreatedOn = CreateMockDateTime("2024-06-01T10:00:00.000Z")
+			model.ModifiedOn = CreateMockDateTime("2024-06-01T10:00:05.000Z")
+			model.ExpiresOn = CreateMockDateTime("2024-06-01T15:00:00.000Z")
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ClearCacheAction
+			err = dnssvcsv1.UnmarshalClearCacheAction(raw, &result)
+			Expect(err).To(BeNil())
+			Expect(result).ToNot(BeNil())
+			Expect(result).To(Equal(model))
+		})
+		It(`Invoke UnmarshalClearCacheActionList successfully`, func() {
+			actionModel := dnssvcsv1.ClearCacheAction{
+				ID:         core.StringPtr("1717236000000000"),
+				Status:     core.StringPtr("success"),
+				CreatedOn:  CreateMockDateTime("2024-06-01T10:00:00.000Z"),
+				ModifiedOn: CreateMockDateTime("2024-06-01T10:00:05.000Z"),
+				ExpiresOn:  CreateMockDateTime("2024-06-01T15:00:00.000Z"),
+			}
+			model := new(dnssvcsv1.ClearCacheActionList)
+			model.ClearCacheActions = []dnssvcsv1.ClearCacheAction{actionModel}
+			model.Count = core.Int64Ptr(int64(1))
+
+			b, err := json.Marshal(model)
+			Expect(err).To(BeNil())
+
+			var raw map[string]json.RawMessage
+			err = json.Unmarshal(b, &raw)
+			Expect(err).To(BeNil())
+
+			var result *dnssvcsv1.ClearCacheActionList
+			err = dnssvcsv1.UnmarshalClearCacheActionList(raw, &result)
 			Expect(err).To(BeNil())
 			Expect(result).ToNot(BeNil())
 			Expect(result).To(Equal(model))

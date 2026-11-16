@@ -4278,6 +4278,231 @@ func (dnsSvcs *DnsSvcsV1) DeleteSecondaryZoneWithContext(ctx context.Context, de
 	return
 }
 
+// ListClearCacheActions : List cache clear actions
+// List the cache clear actions for the given custom resolver.
+func (dnsSvcs *DnsSvcsV1) ListClearCacheActions(listClearCacheActionsOptions *ListClearCacheActionsOptions) (result *ClearCacheActionList, response *core.DetailedResponse, err error) {
+	result, response, err = dnsSvcs.ListClearCacheActionsWithContext(context.Background(), listClearCacheActionsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ListClearCacheActionsWithContext is an alternate form of the ListClearCacheActions method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ListClearCacheActionsWithContext(ctx context.Context, listClearCacheActionsOptions *ListClearCacheActionsOptions) (result *ClearCacheActionList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listClearCacheActionsOptions, "listClearCacheActionsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(listClearCacheActionsOptions, "listClearCacheActionsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *listClearCacheActionsOptions.InstanceID,
+		"resolver_id": *listClearCacheActionsOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "ListClearCacheActions")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listClearCacheActionsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listClearCacheActionsOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*listClearCacheActionsOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "list_clear_cache_actions", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalClearCacheActionList)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ClearCustomResolverCache : Clear the DNS cache of a custom resolver
+// Initiate an asynchronous DNS cache flush on all locations of the custom resolver. The returned action resource can be
+// polled to track completion. The action record is retained for up to 5 hours after the request is accepted. Only one
+// cache clear can be pending for a custom resolver at a time; the request fails with 409 Conflict if a cache clear is
+// already pending.
+func (dnsSvcs *DnsSvcsV1) ClearCustomResolverCache(clearCustomResolverCacheOptions *ClearCustomResolverCacheOptions) (result *ClearCacheAction, response *core.DetailedResponse, err error) {
+	result, response, err = dnsSvcs.ClearCustomResolverCacheWithContext(context.Background(), clearCustomResolverCacheOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ClearCustomResolverCacheWithContext is an alternate form of the ClearCustomResolverCache method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) ClearCustomResolverCacheWithContext(ctx context.Context, clearCustomResolverCacheOptions *ClearCustomResolverCacheOptions) (result *ClearCacheAction, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(clearCustomResolverCacheOptions, "clearCustomResolverCacheOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(clearCustomResolverCacheOptions, "clearCustomResolverCacheOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *clearCustomResolverCacheOptions.InstanceID,
+		"resolver_id": *clearCustomResolverCacheOptions.ResolverID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "ClearCustomResolverCache")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range clearCustomResolverCacheOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+	if clearCustomResolverCacheOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*clearCustomResolverCacheOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "clear_custom_resolver_cache", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalClearCacheAction)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetClearCacheAction : Get a cache clear action
+// Get the status of a cache clear action for the given custom resolver. The action record is available for up to 5
+// hours after the action was accepted.
+func (dnsSvcs *DnsSvcsV1) GetClearCacheAction(getClearCacheActionOptions *GetClearCacheActionOptions) (result *ClearCacheAction, response *core.DetailedResponse, err error) {
+	result, response, err = dnsSvcs.GetClearCacheActionWithContext(context.Background(), getClearCacheActionOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetClearCacheActionWithContext is an alternate form of the GetClearCacheAction method which supports a Context parameter
+func (dnsSvcs *DnsSvcsV1) GetClearCacheActionWithContext(ctx context.Context, getClearCacheActionOptions *GetClearCacheActionOptions) (result *ClearCacheAction, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getClearCacheActionOptions, "getClearCacheActionOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(getClearCacheActionOptions, "getClearCacheActionOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"instance_id": *getClearCacheActionOptions.InstanceID,
+		"resolver_id": *getClearCacheActionOptions.ResolverID,
+		"action_id":   *getClearCacheActionOptions.ActionID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = dnsSvcs.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(dnsSvcs.Service.Options.URL, `/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache/{action_id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("dns_svcs", "V1", "GetClearCacheAction")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getClearCacheActionOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if getClearCacheActionOptions.XCorrelationID != nil {
+		builder.AddHeader("X-Correlation-ID", fmt.Sprint(*getClearCacheActionOptions.XCorrelationID))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = dnsSvcs.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_clear_cache_action", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalClearCacheAction)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListLinkedZones : List linked zones
 // List linked zones in requestor's instance.
 func (dnsSvcs *DnsSvcsV1) ListLinkedZones(listLinkedZonesOptions *ListLinkedZonesOptions) (result *LinkedDnszonesList, response *core.DetailedResponse, err error) {
@@ -5346,6 +5571,53 @@ func UnmarshalAzPoolsItem(m map[string]json.RawMessage, result interface{}) (err
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// ClearCustomResolverCacheOptions : The ClearCustomResolverCache options.
+type ClearCustomResolverCacheOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewClearCustomResolverCacheOptions : Instantiate ClearCustomResolverCacheOptions
+func (*DnsSvcsV1) NewClearCustomResolverCacheOptions(instanceID string, resolverID string) *ClearCustomResolverCacheOptions {
+	return &ClearCustomResolverCacheOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *ClearCustomResolverCacheOptions) SetInstanceID(instanceID string) *ClearCustomResolverCacheOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *ClearCustomResolverCacheOptions) SetResolverID(resolverID string) *ClearCustomResolverCacheOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *ClearCustomResolverCacheOptions) SetXCorrelationID(xCorrelationID string) *ClearCustomResolverCacheOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ClearCustomResolverCacheOptions) SetHeaders(param map[string]string) *ClearCustomResolverCacheOptions {
+	options.Headers = param
+	return options
 }
 
 // CreateCustomResolverOptions : The CreateCustomResolver options.
@@ -7087,6 +7359,63 @@ func (options *ExportResourceRecordsOptions) SetHeaders(param map[string]string)
 	return options
 }
 
+// GetClearCacheActionOptions : The GetClearCacheAction options.
+type GetClearCacheActionOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// The unique identifier of a cache clear action.
+	ActionID *string `json:"action_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetClearCacheActionOptions : Instantiate GetClearCacheActionOptions
+func (*DnsSvcsV1) NewGetClearCacheActionOptions(instanceID string, resolverID string, actionID string) *GetClearCacheActionOptions {
+	return &GetClearCacheActionOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+		ActionID:   core.StringPtr(actionID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *GetClearCacheActionOptions) SetInstanceID(instanceID string) *GetClearCacheActionOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *GetClearCacheActionOptions) SetResolverID(resolverID string) *GetClearCacheActionOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetActionID : Allow user to set ActionID
+func (_options *GetClearCacheActionOptions) SetActionID(actionID string) *GetClearCacheActionOptions {
+	_options.ActionID = core.StringPtr(actionID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *GetClearCacheActionOptions) SetXCorrelationID(xCorrelationID string) *GetClearCacheActionOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetClearCacheActionOptions) SetHeaders(param map[string]string) *GetClearCacheActionOptions {
+	options.Headers = param
+	return options
+}
+
 // GetCustomResolverOptions : The GetCustomResolver options.
 type GetCustomResolverOptions struct {
 	// The unique identifier of a service instance.
@@ -7810,6 +8139,53 @@ func UnmarshalLinkedDnszoneLinkedTo(m map[string]json.RawMessage, result interfa
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// ListClearCacheActionsOptions : The ListClearCacheActions options.
+type ListClearCacheActionsOptions struct {
+	// The unique identifier of a service instance.
+	InstanceID *string `json:"instance_id" validate:"required,ne="`
+
+	// The unique identifier of a custom resolver.
+	ResolverID *string `json:"resolver_id" validate:"required,ne="`
+
+	// Uniquely identifying a request.
+	XCorrelationID *string `json:"X-Correlation-ID,omitempty"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewListClearCacheActionsOptions : Instantiate ListClearCacheActionsOptions
+func (*DnsSvcsV1) NewListClearCacheActionsOptions(instanceID string, resolverID string) *ListClearCacheActionsOptions {
+	return &ListClearCacheActionsOptions{
+		InstanceID: core.StringPtr(instanceID),
+		ResolverID: core.StringPtr(resolverID),
+	}
+}
+
+// SetInstanceID : Allow user to set InstanceID
+func (_options *ListClearCacheActionsOptions) SetInstanceID(instanceID string) *ListClearCacheActionsOptions {
+	_options.InstanceID = core.StringPtr(instanceID)
+	return _options
+}
+
+// SetResolverID : Allow user to set ResolverID
+func (_options *ListClearCacheActionsOptions) SetResolverID(resolverID string) *ListClearCacheActionsOptions {
+	_options.ResolverID = core.StringPtr(resolverID)
+	return _options
+}
+
+// SetXCorrelationID : Allow user to set XCorrelationID
+func (_options *ListClearCacheActionsOptions) SetXCorrelationID(xCorrelationID string) *ListClearCacheActionsOptions {
+	_options.XCorrelationID = core.StringPtr(xCorrelationID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListClearCacheActionsOptions) SetHeaders(param map[string]string) *ListClearCacheActionsOptions {
+	options.Headers = param
+	return options
 }
 
 // ListCustomResolversOptions : The ListCustomResolvers options.
@@ -10179,6 +10555,133 @@ func UnmarshalActiveDelta(m map[string]json.RawMessage, result interface{}) (err
 	err = core.UnmarshalPrimitive(m, "profile", &obj.Profile)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "profile-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ClearCacheAction : Cache clear action details.
+type ClearCacheAction struct {
+	// Identifier of the cache clear action.
+	ID *string `json:"id,omitempty"`
+
+	// The status of the cache clear action.
+	Status *string `json:"status,omitempty"`
+
+	// Errors encountered during the cache clear action. Present only when status is failed.
+	Errors []ClearCacheError `json:"errors,omitempty"`
+
+	// The time when the cache clear action was created, RFC3339 format.
+	CreatedOn *strfmt.DateTime `json:"created_on,omitempty"`
+
+	// The time when the cache clear action was last modified, RFC3339 format.
+	ModifiedOn *strfmt.DateTime `json:"modified_on,omitempty"`
+
+	// The time when the cache clear action record will be deleted, RFC3339 format. The record is retained for up to 5
+	// hours.
+	ExpiresOn *strfmt.DateTime `json:"expires_on,omitempty"`
+}
+
+// Constants associated with the ClearCacheAction.Status property.
+// The status of the cache clear action.
+const (
+	ClearCacheAction_Status_Failed  = "failed"
+	ClearCacheAction_Status_Pending = "pending"
+	ClearCacheAction_Status_Success = "success"
+)
+
+// UnmarshalClearCacheAction unmarshals an instance of ClearCacheAction from the specified map of raw messages.
+func UnmarshalClearCacheAction(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ClearCacheAction)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "status-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "errors", &obj.Errors, UnmarshalClearCacheError)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "errors-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_on", &obj.CreatedOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_on-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "modified_on", &obj.ModifiedOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "modified_on-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "expires_on", &obj.ExpiresOn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "expires_on-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ClearCacheActionList : List of cache clear actions response.
+type ClearCacheActionList struct {
+	// An array of cache clear actions.
+	ClearCacheActions []ClearCacheAction `json:"clear_cache_actions" validate:"required"`
+
+	// The number of resources are returned.
+	Count *int64 `json:"count" validate:"required"`
+}
+
+// UnmarshalClearCacheActionList unmarshals an instance of ClearCacheActionList from the specified map of raw messages.
+func UnmarshalClearCacheActionList(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ClearCacheActionList)
+	err = core.UnmarshalModel(m, "clear_cache_actions", &obj.ClearCacheActions, UnmarshalClearCacheAction)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "clear_cache_actions-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "count", &obj.Count)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "count-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ClearCacheError : An error associated with a failed cache clear action.
+type ClearCacheError struct {
+	// A snake case string succinctly identifying the error.
+	Code *string `json:"code" validate:"required"`
+
+	// An explanation of the error.
+	Message *string `json:"message" validate:"required"`
+
+	// The identifier of the location on which the error occurred, if applicable.
+	LocationID *string `json:"location_id,omitempty"`
+}
+
+// UnmarshalClearCacheError unmarshals an instance of ClearCacheError from the specified map of raw messages.
+func UnmarshalClearCacheError(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ClearCacheError)
+	err = core.UnmarshalPrimitive(m, "code", &obj.Code)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "code-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "message-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "location_id", &obj.LocationID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "location_id-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
