@@ -270,7 +270,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}]}`)
 				}))
 			})
 			It(`Invoke GetLogpushJobsV2 successfully with retries`, func() {
@@ -326,7 +326,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}]}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": [{"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}]}`)
 				}))
 			})
 			It(`Invoke GetLogpushJobsV2 successfully`, func() {
@@ -454,7 +454,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestModel := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
@@ -518,7 +518,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke CreateLogpushJobV2 successfully with retries`, func() {
@@ -537,7 +537,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestModel := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
@@ -601,7 +601,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke CreateLogpushJobV2 successfully`, func() {
@@ -625,7 +625,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestModel := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
@@ -658,7 +658,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestModel := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
@@ -705,7 +705,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				createLogpushJobV2RequestModel := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
@@ -800,7 +800,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke GetLogpushJobV2 successfully with retries`, func() {
@@ -857,7 +857,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke GetLogpushJobV2 successfully`, func() {
@@ -994,7 +994,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				// Construct an instance of the UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq model
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
@@ -1058,7 +1058,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke UpdateLogpushJobV2 successfully with retries`, func() {
@@ -1076,7 +1076,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				// Construct an instance of the UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq model
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
@@ -1140,7 +1140,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke UpdateLogpushJobV2 successfully`, func() {
@@ -1163,7 +1163,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				// Construct an instance of the UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq model
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
@@ -1195,7 +1195,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				// Construct an instance of the UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq model
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
@@ -1248,7 +1248,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				// Construct an instance of the UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq model
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
@@ -2317,7 +2317,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke ListLogpushJobsForDatasetV2 successfully with retries`, func() {
@@ -2373,7 +2373,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339&timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
+					fmt.Fprintf(res, "%s", `{"success": true, "errors": [["Errors"]], "messages": [["Messages"]], "result": {"id": 5850, "name": "My log push job", "enabled": false, "dataset": "firewall_events", "frequency": "high", "logpull_options": "timestamps=rfc3339", "destination_conf": "cos://cos-bucket001?region=us-south&instance-id=231f5467-3072-4cb9-9e39-a906fa3032ea", "last_complete": "2022-01-15T16:33:31.834209Z", "last_error": "2022-01-15T16:33:31.834209Z", "error_message": "ErrorMessage"}}`)
 				}))
 			})
 			It(`Invoke ListLogpushJobsForDatasetV2 successfully`, func() {
@@ -2974,14 +2974,14 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				Expect(createLogpushJobV2RequestModel).ToNot(BeNil())
 				createLogpushJobV2RequestModel.Name = core.StringPtr("My log push job")
 				createLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				createLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				createLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				createLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				createLogpushJobV2RequestModel.Dataset = core.StringPtr("http_requests")
 				createLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
 				Expect(createLogpushJobV2RequestModel.Name).To(Equal(core.StringPtr("My log push job")))
 				Expect(createLogpushJobV2RequestModel.Enabled).To(Equal(core.BoolPtr(false)))
-				Expect(createLogpushJobV2RequestModel.LogpullOptions).To(Equal(core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")))
+				Expect(createLogpushJobV2RequestModel.LogpullOptions).To(Equal(core.StringPtr("timestamps=rfc3339")))
 				Expect(createLogpushJobV2RequestModel.Cos).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(createLogpushJobV2RequestModel.OwnershipChallenge).To(Equal(core.StringPtr("00000000000000000000000000000000")))
 				Expect(createLogpushJobV2RequestModel.Dataset).To(Equal(core.StringPtr("http_requests")))
@@ -3065,12 +3065,12 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 				updateLogpushJobV2RequestModel := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 				Expect(updateLogpushJobV2RequestModel).ToNot(BeNil())
 				updateLogpushJobV2RequestModel.Enabled = core.BoolPtr(false)
-				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+				updateLogpushJobV2RequestModel.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 				updateLogpushJobV2RequestModel.Cos = map[string]interface{}{"anyKey": "anyValue"}
 				updateLogpushJobV2RequestModel.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 				updateLogpushJobV2RequestModel.Frequency = core.StringPtr("high")
 				Expect(updateLogpushJobV2RequestModel.Enabled).To(Equal(core.BoolPtr(false)))
-				Expect(updateLogpushJobV2RequestModel.LogpullOptions).To(Equal(core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")))
+				Expect(updateLogpushJobV2RequestModel.LogpullOptions).To(Equal(core.StringPtr("timestamps=rfc3339")))
 				Expect(updateLogpushJobV2RequestModel.Cos).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
 				Expect(updateLogpushJobV2RequestModel.OwnershipChallenge).To(Equal(core.StringPtr("00000000000000000000000000000000")))
 				Expect(updateLogpushJobV2RequestModel.Frequency).To(Equal(core.StringPtr("high")))
@@ -3129,7 +3129,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.CreateLogpushJobV2Request)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Cos = map[string]interface{}{"anyKey": "anyValue"}
 			model.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 			model.Dataset = core.StringPtr("http_requests")
@@ -3195,7 +3195,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			// Construct an instance of the model.
 			model := new(logpushjobsapiv1.UpdateLogpushJobV2Request)
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Cos = map[string]interface{}{"anyKey": "anyValue"}
 			model.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 			model.Frequency = core.StringPtr("high")
@@ -3223,7 +3223,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobCosReq)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Cos = map[string]interface{}{"anyKey": "anyValue"}
 			model.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 			model.Dataset = core.StringPtr("http_requests")
@@ -3247,7 +3247,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobGenericReq)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.DestinationConf = core.StringPtr("s3://mybucket/logs?region=us-west-2")
 			model.Dataset = core.StringPtr("http_requests")
 			model.Frequency = core.StringPtr("high")
@@ -3270,7 +3270,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobIbmclReq)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Ibmcl = nil
 			model.Dataset = core.StringPtr("http_requests")
 			model.Frequency = core.StringPtr("high")
@@ -3293,7 +3293,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.CreateLogpushJobV2RequestLogpushJobLogdnaReq)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Logdna = map[string]interface{}{"anyKey": "anyValue"}
 			model.Dataset = core.StringPtr("http_requests")
 			model.Frequency = core.StringPtr("high")
@@ -3315,7 +3315,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			// Construct an instance of the model.
 			model := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq)
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Cos = map[string]interface{}{"anyKey": "anyValue"}
 			model.OwnershipChallenge = core.StringPtr("00000000000000000000000000000000")
 			model.Frequency = core.StringPtr("high")
@@ -3338,7 +3338,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			model := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq)
 			model.Name = core.StringPtr("My log push job")
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.DestinationConf = core.StringPtr("s3://mybucket/logs?region=us-west-2")
 			model.Dataset = core.StringPtr("http_requests")
 			model.Frequency = core.StringPtr("high")
@@ -3360,7 +3360,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			// Construct an instance of the model.
 			model := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq)
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Ibmcl = nil
 			model.Frequency = core.StringPtr("high")
 
@@ -3381,7 +3381,7 @@ var _ = Describe(`LogpushJobsApiV1`, func() {
 			// Construct an instance of the model.
 			model := new(logpushjobsapiv1.UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq)
 			model.Enabled = core.BoolPtr(false)
-			model.LogpullOptions = core.StringPtr("timestamps=rfc3339&timestamps=rfc3339")
+			model.LogpullOptions = core.StringPtr("timestamps=rfc3339")
 			model.Logdna = map[string]interface{}{"anyKey": "anyValue"}
 			model.Frequency = core.StringPtr("high")
 
